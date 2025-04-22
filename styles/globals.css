@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply text-gray-800 bg-gray-50;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .container-custom {
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  .gradient-bg {
+    @apply bg-gradient-meditation;
+  }
+  
+  .meditation-card {
+    @apply rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg;
+  }
+  
+  .btn-primary {
+    @apply px-4 py-2 bg-spiritual-dark text-white rounded-md hover:bg-spiritual-accent transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply px-4 py-2 bg-spiritual-purple text-white rounded-md hover:bg-spiritual-blue transition-colors;
+  }
+  
+  .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    @apply font-display font-semibold text-gray-900;
+  }
+  
+  .prose p {
+    @apply text-gray-700;
+  }
+  
+  .prose a {
+    @apply text-spiritual-dark hover:text-spiritual-accent;
+  }
+  
+  .prose ul li::before {
+    @apply text-spiritual-dark;
+  }
+}
+
+@layer utilities {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari and Opera */
+  }
+}
+
+/* Custom pastel gradient backgrounds */
+.bg-pastel-gradient-1 {
+  background: linear-gradient(135deg, #FFD6D6 0%, #FFA07A 100%);
+}
+
+.bg-pastel-gradient-2 {
+  background: linear-gradient(135deg, #ADD8E6 0%, #DDA0DD 100%);
+}
+
+.bg-pastel-gradient-3 {
+  background: linear-gradient(135deg, #DDA0DD 0%, #FFB6C1 100%);
+}
+
+.bg-gradient-meditation {
+  background: linear-gradient(135deg, #FF8C94 0%, #DDA0DD 40%, #ADD8E6 100%);
+}
+
+/* Audio player custom styling */
+.audio-player {
+  @apply rounded-full bg-white shadow-md p-3;
+}
+
+.audio-player-controls {
+  @apply flex items-center space-x-2;
+}
+
+/* Meditation content styling */
+.meditation-content {
+  @apply prose prose-lg max-w-none;
+}
+
+.meditation-content p {
+  @apply mb-4;
+}
+
+/* Animation for loading states */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-custom {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Add custom styles for the aspect ratio */
+.aspect-w-16 {
+  position: relative;
+  padding-bottom: 56.25%;
+}
+
+.aspect-w-16 > * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@media (min-width: 640px) {
+  .container-custom {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-custom {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-custom {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-custom {
+    max-width: 1280px;
+  }
+}
+
+/* Custom range input styling for audio player */
+input[type="range"] {
+  @apply appearance-none bg-gray-200 h-2 rounded-full;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #6366f1;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: #4f46e5;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: #6366f1;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  background: #4f46e5;
+}
+
+/* Add padding at the bottom to account for sticky player */
+.page-content-with-player {
+  padding-bottom: 4rem;
+}
+
+/* Make player sticky at bottom */
+.sticky-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: white;
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+} 
