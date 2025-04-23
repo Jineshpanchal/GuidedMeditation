@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../../components/layout/Layout';
 import MeditationCard from '../../../../components/meditation/MeditationCard';
-import { getAgeGroups, getCategories, getMeditations } from '../../../../lib/api/strapi';
+import { getAgeGroups, getCategories, getMeditations, getMeditationsByCategory } from '../../../../lib/api/strapi';
 
 export default function CategoryPage({ ageGroup, category, meditations }) {
   if (!category || !ageGroup) {
@@ -53,8 +53,8 @@ export default function CategoryPage({ ageGroup, category, meditations }) {
       {/* Meditations */}
       <section className="py-12">
         <div className="container-custom">
-          <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 mb-8">
-            Guided commentaries
+          <h2 className="text-3xl font-bold mb-10">
+            Guided <span className="font-normal">commentaries</span>
           </h2>
           
           {meditations.length > 0 ? (
@@ -138,7 +138,9 @@ export async function getStaticProps({ params }) {
   }
   
   // Get the category data
-  const categories = await getCategories();
+  const categories = await getCategories({
+    'populate': ['gm_meditations']
+  });
   const category = categories.find(
     (cat) => cat.attributes.slug === categorySlug
   );
@@ -149,11 +151,30 @@ export async function getStaticProps({ params }) {
     };
   }
   
-  // In a real scenario, we would filter meditations by both category and age group
-  // Here, we're just filtering by category as a simplified approach
-  const meditations = await getMeditations({
-    'filters[category][slug][$eq]': categorySlug,
+  // Fetch meditations with proper filters and population 
+  let meditations = await getMeditations({
+    'filters[gm_categories][id][$eq]': category.id,
+    'populate': ['gm_categories', 'gm_rajyoga_teachers', 'Media', 'FeaturedImage', 'gm_language'],
   });
+  
+  // If no meditations found by ID, try fetching by slug as fallback
+  if (!meditations || meditations.length === 0) {
+    console.log(`No meditations found by category ID. Trying by slug: ${categorySlug}`);
+    meditations = await getMeditations({
+      'filters[gm_categories][slug][$eq]': categorySlug,
+      'populate': ['gm_categories', 'gm_rajyoga_teachers', 'Media', 'FeaturedImage', 'gm_language'],
+    });
+    
+    // If still no results, try the dedicated helper function as final fallback
+    if (!meditations || meditations.length === 0) {
+      console.log(`Still no meditations found. Trying getMeditationsByCategory helper...`);
+      meditations = await getMeditationsByCategory(category.id, categorySlug, {
+        'populate': ['gm_categories', 'gm_rajyoga_teachers', 'Media', 'FeaturedImage', 'gm_language'],
+      });
+    }
+  }
+  
+  console.log(`Fetched ${meditations.length} meditations for category: ${categorySlug} (ID: ${category.id})`);
   
   return {
     props: {

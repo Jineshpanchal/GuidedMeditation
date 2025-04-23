@@ -26,8 +26,8 @@ const TrendingMeditationCard = ({ meditation }) => {
   // Get teacher information
   const teacher = meditation.attributes.gm_rajyoga_teachers?.data && 
                  meditation.attributes.gm_rajyoga_teachers.data.length > 0 ? 
-                  `BK ${meditation.attributes.gm_rajyoga_teachers.data[0].attributes.Name}` : 
-                  'BK Shivani';
+                  `${meditation.attributes.gm_rajyoga_teachers.data[0].attributes.Name}` : 
+                  '';
   
   // Check if this is the currently playing meditation
   useEffect(() => {
