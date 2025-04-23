@@ -3,7 +3,7 @@ import MeditationCard from './MeditationCard';
 
 const MeditationCarousel = ({ title, meditations }) => {
   return (
-    <div className="py-8">
+    <section className="py-8 bg-white">
       <div className="container-custom">
         <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 mb-6">
           {title}
@@ -12,21 +12,17 @@ const MeditationCarousel = ({ title, meditations }) => {
         <div className="relative">
           {/* Carousel container */}
           <div className="overflow-x-auto pb-4 hide-scrollbar">
-            <div className="flex space-x-6">
+            <div className="flex gap-4 pb-2">
               {meditations.map((meditation) => (
-                <div key={meditation.id} className="w-72 flex-shrink-0">
+                <div key={meditation.id} className="min-w-[260px] md:min-w-[300px] max-w-[300px] flex-shrink-0">
                   <MeditationCard meditation={meditation} />
                 </div>
               ))}
             </div>
           </div>
-          
-          {/* Gradient fade effect */}
-          <div className="absolute top-0 right-0 bottom-0 w-32 bg-gradient-to-l from-white pointer-events-none" />
-          <div className="absolute top-0 left-0 bottom-0 w-32 bg-gradient-to-r from-white pointer-events-none" />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

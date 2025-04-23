@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Layout from '../../components/layout/Layout';
+import TrendingMeditationCard from '../../components/meditation/TrendingMeditationCard';
 import { getAgeGroups, getMeditations, getTeachers } from '../../lib/api/strapi';
 
 export default function RajyogMeditationHome({ ageGroups, featuredMeditations, teachers }) {
@@ -69,7 +70,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
         </div>
       </section>
       
-      {/* Featured Commentaries */}
+      {/* Trending Commentaries */}
       <section className="py-10 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-10">
@@ -79,47 +80,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {featuredMeditations && featuredMeditations.length > 0 ? (
               featuredMeditations.map((meditation) => (
-                <Link
-                  key={meditation.id}
-                  href={`/rajyog-meditation/meditations/${meditation.attributes.Slug}`}
-                >
-                  <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                    <div className="relative">
-                      <div className="aspect-w-16 aspect-h-9 bg-spiritual-light">
-                        {meditation.attributes.FeaturedImage?.data && (
-                          <img 
-                            src={meditation.attributes.FeaturedImage.data.attributes.url} 
-                            alt={meditation.attributes.Title || 'Meditation cover'}
-                            className="object-cover w-full h-full"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.style.display = 'none';
-                            }}
-                          />
-                        )}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-spiritual-dark" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="p-4">
-                        <div className="text-xs text-gray-500 mb-1">AUDIO: {meditation.attributes.Duration || 5} Minutes</div>
-                        <h3 className="font-medium text-gray-900 mb-1">{meditation.attributes.Title}</h3>
-                        <div className="text-xs text-gray-500 flex items-center">
-                          <span>
-                            {meditation.attributes.gm_rajyoga_teachers?.data && 
-                             meditation.attributes.gm_rajyoga_teachers.data.length > 0 ? 
-                              `BK ${meditation.attributes.gm_rajyoga_teachers.data[0].attributes.Name}` : 
-                              'BK Shivani'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
+                <TrendingMeditationCard key={meditation.id} meditation={meditation} />
               ))
             ) : (
               <div className="col-span-3 text-center py-10">
@@ -274,7 +235,11 @@ export async function getStaticProps() {
     const featuredMeditations = await getMeditations({
       'filters[Trending][$eq]': true,
       'pagination[limit]': 4,
-      'populate': '*'  // Use wildcard to get all related data
+      'populate[FeaturedImage]': '*',
+      'populate[CoverImage]': '*',
+      'populate[Media]': '*',
+      'populate[AudioFile]': '*',
+      'populate[gm_rajyoga_teachers]': '*'
     });
     
     // Debug: Log the first meditation's structure

@@ -1,76 +1,103 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 
 const MeditationCard = ({ 
   meditation, 
   href = `/rajyog-meditation/meditations/${meditation.attributes.Slug}`,
   className = ''
 }) => {
+  const [isThisPlaying, setIsThisPlaying] = useState(false);
+  const featuredImageUrl = meditation.attributes.FeaturedImage?.data?.attributes?.url;
+  const { playMeditation, togglePlay, currentMeditation, isPlaying } = useAudioPlayer();
+  
+  // Check if this is the currently playing meditation
+  useEffect(() => {
+    setIsThisPlaying(
+      isPlaying && 
+      currentMeditation && 
+      currentMeditation.id === meditation.id
+    );
+  }, [isPlaying, currentMeditation, meditation.id]);
+  
+  const handlePlayClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // If this is already the current meditation, just toggle play/pause
+    if (currentMeditation && currentMeditation.id === meditation.id) {
+      togglePlay();
+    } else {
+      // Otherwise, set this as the current meditation and play it
+      playMeditation(meditation);
+      // Small delay to ensure the audio is loaded before playing
+      setTimeout(() => {
+        togglePlay();
+      }, 100);
+    }
+  };
+
   return (
     <Link href={href} className={`block ${className}`}>
-      <div className="meditation-card bg-white">
-        <div className="aspect-w-16 aspect-h-9 bg-pastel-gradient-2 flex items-center justify-center p-4">
-          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-6 w-6 text-white" 
-              fill="none" 
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" 
-              />
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2}
-                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
-              />
-            </svg>
-          </div>
+      <div className="meditation-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all h-[340px] flex flex-col">
+        <div className="aspect-w-16 aspect-h-9 relative bg-gray-100">
+          {featuredImageUrl ? (
+            <Image 
+              src={featuredImageUrl}
+              alt={meditation.attributes.Title || 'Meditation thumbnail'}
+              className="object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 300px"
+            />
+          ) : (
+            <div className="w-full h-full bg-pastel-gradient-2"></div>
+          )}
         </div>
         
-        <div className="p-4">
+        <div className="p-4 flex-grow flex flex-col relative">
           <h3 className="font-medium text-lg text-gray-900 mb-2">
             {meditation.attributes.Title || 'Guided Meditation'}
           </h3>
           
-          <div className="flex items-center justify-between text-sm text-gray-500">
+          <div className="flex items-center text-sm text-gray-500 mt-auto">
             <span>{meditation.attributes.Duration || '5'} min</span>
-            
-            {/* Teacher info could be added here when available */}
-            {/*
-            <span className="flex items-center">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                className="h-4 w-4 mr-1" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" 
-                />
-              </svg>
-              Teacher Name
-            </span>
-            */}
           </div>
           
           {meditation.attributes.Trending && (
-            <div className="mt-3">
+            <div className="mt-2">
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-spiritual-light text-spiritual-dark">
                 Trending
               </span>
             </div>
           )}
+          
+          {/* Play button in the bottom right corner */}
+          <button 
+            className="absolute bottom-4 right-4 w-10 h-10 bg-spiritual-dark rounded-full flex items-center justify-center shadow-md hover:bg-spiritual-dark/90 transition-colors"
+            onClick={handlePlayClick}
+            aria-label={isThisPlaying ? "Pause meditation" : "Play meditation"}
+          >
+            {isThisPlaying ? (
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="h-5 w-5 text-white" 
+                fill="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+              </svg>
+            ) : (
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="h-5 w-5 text-white" 
+                fill="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
     </Link>

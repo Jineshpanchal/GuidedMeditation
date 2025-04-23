@@ -40,6 +40,14 @@ export const AudioPlayerProvider = ({ children }) => {
       let audioUrl = currentMeditation?.attributes?.AudioFile?.data?.attributes?.url || 
                    currentMeditation?.attributes?.Media?.data?.attributes?.url;
       
+      console.log('[AudioPlayerContext] Setting up audio for meditation:', {
+        id: currentMeditation?.id,
+        title: currentMeditation?.attributes?.Title,
+        audioFile: currentMeditation?.attributes?.AudioFile?.data?.attributes?.url,
+        mediaFile: currentMeditation?.attributes?.Media?.data?.attributes?.url,
+        finalUrl: audioUrl
+      });
+      
       if (audioUrl) {
         // Proxy the URL through our local API to avoid CORS issues
         audioUrl = getProxiedAudioUrl(audioUrl);

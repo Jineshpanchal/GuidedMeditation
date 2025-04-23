@@ -6,6 +6,7 @@ import Layout from '../../../components/layout/Layout';
 import WaveformPlayer from '../../../components/meditation/WaveformPlayer';
 import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
 import { getMeditations, getMeditationBySlug, getTeacherById, getTeachers, getLanguages } from '../../../lib/api/strapi';
+import RelatedMeditationCard from '../../../components/meditation/RelatedMeditationCard';
 
 export default function MeditationPage({ meditation, relatedMeditations, teacher, teacherMeditations, teachers }) {
   const { playMeditation, togglePlay, isPlaying, currentMeditation, hasEnded } = useAudioPlayer();
@@ -289,83 +290,21 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
         </div>
       </div>
 
-      {/* Related Meditations Section */}
+      {/* More Meditations Like This Section */}
       {relatedMeditations && relatedMeditations.length > 0 && (
-        <section className={`py-12 bg-spiritual-light bg-opacity-20 ${hasEnded ? 'ring-4 ring-spiritual-accent ring-opacity-50' : ''}`}>
+        <section className="py-12 bg-gray-50">
           <div className="container-custom">
             <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 mb-6">
-              {hasEnded ? 'Continue Your Journey' : 'More Meditations Like This'}
+              More Meditations Like This
             </h2>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedMeditations.map((relMeditation) => {
-                const relTitle = relMeditation.attributes.Title || 'Guided Meditation';
-                const relSlug = relMeditation.attributes.Slug;
-                const relFeaturedImage = relMeditation.attributes.FeaturedImage?.data?.attributes?.url;
-                const relCoverImage = relMeditation.attributes.CoverImage?.data?.attributes?.url;
-                const relImage = relFeaturedImage || relCoverImage;
-                const relBenefits = (() => {
-                  if (!relMeditation.attributes.BenefitsShort || !Array.isArray(relMeditation.attributes.BenefitsShort)) {
-                    return '';
-                  }
-                  const firstBlock = relMeditation.attributes.BenefitsShort[0];
-                  if (!firstBlock || !Array.isArray(firstBlock.children)) {
-                    return '';
-                  }
-                  const firstChild = firstBlock.children[0];
-                  return (firstChild && typeof firstChild.text === 'string') ? firstChild.text : '';
-                })();
-                const relDuration = relMeditation.attributes.Duration || '5';
-                
-                return (
-                  <div key={relMeditation.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <Link href={`/rajyog-meditation/meditations/${relSlug}`}>
-                      <div className="cursor-pointer">
-                        {relImage ? (
-                          <div className="h-48 overflow-hidden relative">
-                            <Image 
-                              src={relImage} 
-                              alt={relTitle}
-                              className="object-cover transform hover:scale-105 transition-transform duration-300"
-                              fill
-                              sizes="(max-width: 768px) 100vw, 25vw"
-                            />
-                            <div className="absolute bottom-2 right-2 bg-white bg-opacity-90 rounded-full px-3 py-1 text-xs font-medium">
-                              {relDuration} min
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="h-48 bg-spiritual-light flex items-center justify-center">
-                            <span className="text-spiritual-dark text-lg font-medium">Brahma Kumaris</span>
-                          </div>
-                        )}
-                        
-                        <div className="p-4">
-                          <h3 className="font-medium text-lg text-gray-900 mb-1">{relTitle}</h3>
-                          <p className="text-gray-600 text-sm line-clamp-2">
-                            {relBenefits || 'Experience the peace and tranquility of Raja Yoga meditation.'}
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                    
-                    <div className="px-4 pb-4">
-                      <button 
-                        onClick={() => {
-                          playMeditation(relMeditation);
-                          setTimeout(togglePlay, 100);
-                        }}
-                        className="w-full py-2 flex items-center justify-center rounded bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                        </svg>
-                        Play Now
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
+              {relatedMeditations.map((relMeditation) => (
+                <RelatedMeditationCard 
+                  key={relMeditation.id} 
+                  meditation={relMeditation} 
+                />
+              ))}
             </div>
             
             <div className="mt-8 text-center">
@@ -420,74 +359,12 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
             
             {teacherMeditations.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {teacherMeditations.map((teacherMeditation) => {
-                  const tMedTitle = teacherMeditation.attributes.Title || 'Guided Meditation';
-                  const tMedSlug = teacherMeditation.attributes.Slug;
-                  const tMedCoverImage = teacherMeditation.attributes.CoverImage?.data?.attributes?.url;
-                  const tMedFeaturedImage = teacherMeditation.attributes.FeaturedImage?.data?.attributes?.url;
-                  const tMedImage = tMedFeaturedImage || tMedCoverImage;
-                  const tMedBenefits = (() => {
-                    if (!teacherMeditation.attributes.BenefitsShort || !Array.isArray(teacherMeditation.attributes.BenefitsShort)) {
-                      return '';
-                    }
-                    const firstBlock = teacherMeditation.attributes.BenefitsShort[0];
-                    if (!firstBlock || !Array.isArray(firstBlock.children)) {
-                      return '';
-                    }
-                    const firstChild = firstBlock.children[0];
-                    return (firstChild && typeof firstChild.text === 'string') ? firstChild.text : '';
-                  })();
-                  const tMedDuration = teacherMeditation.attributes.Duration || '5';
-                  
-                  return (
-                    <div key={teacherMeditation.id} className="bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                      <Link href={`/rajyog-meditation/meditations/${tMedSlug}`}>
-                        <div className="cursor-pointer">
-                          {tMedImage ? (
-                            <div className="h-48 overflow-hidden relative">
-                              <Image 
-                                src={tMedImage} 
-                                alt={tMedTitle}
-                                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
-                                fill
-                                sizes="128px"
-                              />
-                              <div className="absolute bottom-2 right-2 bg-white bg-opacity-90 rounded-full px-3 py-1 text-xs font-medium">
-                                {tMedDuration} min
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="h-48 bg-spiritual-light flex items-center justify-center">
-                              <span className="text-spiritual-dark text-lg font-medium">Brahma Kumaris</span>
-                            </div>
-                          )}
-                          
-                          <div className="p-4">
-                            <h3 className="font-medium text-lg text-gray-900 mb-1">{tMedTitle}</h3>
-                            <p className="text-gray-600 text-sm line-clamp-2">
-                              {tMedBenefits || 'Experience the peace and tranquility of Raja Yoga meditation.'}
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
-                      
-                      <div className="px-4 pb-4">
-                        <button 
-                          onClick={() => {
-                            playMeditation(teacherMeditation);
-                            setTimeout(togglePlay, 100);
-                          }}
-                          className="w-full py-2 flex items-center justify-center rounded bg-spiritual-light hover:bg-spiritual-accent text-spiritual-dark transition-colors"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                          </svg>
-                          Play Now
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
+                {teacherMeditations.map((teacherMeditation) => (
+                  <RelatedMeditationCard 
+                    key={teacherMeditation.id} 
+                    meditation={teacherMeditation} 
+                  />
+                ))}
               </div>
             ) : (
               <div className="text-center bg-gray-50 p-6 rounded-lg shadow-sm">
@@ -581,7 +458,18 @@ export async function getStaticProps({ params }) {
     const { slug } = params;
     console.log(`Fetching meditation with slug: ${slug}`);
     
-    const meditation = await getMeditationBySlug(slug);
+    const meditation = await getMeditationBySlug(slug, {
+      'populate[CoverImage]': '*',
+      'populate[FeaturedImage]': '*',
+      'populate[Media]': '*',
+      'populate[AudioFile]': '*',
+      'populate[gm_categories]': '*',
+      'populate[gm_language]': '*',
+      'populate[gm_rajyoga_teacher]': '*',
+      'populate[CommentaryLyrics]': '*',
+      'populate[BenefitsBig]': '*',
+      'populate[BenefitsShort]': '*'
+    });
     
     if (!meditation) {
       console.error(`No meditation found with slug: ${slug}`);
@@ -603,7 +491,9 @@ export async function getStaticProps({ params }) {
         'filters[id][$ne]': meditation.id, // Exclude current meditation
         'pagination[limit]': 4,
         'populate[CoverImage]': '*',
-        'populate[FeaturedImage]': '*'
+        'populate[FeaturedImage]': '*',
+        'populate[Media]': '*',
+        'populate[AudioFile]': '*'
       });
       
       relatedMeditations = allRelatedMeditations;
@@ -649,7 +539,9 @@ export async function getStaticProps({ params }) {
             'filters[id][$ne]': meditation.id, // Exclude current meditation
             'pagination[limit]': 4,
             'populate[CoverImage]': '*',
-            'populate[FeaturedImage]': '*'
+            'populate[FeaturedImage]': '*',
+            'populate[Media]': '*',
+            'populate[AudioFile]': '*'
           });
           
           teacherMeditations = allTeacherMeditations;
