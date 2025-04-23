@@ -38,7 +38,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
                   key={ageGroup.id}
                   href={`/rajyog-meditation/${ageGroup.attributes.slug}`}
                 >
-                  <div className="bg-white rounded-xl p-5 text-center cursor-pointer transform transition hover:scale-105">
+                  <div className="bg-white rounded-xl p-5 text-center cursor-pointer transform transition hover:scale-100">
                     <h3 className="text-xl font-bold text-gray-800 mb-1">
                       {ageGroup.attributes.name}
                     </h3>

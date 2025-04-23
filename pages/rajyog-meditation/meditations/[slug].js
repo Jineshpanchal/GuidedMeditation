@@ -149,19 +149,15 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
               {/* Teacher info in a nice card */}
               {teacherInfo && (
                 <div className="mb-8 mt-6">
-                  <Link href={`/rajyog-meditation/teachers/${teacherInfo.slug}`}>
+                  <Link href={`/rajyog-meditation/teacher/${teacherInfo.slug}`}>
                     <div className="flex items-start bg-gray-50 p-5 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer">
                       <div className="flex-shrink-0 h-24 w-24 rounded-full overflow-hidden bg-spiritual-light mr-5">
                         {teacherInfo.image ? (
-                          <div className="relative h-full w-full">
-                            <Image 
-                              src={teacherInfo.image}
-                              alt={teacherInfo.name}
-                              className="object-cover"
-                              fill
-                              sizes="96px"
-                            />
-                          </div>
+                          <img 
+                            src={teacherInfo.image}
+                            alt={teacherInfo.name}
+                            className="h-full w-full object-cover"
+                          />
                         ) : (
                           <div className="h-full w-full flex items-center justify-center">
                             <span className="text-spiritual-dark font-bold text-2xl">BK</span>
@@ -329,12 +325,10 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
             <div className="flex flex-col md:flex-row items-start md:items-center mb-8">
               <div className="flex-shrink-0 h-32 w-32 rounded-full overflow-hidden bg-spiritual-light mr-4 mb-4 md:mb-0">
                 {teacher.attributes.FeaturedImage?.data?.attributes?.url ? (
-                  <Image 
+                  <img 
                     src={teacher.attributes.FeaturedImage.data.attributes.url}
                     alt={teacher.attributes.Name}
                     className="h-full w-full object-cover"
-                    fill
-                    sizes="128px"
                   />
                 ) : (
                   <div className="h-full w-full flex items-center justify-center">
@@ -386,27 +380,35 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
       {teachers && teachers.length > 0 && (
         <section className="py-12 bg-gradient-to-br from-spiritual-light/10 to-blue-50">
           <div className="container-custom">
-            <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 mb-8 text-center">
-              All Brahma Kumaris Rajyoga Teachers
+            <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 mb-8 text-left">
+              Rajyoga Meditation Teacher :
             </h2>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {teachers.map(t => (
                 <div key={t.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                  <Link href={`/rajyog-meditation/teachers/${t.attributes.Slug || ''}`}>
+                  <Link href={`/rajyog-meditation/teacher/${t.attributes.Slug || ''}`}>
                     <div className="cursor-pointer">
-                      <div className="w-full h-48 overflow-hidden bg-spiritual-light">
-                        {t.attributes.FeaturedImage?.data?.attributes?.url ? (
-                          <Image 
-                            src={t.attributes.FeaturedImage.data.attributes.url}
+                      <div className="w-full h-48 overflow-hidden bg-pink-100 relative">
+                        {t.attributes.FeaturedImage?.data ? (
+                          <img 
+                            src={Array.isArray(t.attributes.FeaturedImage.data) 
+                              ? t.attributes.FeaturedImage.data[0]?.attributes?.url 
+                              : t.attributes.FeaturedImage.data?.attributes?.url}
                             alt={t.attributes.Name}
                             className="w-full h-full object-cover"
-                            fill
-                            sizes="128px"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.style.display = 'none';
+                              e.target.parentNode.classList.add('bg-spiritual-light');
+                              e.target.parentNode.innerHTML = `<div class="h-full w-full flex items-center justify-center"><span class="text-spiritual-dark font-bold text-3xl">${t.attributes.Name ? t.attributes.Name.charAt(0) : 'BK'}</span></div>`;
+                            }}
                           />
                         ) : (
-                          <div className="h-full w-full flex items-center justify-center">
-                            <span className="text-spiritual-dark font-bold text-3xl">BK</span>
+                          <div className="h-full w-full flex items-center justify-center bg-spiritual-light">
+                            <span className="text-spiritual-dark font-bold text-3xl">
+                              {t.attributes.Name ? t.attributes.Name.charAt(0) : 'BK'}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -552,13 +554,24 @@ export async function getStaticProps({ params }) {
       console.log("No teacher data found in the meditation");
     }
     
-    // Get all teachers for the teachers grid
+    // Get all teachers for the teachers grid with complete image population
     const teachers = await getTeachers({
-      'populate[FeaturedImage]': '*',
-      'populate[ShortIntro]': '*',
-      'populate[Designation]': '*',
-      'populate[Slug]': '*'
+      'populate': '*',  // Fully populate all relations including FeaturedImage
+      'pagination[limit]': 20
     });
+    
+    console.log(`Found ${teachers.length} teachers with populated image data`);
+    
+    // Log first teacher to debug image structure
+    if (teachers.length > 0) {
+      console.log("First teacher featured image data:", 
+        JSON.stringify({
+          name: teachers[0].attributes.Name,
+          hasData: !!teachers[0].attributes.FeaturedImage?.data,
+          dataType: teachers[0].attributes.FeaturedImage?.data ? 
+            (Array.isArray(teachers[0].attributes.FeaturedImage.data) ? 'array' : 'object') : 'none'
+        }));
+    }
     
     // Get language information
     const languages = await getLanguages();
