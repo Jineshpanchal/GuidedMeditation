@@ -1,0 +1,144 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "attributes": {
+        "name": "Emerging Adulthood",
+        "spectrum": "12-24",
+        "slug": "12-24",
+        "ShortBio": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "This stage is about discovering one’s true identity as a soul and developing spiritual strength while navigating the pressures of education, peer influence, and emotional growth."
+              }
+            ]
+          }
+        ],
+        "LongBio": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "The soul, in its youthful phase, begins seeking meaning and purpose. There's a strong pull from the outside world — achievements, friendships, digital distractions — yet the inner voice quietly calls for purity, peace, and purpose. Through Raja Yoga meditation, youth are empowered to detach from external noise, stabilize their thoughts, and awaken divine potential. This stage is crucial for sowing the seeds of spiritual identity, self-respect, and moral clarity, which protect the soul through life’s challenges."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T06:52:57.918Z",
+        "updatedAt": "2025-04-23T05:15:04.160Z",
+        "publishedAt": "2025-03-27T06:54:05.788Z"
+      }
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "name": "Young Adulthood",
+        "spectrum": "25–35",
+        "slug": "12-24",
+        "ShortBio": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "This is a time of balancing career, relationships, and self-expectations. The soul seeks stability, clarity, and a deeper sense of inner authority."
+              }
+            ]
+          }
+        ],
+        "LongBio": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "At this age, the soul plays multiple worldly roles — as a professional, partner, or parent — which often leads to stress, self-doubt, and emotional fatigue. However, this is also the perfect time for inner transformation. RajYoga meditation brings clarity of thought, detachment from outcome, and deep connection with the Supreme. Spiritual study at this stage helps reframe life as a drama, reducing fear and expectation. This phase is a golden opportunity for developing spiritual habits that anchor peace and power amidst worldly storms."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T06:52:57.918Z",
+        "updatedAt": "2025-03-27T06:55:41.424Z",
+        "publishedAt": "2025-03-27T06:55:11.516Z"
+      }
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "name": "Mid life",
+        "spectrum": "36-50",
+        "slug": "36-50",
+        "ShortBio": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "A period of self-evaluation, emotional maturity, and the soul’s pull towards deeper meaning, healing, and lasting peace."
+              }
+            ]
+          }
+        ],
+        "LongBio": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "This stage marks the turning inward. With half of life’s journey traveled, the soul starts reflecting on karma, relationships, and life’s direction. There’s often a silent quest: What have I really gained? The Brahma Kumaris’ wisdom enables the soul to reconnect with its original sanskars of peace, purity, and love. Meditation becomes a way to clean karmic accounts, forgive, and regain mastery over the self. It's a phase of refining the intellect, becoming an example for others, and serving through vibrations."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T06:52:57.918Z",
+        "updatedAt": "2025-04-22T06:28:28.661Z",
+        "publishedAt": "2025-03-27T06:56:24.739Z"
+      }
+    },
+    {
+      "id": 4,
+      "attributes": {
+        "name": "Beyond 50",
+        "spectrum": ">50",
+        "slug": "beyond-50",
+        "ShortBio": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "This is the soul’s graceful preparation for inner detachment, karmic settlement, and becoming a spiritual guide for others."
+              }
+            ]
+          }
+        ],
+        "LongBio": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "In this golden age of life, the soul prepares to settle accounts and become free. There’s a natural withdrawal from the chaos of the world and a pull towards spiritual depth. Raja Yoga becomes more than practice — it becomes the soul’s way of being. There's joy in simplicity, power in silence, and beauty in remembrance of God. At this stage, one becomes a pillar of stability and spiritual presence, spreading vibrations of peace, contentment, and bliss to others. This is a sacred phase of preparing for jeevan mukti (liberation-in-life)."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T06:57:47.061Z",
+        "updatedAt": "2025-03-27T06:57:49.405Z",
+        "publishedAt": "2025-03-27T06:57:49.402Z"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 4
+    }
+  }
+}

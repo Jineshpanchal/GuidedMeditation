@@ -1,0 +1,112 @@
+{
+  "Title": "Who Am I-World Benefactor",
+  "Trending": true,
+  "DisplayTitle": "Guided Meditation",
+  "Slug": "who-am-i-world-benefactor",
+  "CommentaryLyrics": [
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+        }
+      ]
+    }
+  ],
+  "BenefitsShort": [
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+        }
+      ]
+    }
+  ],
+  "BenefitsBig": [
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+        }
+      ]
+    }
+  ],
+  "Duration": "4",
+  "createdAt": "2025-04-21T06:49:23.666Z",
+  "updatedAt": "2025-04-22T09:21:14.839Z",
+  "publishedAt": "2025-04-21T06:49:34.547Z",
+  "FeaturedImage": {
+    "data": {
+      "id": 37041,
+      "attributes": {
+        "name": "World Benefactor.webp",
+        "alternativeText": null,
+        "caption": null,
+        "width": 1024,
+        "height": 1024,
+        "formats": {
+          "HD": {
+            "ext": ".webp",
+            "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/HD_World_Benefactor_7c96049755.webp",
+            "hash": "HD_World_Benefactor_7c96049755",
+            "mime": "image/webp",
+            "name": "HD_World Benefactor.webp",
+            "path": null,
+            "size": 28.12,
+            "width": 1024,
+            "height": 1024
+          },
+          "FullHD": {
+            "ext": ".webp",
+            "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/FullHD_World_Benefactor_7c96049755.webp",
+            "hash": "FullHD_World_Benefactor_7c96049755",
+            "mime": "image/webp",
+            "name": "FullHD_World Benefactor.webp",
+            "path": null,
+            "size": 28.12,
+            "width": 1024,
+            "height": 1024
+          },
+          "Thumbnail": {
+            "ext": ".webp",
+            "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/Thumbnail_World_Benefactor_7c96049755.webp",
+            "hash": "Thumbnail_World_Benefactor_7c96049755",
+            "mime": "image/webp",
+            "name": "Thumbnail_World Benefactor.webp",
+            "path": null,
+            "size": 1.26,
+            "width": 100,
+            "height": 100
+          },
+          "thumbnail": {
+            "ext": ".webp",
+            "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/thumbnail_World_Benefactor_7c96049755.webp",
+            "hash": "thumbnail_World_Benefactor_7c96049755",
+            "mime": "image/webp",
+            "name": "thumbnail_World Benefactor.webp",
+            "path": null,
+            "size": 2.06,
+            "width": 156,
+            "height": 156,
+            "sizeInBytes": 2060
+          }
+        },
+        "hash": "World_Benefactor_7c96049755",
+        "ext": ".webp",
+        "mime": "image/webp",
+        "size": 106.15,
+        "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/World_Benefactor_7c96049755.webp",
+        "previewUrl": null,
+        "provider": "strapi-provider-upload-azure-storage",
+        "provider_metadata": null,
+        "createdAt": "2024-04-24T07:24:54.892Z",
+        "updatedAt": "2024-04-24T07:24:54.892Z"
+      }
+    }
+  }
+}

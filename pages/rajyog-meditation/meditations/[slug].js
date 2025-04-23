@@ -80,10 +80,13 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
         {/* Featured Image or Cover Image */}
         <div className="h-64 md:h-96 w-full relative bg-spiritual-light overflow-hidden">
           {(featuredImageUrl || coverImageUrl) ? (
-            <img 
+            <Image 
               src={featuredImageUrl || coverImageUrl}
               alt={meditationTitle}
-              className="w-full h-full object-cover"
+              className="object-cover"
+              fill
+              sizes="100vw"
+              priority
             />
           ) : (
             <div className="w-full h-full bg-gradient-meditation" />
@@ -149,11 +152,15 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
                     <div className="flex items-start bg-gray-50 p-5 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer">
                       <div className="flex-shrink-0 h-24 w-24 rounded-full overflow-hidden bg-spiritual-light mr-5">
                         {teacherInfo.image ? (
-                          <img 
-                            src={teacherInfo.image}
-                            alt={teacherInfo.name}
-                            className="h-full w-full object-cover"
-                          />
+                          <div className="relative h-full w-full">
+                            <Image 
+                              src={teacherInfo.image}
+                              alt={teacherInfo.name}
+                              className="object-cover"
+                              fill
+                              sizes="96px"
+                            />
+                          </div>
                         ) : (
                           <div className="h-full w-full flex items-center justify-center">
                             <span className="text-spiritual-dark font-bold text-2xl">BK</span>
@@ -316,10 +323,12 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
                       <div className="cursor-pointer">
                         {relImage ? (
                           <div className="h-48 overflow-hidden relative">
-                            <img 
+                            <Image 
                               src={relImage} 
                               alt={relTitle}
-                              className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+                              className="object-cover transform hover:scale-105 transition-transform duration-300"
+                              fill
+                              sizes="(max-width: 768px) 100vw, 25vw"
                             />
                             <div className="absolute bottom-2 right-2 bg-white bg-opacity-90 rounded-full px-3 py-1 text-xs font-medium">
                               {relDuration} min
@@ -381,10 +390,12 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
             <div className="flex flex-col md:flex-row items-start md:items-center mb-8">
               <div className="flex-shrink-0 h-32 w-32 rounded-full overflow-hidden bg-spiritual-light mr-4 mb-4 md:mb-0">
                 {teacher.attributes.FeaturedImage?.data?.attributes?.url ? (
-                  <img 
+                  <Image 
                     src={teacher.attributes.FeaturedImage.data.attributes.url}
                     alt={teacher.attributes.Name}
                     className="h-full w-full object-cover"
+                    fill
+                    sizes="128px"
                   />
                 ) : (
                   <div className="h-full w-full flex items-center justify-center">
@@ -434,10 +445,12 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
                         <div className="cursor-pointer">
                           {tMedImage ? (
                             <div className="h-48 overflow-hidden relative">
-                              <img 
+                              <Image 
                                 src={tMedImage} 
                                 alt={tMedTitle}
                                 className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+                                fill
+                                sizes="128px"
                               />
                               <div className="absolute bottom-2 right-2 bg-white bg-opacity-90 rounded-full px-3 py-1 text-xs font-medium">
                                 {tMedDuration} min
@@ -507,10 +520,12 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
                     <div className="cursor-pointer">
                       <div className="w-full h-48 overflow-hidden bg-spiritual-light">
                         {t.attributes.FeaturedImage?.data?.attributes?.url ? (
-                          <img 
+                          <Image 
                             src={t.attributes.FeaturedImage.data.attributes.url}
                             alt={t.attributes.Name}
                             className="w-full h-full object-cover"
+                            fill
+                            sizes="128px"
                           />
                         ) : (
                           <div className="h-full w-full flex items-center justify-center">

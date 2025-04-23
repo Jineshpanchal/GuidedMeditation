@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import Layout from '../../../components/layout/Layout';
 import CategoryCard from '../../../components/ui/CategoryCard';
 import MeditationCarousel from '../../../components/meditation/MeditationCarousel';
@@ -45,7 +46,7 @@ export default function AgeGroupPage({
                 Go back to Home Page
               </Link>
               <h1 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
-                Your mind is a garden—let's plant some peaceful thoughts!
+                {ageGroupName}
               </h1>
               <p className="text-lg text-gray-800 mb-6">
                 {ageGroupDescription}
@@ -56,11 +57,28 @@ export default function AgeGroupPage({
             </div>
             <div className="md:w-1/2 md:pl-12">
               <div className="rounded-lg overflow-hidden shadow-lg">
-                {/* This could be an image related to the age group */}
-                <div className="bg-white p-8 h-64 flex items-center justify-center">
-                  <div className="w-20 h-20 rounded-full bg-spiritual-light flex items-center justify-center">
-                    <span className="text-spiritual-dark font-bold text-2xl">BK</span>
-                  </div>
+                {/* Display featuredImage if available */}
+                <div className="bg-white p-0 h-64 flex items-center justify-center relative">
+                  {ageGroup.attributes.featuredimage?.data ? (
+                    <div className="w-full h-full relative rounded-lg overflow-hidden" 
+                         style={{
+                           boxShadow: '0 0 10px rgba(134, 97, 255, 0.3), 0 0 0 1px rgba(134, 97, 255, 0.2)',
+                           background: 'linear-gradient(to right, rgba(134, 97, 255, 0.05), rgba(230, 223, 255, 0.1))'
+                         }}>
+                      <Image 
+                        src={ageGroup.attributes.featuredimage.data.attributes.url} 
+                        alt={ageGroupName}
+                        className="object-cover"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        priority
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-20 h-20 rounded-full bg-spiritual-light flex items-center justify-center">
+                      <span className="text-spiritual-dark font-bold text-2xl">BK</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -128,8 +146,10 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { ageGroup: ageGroupSlug } = params;
   
-  // Get the age group data
-  const ageGroups = await getAgeGroups();
+  // Get the age group data with featuredImage populated
+  const ageGroups = await getAgeGroups({
+    'populate[featuredimage]': '*' // Use lowercase 'i' to match API field name
+  });
   const ageGroup = ageGroups.find(
     (group) => group.attributes.slug === ageGroupSlug
   );

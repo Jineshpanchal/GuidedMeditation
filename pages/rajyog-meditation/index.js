@@ -39,10 +39,10 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
                 >
                   <div className="bg-white rounded-xl p-5 text-center cursor-pointer transform transition hover:scale-105">
                     <h3 className="text-xl font-bold text-gray-800 mb-1">
-                      {ageGroup.attributes.name || "Emerging Adulthood"}
+                      {ageGroup.attributes.name}
                     </h3>
                     <p className="text-sm text-gray-600">
-                      {ageGroup.attributes.spectrum || "12-24"}
+                      {ageGroup.attributes.spectrum}
                     </p>
                   </div>
                 </Link>
@@ -76,8 +76,8 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
             Trending <span className="font-normal">Commentaries</span>
           </h2>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {featuredMeditations.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {featuredMeditations && featuredMeditations.length > 0 ? (
               featuredMeditations.map((meditation) => (
                 <Link
                   key={meditation.id}
@@ -86,13 +86,17 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
                   <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                     <div className="relative">
                       <div className="aspect-w-16 aspect-h-9 bg-spiritual-light">
-                        {meditation.attributes.CoverImage?.data?.attributes ? (
+                        {meditation.attributes.FeaturedImage?.data && (
                           <img 
-                            src={meditation.attributes.CoverImage.data.attributes.url} 
-                            alt={meditation.attributes.Title}
+                            src={meditation.attributes.FeaturedImage.data.attributes.url} 
+                            alt={meditation.attributes.Title || 'Meditation cover'}
                             className="object-cover w-full h-full"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.style.display = 'none';
+                            }}
                           />
-                        ) : null}
+                        )}
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-spiritual-dark" viewBox="0 0 20 20" fill="currentColor">
@@ -105,7 +109,12 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
                         <div className="text-xs text-gray-500 mb-1">AUDIO: {meditation.attributes.Duration || 5} Minutes</div>
                         <h3 className="font-medium text-gray-900 mb-1">{meditation.attributes.Title}</h3>
                         <div className="text-xs text-gray-500 flex items-center">
-                          <span>BK {meditation.attributes.Teacher || 'Shivani'}</span>
+                          <span>
+                            {meditation.attributes.gm_rajyoga_teachers?.data && 
+                             meditation.attributes.gm_rajyoga_teachers.data.length > 0 ? 
+                              `BK ${meditation.attributes.gm_rajyoga_teachers.data[0].attributes.Name}` : 
+                              'BK Shivani'}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -113,7 +122,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
                 </Link>
               ))
             ) : (
-              <div className="col-span-4 text-center py-10">
+              <div className="col-span-3 text-center py-10">
                 <p className="text-gray-500">No trending commentaries available at the moment.</p>
               </div>
             )}
@@ -129,7 +138,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
           </h2>
           
           <div className="flex overflow-x-auto pb-4 space-x-8 items-center">
-            {teachers.length > 0 ? (
+            {teachers && teachers.length > 0 ? (
               teachers.map((teacher) => (
                 <Link
                   key={teacher.id}
@@ -137,11 +146,29 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
                 >
                   <div className="flex flex-col items-center flex-shrink-0">
                     <div className="w-28 h-28 rounded-full bg-gray-200 overflow-hidden mb-3">
-                      {teacher.attributes.FeaturedImage?.data?.attributes ? (
+                      {teacher.attributes.FeaturedImage?.data && 
+                       Array.isArray(teacher.attributes.FeaturedImage.data) && 
+                       teacher.attributes.FeaturedImage.data.length > 0 ? (
+                        <img 
+                          src={teacher.attributes.FeaturedImage.data[0].attributes.url} 
+                          alt={teacher.attributes.Name || 'Teacher'}
+                          className="object-cover w-full h-full"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.style.display = 'none';
+                            e.target.parentNode.classList.add('bg-spiritual-light');
+                          }}
+                        />
+                      ) : teacher.attributes.FeaturedImage?.data && !Array.isArray(teacher.attributes.FeaturedImage.data) ? (
                         <img 
                           src={teacher.attributes.FeaturedImage.data.attributes.url} 
-                          alt={teacher.attributes.Name}
+                          alt={teacher.attributes.Name || 'Teacher'}
                           className="object-cover w-full h-full"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.style.display = 'none';
+                            e.target.parentNode.classList.add('bg-spiritual-light');
+                          }}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-spiritual-light">
@@ -238,19 +265,43 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
 
 export async function getStaticProps() {
   try {
-    // Fetch age groups for the main navigation
-    const ageGroups = await getAgeGroups();
-    
-    // Fetch trending meditations with cover images
-    const featuredMeditations = await getMeditations({
-      'filters[Trending][$eq]': true,
-      'pagination[limit]': 4
-      // populate CoverImage is already set as default in the updated API
+    // Fetch age groups for the main navigation with deep population
+    const ageGroups = await getAgeGroups({
+      'populate': '*'
     });
     
-    // Fetch meditation teachers with featured images
-    const teachers = await getTeachers();
-    // populate FeaturedImage is already set as default in the updated API
+    // Fetch trending meditations with specific fields populated
+    const featuredMeditations = await getMeditations({
+      'filters[Trending][$eq]': true,
+      'pagination[limit]': 4,
+      'populate': '*'  // Use wildcard to get all related data
+    });
+    
+    // Debug: Log the first meditation's structure
+    if (featuredMeditations && featuredMeditations.length > 0) {
+      console.log('First meditation structure:', 
+        JSON.stringify({
+          id: featuredMeditations[0].id,
+          title: featuredMeditations[0].attributes.Title,
+          featuredImage: featuredMeditations[0].attributes.FeaturedImage,
+          teacher: featuredMeditations[0].attributes.gm_rajyoga_teachers
+        }).substring(0, 500) + '...');
+    }
+    
+    // Fetch meditation teachers
+    const teachers = await getTeachers({
+      'populate': '*'  // Use wildcard to get all related data
+    });
+    
+    // Debug: Log the teachers structure
+    if (teachers && teachers.length > 0) {
+      console.log('First teacher structure:', 
+        JSON.stringify({
+          id: teachers[0].id,
+          name: teachers[0].attributes.Name,
+          featuredImage: teachers[0].attributes.FeaturedImage
+        }).substring(0, 500) + '...');
+    }
     
     return {
       props: {
