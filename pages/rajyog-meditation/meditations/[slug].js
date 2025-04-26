@@ -8,6 +8,32 @@ import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
 import { getMeditations, getMeditationBySlug, getTeacherById, getTeachers, getLanguages } from '../../../lib/api/strapi';
 import RelatedMeditationCard from '../../../components/meditation/RelatedMeditationCard';
 
+// Helper function to handle different FeaturedImage data structures and get the best URL
+const getImageUrl = (imageData) => {
+  if (!imageData) return '/images/placeholder.jpg';
+  
+  // Handle array structure
+  if (Array.isArray(imageData) && imageData.length > 0) {
+    if (imageData[0].attributes?.formats?.HD?.url) {
+      return imageData[0].attributes.formats.HD.url;
+    }
+    if (imageData[0].attributes?.url) {
+      return imageData[0].attributes.url;
+    }
+  } 
+  // Handle object structure
+  else if (imageData.attributes) {
+    if (imageData.attributes.formats?.HD?.url) {
+      return imageData.attributes.formats.HD.url;
+    }
+    if (imageData.attributes.url) {
+      return imageData.attributes.url;
+    }
+  }
+  
+  return '/images/placeholder.jpg';
+};
+
 export default function MeditationPage({ meditation, relatedMeditations, teacher, teacherMeditations, teachers }) {
   const { playMeditation, togglePlay, isPlaying, currentMeditation, hasEnded } = useAudioPlayer();
   
@@ -47,7 +73,8 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
   const language = meditation.attributes.gm_language?.data?.attributes?.Name || 'English';
   const teacherInfo = teacher ? {
     name: teacher.attributes.Name,
-    image: teacher.attributes.FeaturedImage?.data?.attributes?.url,
+    image: teacher.attributes.FeaturedImage?.data ? 
+           getImageUrl(teacher.attributes.FeaturedImage.data) : null,
     shortIntro: typeof teacher.attributes.ShortIntro === 'string' 
       ? teacher.attributes.ShortIntro 
       : (typeof teacher.attributes.Bio === 'string' 
@@ -157,10 +184,17 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
                             src={teacherInfo.image}
                             alt={teacherInfo.name}
                             className="h-full w-full object-cover"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.style.display = 'none';
+                              e.target.parentNode.innerHTML = `<div class="h-full w-full flex items-center justify-center bg-spiritual-light"><span class="text-spiritual-dark font-bold text-2xl">${teacherInfo.name ? teacherInfo.name.charAt(0) : 'BK'}</span></div>`;
+                            }}
                           />
                         ) : (
                           <div className="h-full w-full flex items-center justify-center">
-                            <span className="text-spiritual-dark font-bold text-2xl">BK</span>
+                            <span className="text-spiritual-dark font-bold text-2xl">
+                              {teacherInfo.name ? teacherInfo.name.charAt(0) : 'BK'}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -324,15 +358,22 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
             
             <div className="flex flex-col md:flex-row items-start md:items-center mb-8">
               <div className="flex-shrink-0 h-32 w-32 rounded-full overflow-hidden bg-spiritual-light mr-4 mb-4 md:mb-0">
-                {teacher.attributes.FeaturedImage?.data?.attributes?.url ? (
+                {teacher.attributes.FeaturedImage?.data ? (
                   <img 
-                    src={teacher.attributes.FeaturedImage.data.attributes.url}
+                    src={getImageUrl(teacher.attributes.FeaturedImage.data)}
                     alt={teacher.attributes.Name}
                     className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.style.display = 'none';
+                      e.target.parentNode.innerHTML = `<div class="h-full w-full flex items-center justify-center bg-spiritual-light"><span class="text-spiritual-dark font-bold text-2xl">${teacher.attributes.Name ? teacher.attributes.Name.charAt(0) : 'BK'}</span></div>`;
+                    }}
                   />
                 ) : (
-                  <div className="h-full w-full flex items-center justify-center">
-                    <span className="text-spiritual-dark font-bold text-2xl">BK</span>
+                  <div className="h-full w-full flex items-center justify-center bg-spiritual-light">
+                    <span className="text-spiritual-dark font-bold text-2xl">
+                      {teacher.attributes.Name ? teacher.attributes.Name.charAt(0) : 'BK'}
+                    </span>
                   </div>
                 )}
               </div>
@@ -392,9 +433,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
                       <div className="w-full h-48 overflow-hidden bg-pink-100 relative">
                         {t.attributes.FeaturedImage?.data ? (
                           <img 
-                            src={Array.isArray(t.attributes.FeaturedImage.data) 
-                              ? t.attributes.FeaturedImage.data[0]?.attributes?.url 
-                              : t.attributes.FeaturedImage.data?.attributes?.url}
+                            src={getImageUrl(t.attributes.FeaturedImage.data)}
                             alt={t.attributes.Name}
                             className="w-full h-full object-cover"
                             onError={(e) => {
@@ -492,10 +531,9 @@ export async function getStaticProps({ params }) {
         'filters[gm_categories][id][$in]': categoryIds,
         'filters[id][$ne]': meditation.id, // Exclude current meditation
         'pagination[limit]': 4,
-        'populate[CoverImage]': '*',
-        'populate[FeaturedImage]': '*',
+        'populate[FeaturedImage][fields][0]': 'formats',
+        'populate[FeaturedImage][fields][1]': 'url',
         'populate[Media]': '*',
-        'populate[AudioFile]': '*'
       });
       
       relatedMeditations = allRelatedMeditations;
@@ -516,17 +554,16 @@ export async function getStaticProps({ params }) {
       console.log(`Found teacher ID in meditation: ${teacherId}`);
       
       if (teacherId) {
-        // Approach 1: Direct fetch by ID with more detailed population
+        // Approach 1: Direct fetch by ID with specifically targeting formats
         teacher = await getTeacherById(teacherId);
         console.log(`Teacher fetch result: ${teacher ? 'Success' : 'Failed'}`);
         
         if (!teacher) {
-          // Approach 2: Get all teachers and filter with detailed population
+          // Approach 2: Get all teachers and filter with specifically targeting formats
           console.log("Trying alternative approach to get teacher");
           const allTeachers = await getTeachers({
-            'populate[FeaturedImage]': '*',
-            'populate[ShortIntro]': '*',
-            'populate[Designation]': '*'
+            'populate[FeaturedImage][fields][0]': 'formats',
+            'populate[FeaturedImage][fields][1]': 'url',
           });
           teacher = allTeachers.find(t => t.id === teacherId);
           console.log(`Teacher fetch via all teachers: ${teacher ? 'Success' : 'Failed'}`);
@@ -540,10 +577,9 @@ export async function getStaticProps({ params }) {
             'filters[gm_rajyoga_teacher][id][$eq]': teacherId,
             'filters[id][$ne]': meditation.id, // Exclude current meditation
             'pagination[limit]': 4,
-            'populate[CoverImage]': '*',
-            'populate[FeaturedImage]': '*',
+            'populate[FeaturedImage][fields][0]': 'formats',
+            'populate[FeaturedImage][fields][1]': 'url',
             'populate[Media]': '*',
-            'populate[AudioFile]': '*'
           });
           
           teacherMeditations = allTeacherMeditations;
@@ -554,9 +590,13 @@ export async function getStaticProps({ params }) {
       console.log("No teacher data found in the meditation");
     }
     
-    // Get all teachers for the teachers grid with complete image population
+    // Get all teachers for the teachers grid with formats specifically targeted
     const teachers = await getTeachers({
-      'populate': '*',  // Fully populate all relations including FeaturedImage
+      'fields[0]': 'Name',
+      'fields[1]': 'Slug',
+      'fields[2]': 'Designation',
+      'fields[3]': 'ShortIntro',
+      'populate[FeaturedImage]': '*', // Get the complete Featured Image structure to ensure all formats
       'pagination[limit]': 20
     });
     
@@ -564,12 +604,13 @@ export async function getStaticProps({ params }) {
     
     // Log first teacher to debug image structure
     if (teachers.length > 0) {
-      console.log("First teacher featured image data:", 
+      console.log("First teacher image data structure:", 
         JSON.stringify({
           name: teachers[0].attributes.Name,
           hasData: !!teachers[0].attributes.FeaturedImage?.data,
           dataType: teachers[0].attributes.FeaturedImage?.data ? 
-            (Array.isArray(teachers[0].attributes.FeaturedImage.data) ? 'array' : 'object') : 'none'
+            (Array.isArray(teachers[0].attributes.FeaturedImage.data) ? 'array' : 'object') : 'none',
+          imageUrl: getImageUrl(teachers[0].attributes.FeaturedImage?.data)
         }));
     }
     

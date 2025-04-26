@@ -1,0 +1,99 @@
+{
+  "gm-ages": {
+    "relatedTo": [],
+    "fields": [
+      "name",
+      "spectrum",
+      "slug",
+      "ShortBio",
+      "LongBio",
+      "createdAt",
+      "updatedAt",
+      "publishedAt",
+      "featuredimage",
+      "gm_categories"
+    ]
+  },
+  "gm-categories": {
+    "relatedTo": [],
+    "fields": [
+      "Category",
+      "ShortIntro",
+      "BigIntro",
+      "Trending",
+      "createdAt",
+      "updatedAt",
+      "publishedAt",
+      "CategoryDisplay",
+      "slug",
+      "FeaturedImage",
+      "gm_meditations",
+      "gm_age"
+    ]
+  },
+  "gm-languages": {
+    "relatedTo": [],
+    "fields": [
+      "Language",
+      "Slug",
+      "ShortIntro",
+      "createdAt",
+      "updatedAt",
+      "publishedAt",
+      "FeaturedImage",
+      "gm_meditations"
+    ]
+  },
+  "gm-lengths": {
+    "relatedTo": [],
+    "fields": [
+      "Length",
+      "slug",
+      "ShortIntro",
+      "BigIntro",
+      "createdAt",
+      "updatedAt",
+      "publishedAt",
+      "FeaturedImage",
+      "gm_meditations"
+    ]
+  },
+  "gm-meditations": {
+    "relatedTo": [],
+    "fields": [
+      "Title",
+      "Trending",
+      "DisplayTitle",
+      "Slug",
+      "CommentaryLyrics",
+      "BenefitsShort",
+      "BenefitsBig",
+      "Duration",
+      "createdAt",
+      "updatedAt",
+      "publishedAt",
+      "FeaturedImage",
+      "Media",
+      "gm_categories",
+      "gm_language",
+      "gm_length",
+      "gm_rajyoga_teachers"
+    ]
+  },
+  "gm-rajyoga-teachers": {
+    "relatedTo": [],
+    "fields": [
+      "Name",
+      "Slug",
+      "ShortIntro",
+      "BigIntro",
+      "KnowMore",
+      "Designation",
+      "createdAt",
+      "updatedAt",
+      "publishedAt",
+      "FeaturedImage",
+      "gm_meditations"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "strapi-api-data-collector",
+  "version": "1.0.0",
+  "description": "Script to collect and analyze Strapi API data",
+  "main": "fetch_api_data.js",
+  "scripts": {
+    "fetch": "node fetch_api_data.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+} 

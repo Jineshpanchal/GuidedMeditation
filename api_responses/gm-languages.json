@@ -1,0 +1,202 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "attributes": {
+        "Language": "हिन्दी-Hindi",
+        "Slug": "hindi",
+        "ShortIntro": null,
+        "createdAt": "2025-03-27T07:31:38.225Z",
+        "updatedAt": "2025-03-27T07:31:40.300Z",
+        "publishedAt": "2025-03-27T07:31:40.298Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 3,
+              "attributes": {
+                "Title": "Home Coming",
+                "Trending": false,
+                "DisplayTitle": "Home Coming",
+                "Slug": "home-coming",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "22",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-23T10:15:26.649Z",
+                "publishedAt": "2025-04-22T06:26:14.613Z"
+              }
+            },
+            {
+              "id": 1,
+              "attributes": {
+                "Title": "Who Am I-World Benefactor",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "who-am-i-world-benefactor",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "4",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-22T09:21:14.839Z",
+                "publishedAt": "2025-04-21T06:49:34.547Z"
+              }
+            },
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "The Light House",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "the-light-house",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "25",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-26T04:52:44.124Z",
+                "publishedAt": "2025-04-21T06:50:00.105Z"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "Language": "తెలుగు-Telugu ",
+        "Slug": "telugu",
+        "ShortIntro": null,
+        "createdAt": "2025-03-27T07:31:55.274Z",
+        "updatedAt": "2025-03-27T07:31:57.813Z",
+        "publishedAt": "2025-03-27T07:31:57.810Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        }
+      }
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "Language": "English",
+        "Slug": "english",
+        "ShortIntro": null,
+        "createdAt": "2025-03-27T07:32:17.189Z",
+        "updatedAt": "2025-03-27T07:32:19.002Z",
+        "publishedAt": "2025-03-27T07:32:18.998Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 3
+    }
+  }
+}

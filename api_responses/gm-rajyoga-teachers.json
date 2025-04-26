@@ -1,0 +1,276 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "attributes": {
+        "Name": "BK Jayanti Didi",
+        "Slug": "bk-jayanti-didi",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "se an Alarm Clock: Replace your phone alarm with a traditional clock to avoid morning distractions."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Turn Off Notifications: Disable non-essential notifications. This quiets digital noise and improves focus."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "se an Alarm Clock: Replace your phone alarm with a traditional clock to avoid morning distractions."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Turn Off Notifications: Disable non-essential notifications. This quiets digital noise and improves focus."
+              }
+            ]
+          }
+        ],
+        "KnowMore": null,
+        "Designation": "Additional Administrative Head - Brahma Kumaris",
+        "createdAt": "2025-04-21T07:05:57.344Z",
+        "updatedAt": "2025-04-23T10:38:28.300Z",
+        "publishedAt": "2025-04-21T07:05:59.417Z",
+        "FeaturedImage": {
+          "data": [
+            {
+              "id": 29919,
+              "attributes": {
+                "name": "BK Jayanti Didi.jpg",
+                "alternativeText": null,
+                "caption": null,
+                "width": 1080,
+                "height": 1080,
+                "formats": {
+                  "HD": {
+                    "ext": ".webp",
+                    "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/HD_BK_Jayanti_Didi_ffbbfdb2bd.webp",
+                    "hash": "HD_BK_Jayanti_Didi_ffbbfdb2bd",
+                    "mime": "image/webp",
+                    "name": "HD_BK Jayanti Didi.jpg",
+                    "path": null,
+                    "size": 37.23,
+                    "width": 1080,
+                    "height": 1080
+                  },
+                  "FullHD": {
+                    "ext": ".jpg",
+                    "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/FullHD_BK_Jayanti_Didi_ffbbfdb2bd.jpg",
+                    "hash": "FullHD_BK_Jayanti_Didi_ffbbfdb2bd",
+                    "mime": "image/jpeg",
+                    "name": "FullHD_BK Jayanti Didi.jpg",
+                    "path": null,
+                    "size": 67.97,
+                    "width": 1080,
+                    "height": 1080
+                  },
+                  "Thumbnail": {
+                    "ext": ".webp",
+                    "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/Thumbnail_BK_Jayanti_Didi_ffbbfdb2bd.webp",
+                    "hash": "Thumbnail_BK_Jayanti_Didi_ffbbfdb2bd",
+                    "mime": "image/webp",
+                    "name": "Thumbnail_BK Jayanti Didi.jpg",
+                    "path": null,
+                    "size": 1.57,
+                    "width": 100,
+                    "height": 100
+                  },
+                  "thumbnail": {
+                    "ext": ".jpg",
+                    "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/thumbnail_BK_Jayanti_Didi_ffbbfdb2bd.jpg",
+                    "hash": "thumbnail_BK_Jayanti_Didi_ffbbfdb2bd",
+                    "mime": "image/jpeg",
+                    "name": "thumbnail_BK Jayanti Didi.jpg",
+                    "path": null,
+                    "size": 4,
+                    "width": 156,
+                    "height": 156
+                  }
+                },
+                "hash": "BK_Jayanti_Didi_ffbbfdb2bd",
+                "ext": ".jpg",
+                "mime": "image/jpeg",
+                "size": 76.54,
+                "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/BK_Jayanti_Didi_ffbbfdb2bd.jpg",
+                "previewUrl": null,
+                "provider": "strapi-provider-upload-azure-storage",
+                "provider_metadata": null,
+                "createdAt": "2024-01-10T13:27:47.209Z",
+                "updatedAt": "2024-01-10T13:27:47.209Z"
+              }
+            }
+          ]
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 1,
+              "attributes": {
+                "Title": "Who Am I-World Benefactor",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "who-am-i-world-benefactor",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "4",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-22T09:21:14.839Z",
+                "publishedAt": "2025-04-21T06:49:34.547Z"
+              }
+            },
+            {
+              "id": 3,
+              "attributes": {
+                "Title": "Home Coming",
+                "Trending": false,
+                "DisplayTitle": "Home Coming",
+                "Slug": "home-coming",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "22",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-23T10:15:26.649Z",
+                "publishedAt": "2025-04-22T06:26:14.613Z"
+              }
+            },
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "The Light House",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "the-light-house",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "25",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-26T04:52:44.124Z",
+                "publishedAt": "2025-04-21T06:50:00.105Z"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}

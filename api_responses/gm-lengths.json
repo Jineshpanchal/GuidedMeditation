@@ -1,0 +1,417 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "attributes": {
+        "Length": "1–2 min",
+        "slug": "1-to-2-min",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "ust a minute to reconnect. Pause the rush, breathe, and feel your original peace."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Even a single minute of soul-conscious awareness can change the energy of your day. These micro-meditations are designed to quickly reset your thoughts, detach from stress, and infuse your being with peace — whether you're between meetings, in traffic, or feeling overwhelmed. One minute with the Supreme can uplift your mind, bringing clarity and calm."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T07:33:14.020Z",
+        "updatedAt": "2025-03-27T07:37:55.210Z",
+        "publishedAt": "2025-03-27T07:33:18.214Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        }
+      }
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "Length": "3–5 min",
+        "slug": "3-to-5-min",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "A few moments to center yourself, breathe in stillness, and step back from the noise."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "These short meditations are perfect for morning grounding, work breaks, or calming emotions. Just 3–5 minutes of focused soul awareness brings deep inner silence. It's like dipping into the Ocean of Peace to refresh your energy and come back stronger, wiser, and more present."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T07:34:52.817Z",
+        "updatedAt": "2025-03-27T07:37:42.398Z",
+        "publishedAt": "2025-03-27T07:36:57.018Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        }
+      }
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "Length": "6–10",
+        "slug": "6-to-10-minute",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Start your day or reset your energy with soul-reflection and light-filled thoughts."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "A medium-length meditation allows you to go a little deeper — to anchor in spiritual awareness and gently connect with the Supreme. These are ideal for morning routines, midday balance, or bedtime release. In this span, you can experience the soul's qualities — peace, purity, love — and carry those vibrations into every role you play."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T07:37:20.136Z",
+        "updatedAt": "2025-03-27T07:37:29.371Z",
+        "publishedAt": "2025-03-27T07:37:29.368Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        }
+      }
+    },
+    {
+      "id": 4,
+      "attributes": {
+        "Length": "11-20",
+        "slug": "11-to-20-min",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Go deeper into stillness, healing your thoughts and emotions with divine light."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "This is your sacred space — long enough to silence the outer world and explore your inner world fully. In 11–20 minutes, you can gently dissolve stress, elevate your thoughts, and stabilize your mind in the remembrance of God. These sessions guide you to observe, release, and empower — reconnecting with your divine potential."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T07:38:22.330Z",
+        "updatedAt": "2025-03-27T07:38:24.101Z",
+        "publishedAt": "2025-03-27T07:38:24.099Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        }
+      }
+    },
+    {
+      "id": 5,
+      "attributes": {
+        "Length": "21-30",
+        "slug": "21-to-30-min",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Explore emotional healing, karmic clarity, and spiritual strength through deeper connection."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "When you feel the need for inner depth or emotional release, these extended meditations take you on a reflective inner journey. They're perfect for ending your day, working through pain, or simply sitting in stillness with the Supreme. These sessions allow space for insight, transformation, and gentle awakening of your original sanskars."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T07:38:35.581Z",
+        "updatedAt": "2025-03-27T07:39:04.130Z",
+        "publishedAt": "2025-03-27T07:39:04.096Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 1,
+              "attributes": {
+                "Title": "Who Am I-World Benefactor",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "who-am-i-world-benefactor",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "4",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-22T09:21:14.839Z",
+                "publishedAt": "2025-04-21T06:49:34.547Z"
+              }
+            },
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "The Light House",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "the-light-house",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "25",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-26T04:52:44.124Z",
+                "publishedAt": "2025-04-21T06:50:00.105Z"
+              }
+            },
+            {
+              "id": 3,
+              "attributes": {
+                "Title": "Home Coming",
+                "Trending": false,
+                "DisplayTitle": "Home Coming",
+                "Slug": "home-coming",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "22",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-23T10:15:26.649Z",
+                "publishedAt": "2025-04-22T06:26:14.613Z"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 6,
+      "attributes": {
+        "Length": "31–60",
+        "slug": "31-to-60-min",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Immerse in deep silence, let go of heaviness, and return to your eternal self."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "This is for those who wish to experience soul-realization at a deeper level. These long meditations create the environment for inner purification, forgiveness, karmic settlement, and soul healing. The soul moves into timelessness — rising above the body and world — and bathes in the light of the Supreme. Ideal for sleep preparation or early morning Amritvela."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T07:39:39.852Z",
+        "updatedAt": "2025-03-27T07:39:42.897Z",
+        "publishedAt": "2025-03-27T07:39:42.892Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        }
+      }
+    },
+    {
+      "id": 7,
+      "attributes": {
+        "Length": "+60",
+        "slug": "more-than-60",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Enter timeless silence — a journey to the soul world, beyond thoughts and sound."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "These intensive meditations are like spiritual retreats within. Designed for seasoned practitioners or those seeking transformation, these sessions allow the soul to rest in the Supreme abode — Paramdham — beyond karma, role, and sound. You’ll experience profound lightness, detachment, and soul-home remembrance. The longer you stay, the more power and purity you absorb."
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-03-27T07:40:29.364Z",
+        "updatedAt": "2025-03-27T07:40:39.455Z",
+        "publishedAt": "2025-03-27T07:40:39.451Z",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 7
+    }
+  }
+}

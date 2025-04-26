@@ -5,6 +5,32 @@ import Layout from '../../../../components/layout/Layout';
 import { getTeachers, getTeacherBySlug, getMeditations } from '../../../../lib/api/strapi';
 import { useAudioPlayer } from '../../../../contexts/AudioPlayerContext';
 
+// Helper function to handle different FeaturedImage data structures and get the best URL
+const getImageUrl = (imageData) => {
+  if (!imageData) return '/images/placeholder.jpg';
+  
+  // Handle array structure
+  if (Array.isArray(imageData) && imageData.length > 0) {
+    if (imageData[0].attributes?.formats?.HD?.url) {
+      return imageData[0].attributes.formats.HD.url;
+    }
+    if (imageData[0].attributes?.url) {
+      return imageData[0].attributes.url;
+    }
+  } 
+  // Handle object structure
+  else if (imageData.attributes) {
+    if (imageData.attributes.formats?.HD?.url) {
+      return imageData.attributes.formats.HD.url;
+    }
+    if (imageData.attributes.url) {
+      return imageData.attributes.url;
+    }
+  }
+  
+  return '/images/placeholder.jpg';
+};
+
 export default function TeacherPage({ teacher, meditations }) {
   const { playMeditation, togglePlay, currentMeditation, isPlaying } = useAudioPlayer();
   const [playingStates, setPlayingStates] = useState({});
@@ -85,8 +111,8 @@ export default function TeacherPage({ teacher, meditations }) {
           <div className="flex flex-col lg:flex-row items-center justify-between py-12 md:py-20 gap-12 lg:gap-20">
             {/* Text Content */}
             <div className="w-full lg:w-1/2 text-center lg:text-left">
-              <div className="space-y-6">
-                <h1 className="text-3xl md:text-5xl xl:text-6xl font-display font-bold leading-tight animate-fade-in relative">
+              <div className="space-y-5">
+                <h1 className="text-3xl md:text-4xl xl:text-5xl font-display font-bold leading-tight animate-fade-in relative">
                   <span className="absolute inset-0 bg-gradient-to-r from-spiritual-dark via-spiritual-purple to-spiritual-blue bg-[length:200%_auto] bg-clip-text text-transparent blur-xl opacity-50 animate-gradient">
                     {teacherName}
                   </span>
@@ -127,7 +153,7 @@ export default function TeacherPage({ teacher, meditations }) {
                    Array.isArray(teacher.attributes.FeaturedImage.data) && 
                    teacher.attributes.FeaturedImage.data.length > 0 ? (
                     <img 
-                      src={teacher.attributes.FeaturedImage.data[0].attributes.url} 
+                      src={getImageUrl(teacher.attributes.FeaturedImage.data[0])}
                       alt={teacherName}
                       className="w-full h-full object-cover object-center scale-110 hover:scale-105 transition-transform duration-700"
                       onError={(e) => {
@@ -138,7 +164,7 @@ export default function TeacherPage({ teacher, meditations }) {
                     />
                   ) : teacher.attributes.FeaturedImage?.data && !Array.isArray(teacher.attributes.FeaturedImage.data) ? (
                     <img 
-                      src={teacher.attributes.FeaturedImage.data.attributes.url} 
+                      src={getImageUrl(teacher.attributes.FeaturedImage.data)}
                       alt={teacherName}
                       className="w-full h-full object-cover object-center scale-110 hover:scale-105 transition-transform duration-700"
                       onError={(e) => {
@@ -186,7 +212,7 @@ export default function TeacherPage({ teacher, meditations }) {
                       <div className="aspect-w-16 aspect-h-9 bg-pink-100 relative">
                         {meditation.attributes.FeaturedImage?.data?.attributes?.url ? (
                           <img 
-                            src={meditation.attributes.FeaturedImage.data.attributes.url}
+                            src={getImageUrl(meditation.attributes.FeaturedImage.data)}
                             alt={meditation.attributes.Title || 'Meditation'} 
                             className="w-full h-full object-cover"
                             loading="lazy"
@@ -337,15 +363,9 @@ export async function getStaticProps({ params }) {
   const { teacherSlug } = params;
   
   try {
-    // Fetch only necessary teacher data with limited fields
+    // Fetch only necessary teacher data with optimized image fields
     const teacher = await getTeacherBySlug(teacherSlug, {
-      'fields[0]': 'Name',
-      'fields[1]': 'Slug',
-      'fields[2]': 'Designation',
-      'fields[3]': 'BigIntro',
-      'fields[4]': 'KnowMore',
-      'fields[5]': 'ShortIntro',
-      'populate[FeaturedImage]': '*',
+      'populate[FeaturedImage]': '*' // Get complete image data
     });
     
     if (!teacher) {
@@ -365,14 +385,23 @@ export async function getStaticProps({ params }) {
       'fields[1]': 'Slug',
       'fields[2]': 'Duration',
       'fields[3]': 'Trending',
-      'populate[FeaturedImage]': '*',
-      'populate[AudioFile]': '*',
+      'populate[FeaturedImage]': '*', // Get complete image data
+      'populate[Media]': '*',
       'populate[gm_rajyoga_teachers][fields][0]': 'Name',
       'populate[gm_rajyoga_teachers][fields][1]': 'Slug',
-      'pagination[limit]': 40 // Limit to 10 meditations per teacher
+      'pagination[limit]': 40 // Limit to 40 meditations per teacher
     });
     
     console.log(`Found ${teacherMeditations.length} meditations for teacher ${teacherSlug}`);
+    
+    // Debug teacher image structure
+    console.log("Teacher image structure:", 
+      JSON.stringify({
+        hasData: !!teacher.attributes.FeaturedImage?.data,
+        dataType: teacher.attributes.FeaturedImage?.data ? 
+          (Array.isArray(teacher.attributes.FeaturedImage.data) ? 'array' : 'object') : 'none',
+        url: getImageUrl(teacher.attributes.FeaturedImage?.data)
+      }));
     
     return {
       props: {

@@ -1,0 +1,2513 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "attributes": {
+        "Category": "Soul Identity",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Discover who you truly are — not the body, but a soul with peace and purity."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "In the noise of growing up, discovering the truth of “Who am I?” gives clarity and confidence. This meditation helps young minds experience themselves beyond appearance, grades, and labels — as radiant points of spiritual light."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:02:24.190Z",
+        "updatedAt": "2025-04-26T05:06:29.827Z",
+        "publishedAt": "2025-03-27T07:02:26.213Z",
+        "CategoryDisplay": "Soul Identity",
+        "slug": "soul-identity",
+        "FeaturedImage": {
+          "data": {
+            "id": 41628,
+            "attributes": {
+              "name": "Childern Meditation Section.webp",
+              "alternativeText": null,
+              "caption": null,
+              "width": 1500,
+              "height": 857,
+              "formats": {
+                "thumbnail": {
+                  "name": "thumbnail_Childern Meditation Section.webp",
+                  "hash": "thumbnail_Childern_Meditation_Section_8029994d09",
+                  "ext": ".webp",
+                  "mime": "image/webp",
+                  "path": null,
+                  "width": 245,
+                  "height": 140,
+                  "size": 7.23,
+                  "sizeInBytes": 7234,
+                  "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/thumbnail_Childern_Meditation_Section_8029994d09.webp"
+                },
+                "Thumbnail": {
+                  "name": "Thumbnail_Childern Meditation Section.webp",
+                  "hash": "Thumbnail_Childern_Meditation_Section_8029994d09",
+                  "ext": ".webp",
+                  "mime": "image/webp",
+                  "path": null,
+                  "width": 100,
+                  "height": 57,
+                  "size": 1.85,
+                  "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/Thumbnail_Childern_Meditation_Section_8029994d09.webp"
+                },
+                "FullHD": {
+                  "name": "FullHD_Childern Meditation Section.webp",
+                  "hash": "FullHD_Childern_Meditation_Section_8029994d09",
+                  "ext": ".webp",
+                  "mime": "image/webp",
+                  "path": null,
+                  "width": 1500,
+                  "height": 857,
+                  "size": 66.21,
+                  "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/FullHD_Childern_Meditation_Section_8029994d09.webp"
+                },
+                "HD": {
+                  "name": "HD_Childern Meditation Section.webp",
+                  "hash": "HD_Childern_Meditation_Section_8029994d09",
+                  "ext": ".webp",
+                  "mime": "image/webp",
+                  "path": null,
+                  "width": 1280,
+                  "height": 731,
+                  "size": 64.01,
+                  "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/HD_Childern_Meditation_Section_8029994d09.webp"
+                }
+              },
+              "hash": "Childern_Meditation_Section_8029994d09",
+              "ext": ".webp",
+              "mime": "image/webp",
+              "size": 51.61,
+              "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/Childern_Meditation_Section_8029994d09.webp",
+              "previewUrl": null,
+              "provider": "strapi-provider-upload-azure-storage",
+              "provider_metadata": null,
+              "createdAt": "2025-04-23T05:15:00.195Z",
+              "updatedAt": "2025-04-23T05:15:00.195Z"
+            }
+          }
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 3,
+              "attributes": {
+                "Title": "Home Coming",
+                "Trending": false,
+                "DisplayTitle": "Home Coming",
+                "Slug": "home-coming",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "22",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-23T10:15:26.649Z",
+                "publishedAt": "2025-04-22T06:26:14.613Z"
+              }
+            },
+            {
+              "id": 1,
+              "attributes": {
+                "Title": "Who Am I-World Benefactor",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "who-am-i-world-benefactor",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "4",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-22T09:21:14.839Z",
+                "publishedAt": "2025-04-21T06:49:34.547Z"
+              }
+            }
+          ]
+        },
+        "gm_age": {
+          "data": {
+            "id": 1,
+            "attributes": {
+              "name": "Emerging Adulthood",
+              "spectrum": "12-24",
+              "slug": "12-24",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage is about discovering one’s true identity as a soul and developing spiritual strength while navigating the pressures of education, peer influence, and emotional growth."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "The soul, in its youthful phase, begins seeking meaning and purpose. There's a strong pull from the outside world — achievements, friendships, digital distractions — yet the inner voice quietly calls for purity, peace, and purpose. Through Raja Yoga meditation, youth are empowered to detach from external noise, stabilize their thoughts, and awaken divine potential. This stage is crucial for sowing the seeds of spiritual identity, self-respect, and moral clarity, which protect the soul through life’s challenges."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:15:04.160Z",
+              "publishedAt": "2025-03-27T06:54:05.788Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "Category": "Mental Clarity",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Bring order to your thoughts and focus your energy with soul-consciousness."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "In a world of constant distraction, the mind of youth often feels scattered. This meditation builds mental discipline, helping focus thoughts, reduce inner chatter, and harness spiritual willpower."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:02:24.190Z",
+        "updatedAt": "2025-03-27T07:07:17.200Z",
+        "publishedAt": "2025-03-27T07:07:17.197Z",
+        "CategoryDisplay": "Mental Clarity",
+        "slug": "mental-clarity",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 1,
+            "attributes": {
+              "name": "Emerging Adulthood",
+              "spectrum": "12-24",
+              "slug": "12-24",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage is about discovering one’s true identity as a soul and developing spiritual strength while navigating the pressures of education, peer influence, and emotional growth."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "The soul, in its youthful phase, begins seeking meaning and purpose. There's a strong pull from the outside world — achievements, friendships, digital distractions — yet the inner voice quietly calls for purity, peace, and purpose. Through Raja Yoga meditation, youth are empowered to detach from external noise, stabilize their thoughts, and awaken divine potential. This stage is crucial for sowing the seeds of spiritual identity, self-respect, and moral clarity, which protect the soul through life’s challenges."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:15:04.160Z",
+              "publishedAt": "2025-03-27T06:54:05.788Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "Category": "Peer Pressure",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Build inner strength to remain stable amidst outside influence."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "The desire to fit in can lead to compromise. This meditation awakens self-respect, helping youth stay true to their values and choices, while radiating inner stability."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:07:54.069Z",
+        "updatedAt": "2025-03-27T07:07:55.837Z",
+        "publishedAt": "2025-03-27T07:07:55.830Z",
+        "CategoryDisplay": "Peer Pressure",
+        "slug": "peer-pressure",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 1,
+            "attributes": {
+              "name": "Emerging Adulthood",
+              "spectrum": "12-24",
+              "slug": "12-24",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage is about discovering one’s true identity as a soul and developing spiritual strength while navigating the pressures of education, peer influence, and emotional growth."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "The soul, in its youthful phase, begins seeking meaning and purpose. There's a strong pull from the outside world — achievements, friendships, digital distractions — yet the inner voice quietly calls for purity, peace, and purpose. Through Raja Yoga meditation, youth are empowered to detach from external noise, stabilize their thoughts, and awaken divine potential. This stage is crucial for sowing the seeds of spiritual identity, self-respect, and moral clarity, which protect the soul through life’s challenges."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:15:04.160Z",
+              "publishedAt": "2025-03-27T06:54:05.788Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "attributes": {
+        "Category": "Study Power",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Improve concentration and memory through soul awareness."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Stress-free, focused study comes from a quiet and stable mind. By connecting with the Supreme Source, this meditation empowers students to absorb knowledge with ease and retain it calmly."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:08:29.936Z",
+        "updatedAt": "2025-03-27T07:08:31.331Z",
+        "publishedAt": "2025-03-27T07:08:31.322Z",
+        "CategoryDisplay": "Study Power",
+        "slug": "study-power",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 1,
+            "attributes": {
+              "name": "Emerging Adulthood",
+              "spectrum": "12-24",
+              "slug": "12-24",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage is about discovering one’s true identity as a soul and developing spiritual strength while navigating the pressures of education, peer influence, and emotional growth."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "The soul, in its youthful phase, begins seeking meaning and purpose. There's a strong pull from the outside world — achievements, friendships, digital distractions — yet the inner voice quietly calls for purity, peace, and purpose. Through Raja Yoga meditation, youth are empowered to detach from external noise, stabilize their thoughts, and awaken divine potential. This stage is crucial for sowing the seeds of spiritual identity, self-respect, and moral clarity, which protect the soul through life’s challenges."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:15:04.160Z",
+              "publishedAt": "2025-03-27T06:54:05.788Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "attributes": {
+        "Category": "Digital Balance",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Detach from screens, reconnect with inner stillness."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Constant digital consumption weakens inner attention. This meditation helps create digital discipline, enabling the soul to return to its natural state of silence and awareness."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:09:09.858Z",
+        "updatedAt": "2025-03-27T07:09:14.279Z",
+        "publishedAt": "2025-03-27T07:09:14.269Z",
+        "CategoryDisplay": "Digital Balance",
+        "slug": "digital-balance",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 1,
+            "attributes": {
+              "name": "Emerging Adulthood",
+              "spectrum": "12-24",
+              "slug": "12-24",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage is about discovering one’s true identity as a soul and developing spiritual strength while navigating the pressures of education, peer influence, and emotional growth."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "The soul, in its youthful phase, begins seeking meaning and purpose. There's a strong pull from the outside world — achievements, friendships, digital distractions — yet the inner voice quietly calls for purity, peace, and purpose. Through Raja Yoga meditation, youth are empowered to detach from external noise, stabilize their thoughts, and awaken divine potential. This stage is crucial for sowing the seeds of spiritual identity, self-respect, and moral clarity, which protect the soul through life’s challenges."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:15:04.160Z",
+              "publishedAt": "2025-03-27T06:54:05.788Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "attributes": {
+        "Category": "Future Faith",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Trust your journey with God's support."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Anxiety about the future is common in this stage. This guided reflection reminds the soul that life is a drama, perfectly unfolding under the loving guidance of the Supreme."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:09:48.838Z",
+        "updatedAt": "2025-03-27T07:09:51.200Z",
+        "publishedAt": "2025-03-27T07:09:51.194Z",
+        "CategoryDisplay": "Future Faith",
+        "slug": "future-faith",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 1,
+            "attributes": {
+              "name": "Emerging Adulthood",
+              "spectrum": "12-24",
+              "slug": "12-24",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage is about discovering one’s true identity as a soul and developing spiritual strength while navigating the pressures of education, peer influence, and emotional growth."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "The soul, in its youthful phase, begins seeking meaning and purpose. There's a strong pull from the outside world — achievements, friendships, digital distractions — yet the inner voice quietly calls for purity, peace, and purpose. Through Raja Yoga meditation, youth are empowered to detach from external noise, stabilize their thoughts, and awaken divine potential. This stage is crucial for sowing the seeds of spiritual identity, self-respect, and moral clarity, which protect the soul through life’s challenges."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:15:04.160Z",
+              "publishedAt": "2025-03-27T06:54:05.788Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "attributes": {
+        "Category": "Inner Balance",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Stay stable amidst relationships, work, and expectations."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "The soul juggles multiple roles in this phase. This meditation re-centers your energy through soul-conscious awareness and empowers you to act with wisdom and detachment."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:10:22.204Z",
+        "updatedAt": "2025-03-27T07:10:24.441Z",
+        "publishedAt": "2025-03-27T07:10:24.437Z",
+        "CategoryDisplay": "Inner Balance",
+        "slug": "inner-balance",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "The Light House",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "the-light-house",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "25",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-26T04:52:44.124Z",
+                "publishedAt": "2025-04-21T06:50:00.105Z"
+              }
+            }
+          ]
+        },
+        "gm_age": {
+          "data": {
+            "id": 2,
+            "attributes": {
+              "name": "Young Adulthood",
+              "spectrum": "25–35",
+              "slug": "25-35",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is a time of balancing career, relationships, and self-expectations. The soul seeks stability, clarity, and a deeper sense of inner authority."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "At this age, the soul plays multiple worldly roles — as a professional, partner, or parent — which often leads to stress, self-doubt, and emotional fatigue. However, this is also the perfect time for inner transformation. RajYoga meditation brings clarity of thought, detachment from outcome, and deep connection with the Supreme. Spiritual study at this stage helps reframe life as a drama, reducing fear and expectation. This phase is a golden opportunity for developing spiritual habits that anchor peace and power amidst worldly storms."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:47:25.144Z",
+              "publishedAt": "2025-03-27T06:55:11.516Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "attributes": {
+        "Category": "Role Clarity",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "See roles as temporary, and the soul as the actor."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "When we forget our original identity, roles become burdens. This meditation helps the soul detach from the pressures of performance, playing each part with joy and detachment."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:10:54.079Z",
+        "updatedAt": "2025-03-27T07:10:55.805Z",
+        "publishedAt": "2025-03-27T07:10:55.801Z",
+        "CategoryDisplay": "Role Clarity",
+        "slug": "role-clarity",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 3,
+              "attributes": {
+                "Title": "Home Coming",
+                "Trending": false,
+                "DisplayTitle": "Home Coming",
+                "Slug": "home-coming",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "22",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-23T10:15:26.649Z",
+                "publishedAt": "2025-04-22T06:26:14.613Z"
+              }
+            }
+          ]
+        },
+        "gm_age": {
+          "data": {
+            "id": 2,
+            "attributes": {
+              "name": "Young Adulthood",
+              "spectrum": "25–35",
+              "slug": "25-35",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is a time of balancing career, relationships, and self-expectations. The soul seeks stability, clarity, and a deeper sense of inner authority."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "At this age, the soul plays multiple worldly roles — as a professional, partner, or parent — which often leads to stress, self-doubt, and emotional fatigue. However, this is also the perfect time for inner transformation. RajYoga meditation brings clarity of thought, detachment from outcome, and deep connection with the Supreme. Spiritual study at this stage helps reframe life as a drama, reducing fear and expectation. This phase is a golden opportunity for developing spiritual habits that anchor peace and power amidst worldly storms."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:47:25.144Z",
+              "publishedAt": "2025-03-27T06:55:11.516Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "attributes": {
+        "Category": "Self Worth",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Reclaim your inner value, independent of success or failure."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Career and relationship struggles may impact confidence. This meditation reconnects you with your eternal worth as a peaceful, pure, loveful soul — beyond external outcomes."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:11:22.225Z",
+        "updatedAt": "2025-03-27T07:11:24.044Z",
+        "publishedAt": "2025-03-27T07:11:24.041Z",
+        "CategoryDisplay": "Self Worth",
+        "slug": "self-worth",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 2,
+            "attributes": {
+              "name": "Young Adulthood",
+              "spectrum": "25–35",
+              "slug": "25-35",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is a time of balancing career, relationships, and self-expectations. The soul seeks stability, clarity, and a deeper sense of inner authority."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "At this age, the soul plays multiple worldly roles — as a professional, partner, or parent — which often leads to stress, self-doubt, and emotional fatigue. However, this is also the perfect time for inner transformation. RajYoga meditation brings clarity of thought, detachment from outcome, and deep connection with the Supreme. Spiritual study at this stage helps reframe life as a drama, reducing fear and expectation. This phase is a golden opportunity for developing spiritual habits that anchor peace and power amidst worldly storms."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:47:25.144Z",
+              "publishedAt": "2025-03-27T06:55:11.516Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "attributes": {
+        "Category": "Stress Release",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Free your mind from pressure, breathe in divine peace."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "This meditation dissolves accumulated stress by guiding the soul into silence, and then upward into remembrance of the Supreme, where healing light and calmness flow freely."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:11:51.597Z",
+        "updatedAt": "2025-03-27T07:11:53.075Z",
+        "publishedAt": "2025-03-27T07:11:53.071Z",
+        "CategoryDisplay": "Stress Release",
+        "slug": "stress-release",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 2,
+            "attributes": {
+              "name": "Young Adulthood",
+              "spectrum": "25–35",
+              "slug": "25-35",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is a time of balancing career, relationships, and self-expectations. The soul seeks stability, clarity, and a deeper sense of inner authority."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "At this age, the soul plays multiple worldly roles — as a professional, partner, or parent — which often leads to stress, self-doubt, and emotional fatigue. However, this is also the perfect time for inner transformation. RajYoga meditation brings clarity of thought, detachment from outcome, and deep connection with the Supreme. Spiritual study at this stage helps reframe life as a drama, reducing fear and expectation. This phase is a golden opportunity for developing spiritual habits that anchor peace and power amidst worldly storms."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:47:25.144Z",
+              "publishedAt": "2025-03-27T06:55:11.516Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 11,
+      "attributes": {
+        "Category": "Emotional Strength",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Build resilience by returning to the source of peace."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Emotional reactions drain spiritual power. This meditation helps the soul respond, not react, by connecting with God’s love and reclaiming original strength."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:12:24.662Z",
+        "updatedAt": "2025-03-27T07:12:26.715Z",
+        "publishedAt": "2025-03-27T07:12:26.712Z",
+        "CategoryDisplay": "Emotional Strength",
+        "slug": "emotional-strength",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 3,
+              "attributes": {
+                "Title": "Home Coming",
+                "Trending": false,
+                "DisplayTitle": "Home Coming",
+                "Slug": "home-coming",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "22",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-23T10:15:26.649Z",
+                "publishedAt": "2025-04-22T06:26:14.613Z"
+              }
+            }
+          ]
+        },
+        "gm_age": {
+          "data": {
+            "id": 2,
+            "attributes": {
+              "name": "Young Adulthood",
+              "spectrum": "25–35",
+              "slug": "25-35",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is a time of balancing career, relationships, and self-expectations. The soul seeks stability, clarity, and a deeper sense of inner authority."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "At this age, the soul plays multiple worldly roles — as a professional, partner, or parent — which often leads to stress, self-doubt, and emotional fatigue. However, this is also the perfect time for inner transformation. RajYoga meditation brings clarity of thought, detachment from outcome, and deep connection with the Supreme. Spiritual study at this stage helps reframe life as a drama, reducing fear and expectation. This phase is a golden opportunity for developing spiritual habits that anchor peace and power amidst worldly storms."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:47:25.144Z",
+              "publishedAt": "2025-03-27T06:55:11.516Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 12,
+      "attributes": {
+        "Category": "Life Direction",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Listen to the inner compass of values and divine will."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "In moments of confusion, this meditation helps you pause, reflect, and align with the higher purpose. It creates clarity and courage to walk the right path."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:13:15.963Z",
+        "updatedAt": "2025-03-27T07:13:17.973Z",
+        "publishedAt": "2025-03-27T07:13:17.970Z",
+        "CategoryDisplay": "Life Direction",
+        "slug": "life-direction",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 2,
+            "attributes": {
+              "name": "Young Adulthood",
+              "spectrum": "25–35",
+              "slug": "25-35",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is a time of balancing career, relationships, and self-expectations. The soul seeks stability, clarity, and a deeper sense of inner authority."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "At this age, the soul plays multiple worldly roles — as a professional, partner, or parent — which often leads to stress, self-doubt, and emotional fatigue. However, this is also the perfect time for inner transformation. RajYoga meditation brings clarity of thought, detachment from outcome, and deep connection with the Supreme. Spiritual study at this stage helps reframe life as a drama, reducing fear and expectation. This phase is a golden opportunity for developing spiritual habits that anchor peace and power amidst worldly storms."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T05:47:25.144Z",
+              "publishedAt": "2025-03-27T06:55:11.516Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "attributes": {
+        "Category": "Silent Strength",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Recharge yourself in the power of inner silence."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Life at this stage demands continuous giving. This meditation returns the soul to its silent home — a sanctuary of peace where deep strength is restored."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:13:48.225Z",
+        "updatedAt": "2025-03-27T07:13:49.794Z",
+        "publishedAt": "2025-03-27T07:13:49.790Z",
+        "CategoryDisplay": "Silent Strength",
+        "slug": "silent-strength",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 3,
+            "attributes": {
+              "name": "Mid life",
+              "spectrum": "36-50",
+              "slug": "36-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "A period of self-evaluation, emotional maturity, and the soul’s pull towards deeper meaning, healing, and lasting peace."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage marks the turning inward. With half of life’s journey traveled, the soul starts reflecting on karma, relationships, and life’s direction. There’s often a silent quest: What have I really gained? The Brahma Kumaris’ wisdom enables the soul to reconnect with its original sanskars of peace, purity, and love. Meditation becomes a way to clean karmic accounts, forgive, and regain mastery over the self. It's a phase of refining the intellect, becoming an example for others, and serving through vibrations."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T06:03:30.345Z",
+              "publishedAt": "2025-03-27T06:56:24.739Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 14,
+      "attributes": {
+        "Category": "Karmic Healing",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Forgive, forget, and fly beyond the past."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Relationships and life experiences often leave subtle wounds. This meditation invokes divine energy to settle karmic accounts and release emotional weight with love and clarity."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:14:22.329Z",
+        "updatedAt": "2025-03-27T07:14:24.134Z",
+        "publishedAt": "2025-03-27T07:14:24.129Z",
+        "CategoryDisplay": "Karmic Healing",
+        "slug": "karmic-healing",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 3,
+            "attributes": {
+              "name": "Mid life",
+              "spectrum": "36-50",
+              "slug": "36-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "A period of self-evaluation, emotional maturity, and the soul’s pull towards deeper meaning, healing, and lasting peace."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage marks the turning inward. With half of life’s journey traveled, the soul starts reflecting on karma, relationships, and life’s direction. There’s often a silent quest: What have I really gained? The Brahma Kumaris’ wisdom enables the soul to reconnect with its original sanskars of peace, purity, and love. Meditation becomes a way to clean karmic accounts, forgive, and regain mastery over the self. It's a phase of refining the intellect, becoming an example for others, and serving through vibrations."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T06:03:30.345Z",
+              "publishedAt": "2025-03-27T06:56:24.739Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 15,
+      "attributes": {
+        "Category": "Detached Involvement",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Serve and care without absorbing sorrow."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "ou may be managing family, work, or caregiving roles. This meditation teaches detached involvement — remaining loving and helpful, while preserving inner peace."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:14:53.324Z",
+        "updatedAt": "2025-03-27T07:14:54.845Z",
+        "publishedAt": "2025-03-27T07:14:54.842Z",
+        "CategoryDisplay": "Detached Involvement",
+        "slug": "detached-involvement",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "The Light House",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "the-light-house",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "25",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-26T04:52:44.124Z",
+                "publishedAt": "2025-04-21T06:50:00.105Z"
+              }
+            }
+          ]
+        },
+        "gm_age": {
+          "data": {
+            "id": 3,
+            "attributes": {
+              "name": "Mid life",
+              "spectrum": "36-50",
+              "slug": "36-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "A period of self-evaluation, emotional maturity, and the soul’s pull towards deeper meaning, healing, and lasting peace."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage marks the turning inward. With half of life’s journey traveled, the soul starts reflecting on karma, relationships, and life’s direction. There’s often a silent quest: What have I really gained? The Brahma Kumaris’ wisdom enables the soul to reconnect with its original sanskars of peace, purity, and love. Meditation becomes a way to clean karmic accounts, forgive, and regain mastery over the self. It's a phase of refining the intellect, becoming an example for others, and serving through vibrations."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T06:03:30.345Z",
+              "publishedAt": "2025-03-27T06:56:24.739Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 16,
+      "attributes": {
+        "Category": "Decision Power",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Align your mind with truth and make clear choices."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Indecision weakens willpower. This meditation strengthens the intellect by connecting it with God’s wisdom, bringing light to every crossroad."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:15:24.979Z",
+        "updatedAt": "2025-03-27T07:15:26.948Z",
+        "publishedAt": "2025-03-27T07:15:26.943Z",
+        "CategoryDisplay": "Decision Power",
+        "slug": "decision-power",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "The Light House",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "the-light-house",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "25",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-26T04:52:44.124Z",
+                "publishedAt": "2025-04-21T06:50:00.105Z"
+              }
+            }
+          ]
+        },
+        "gm_age": {
+          "data": {
+            "id": 3,
+            "attributes": {
+              "name": "Mid life",
+              "spectrum": "36-50",
+              "slug": "36-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "A period of self-evaluation, emotional maturity, and the soul’s pull towards deeper meaning, healing, and lasting peace."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage marks the turning inward. With half of life’s journey traveled, the soul starts reflecting on karma, relationships, and life’s direction. There’s often a silent quest: What have I really gained? The Brahma Kumaris’ wisdom enables the soul to reconnect with its original sanskars of peace, purity, and love. Meditation becomes a way to clean karmic accounts, forgive, and regain mastery over the self. It's a phase of refining the intellect, becoming an example for others, and serving through vibrations."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T06:03:30.345Z",
+              "publishedAt": "2025-03-27T06:56:24.739Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 17,
+      "attributes": {
+        "Category": "Spiritual Anchor",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Let God be your foundation through every phase of life."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "As the soul matures, the pull toward a deeper foundation becomes strong. This meditation forms a direct bond with the Supreme, anchoring your inner world in truth and love."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:15:55.696Z",
+        "updatedAt": "2025-03-27T07:15:57.480Z",
+        "publishedAt": "2025-03-27T07:15:57.476Z",
+        "CategoryDisplay": "Spiritual Anchor",
+        "slug": "spiritual-anchor",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 3,
+            "attributes": {
+              "name": "Mid life",
+              "spectrum": "36-50",
+              "slug": "36-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "A period of self-evaluation, emotional maturity, and the soul’s pull towards deeper meaning, healing, and lasting peace."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage marks the turning inward. With half of life’s journey traveled, the soul starts reflecting on karma, relationships, and life’s direction. There’s often a silent quest: What have I really gained? The Brahma Kumaris’ wisdom enables the soul to reconnect with its original sanskars of peace, purity, and love. Meditation becomes a way to clean karmic accounts, forgive, and regain mastery over the self. It's a phase of refining the intellect, becoming an example for others, and serving through vibrations."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T06:03:30.345Z",
+              "publishedAt": "2025-03-27T06:56:24.739Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 18,
+      "attributes": {
+        "Category": "Inner Audit",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Reflect and refine the self in light of spiritual truth."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "A moment to pause and assess your thoughts, intentions, and habits. This powerful meditation reveals what to change and gives the power to transform with ease."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:16:34.041Z",
+        "updatedAt": "2025-03-27T07:16:36.525Z",
+        "publishedAt": "2025-03-27T07:16:36.520Z",
+        "CategoryDisplay": "Inner Audit",
+        "slug": "inner-audit",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 3,
+            "attributes": {
+              "name": "Mid life",
+              "spectrum": "36-50",
+              "slug": "36-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "A period of self-evaluation, emotional maturity, and the soul’s pull towards deeper meaning, healing, and lasting peace."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage marks the turning inward. With half of life’s journey traveled, the soul starts reflecting on karma, relationships, and life’s direction. There’s often a silent quest: What have I really gained? The Brahma Kumaris’ wisdom enables the soul to reconnect with its original sanskars of peace, purity, and love. Meditation becomes a way to clean karmic accounts, forgive, and regain mastery over the self. It's a phase of refining the intellect, becoming an example for others, and serving through vibrations."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T06:03:30.345Z",
+              "publishedAt": "2025-03-27T06:56:24.739Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 19,
+      "attributes": {
+        "Category": "Lightness Art",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Let go of burdens and fly light like a soul."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Over the years, the soul carries unseen burdens. This meditation teaches how to let go — of expectations, regrets, and control — and return to a state of divine lightness."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:17:05.532Z",
+        "updatedAt": "2025-03-27T07:17:07.214Z",
+        "publishedAt": "2025-03-27T07:17:07.209Z",
+        "CategoryDisplay": "Lightness Art",
+        "slug": "lightness-art",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 4,
+            "attributes": {
+              "name": "Beyond 50",
+              "spectrum": ">50",
+              "slug": "beyond-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is the soul’s graceful preparation for inner detachment, karmic settlement, and becoming a spiritual guide for others."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "In this golden age of life, the soul prepares to settle accounts and become free. There’s a natural withdrawal from the chaos of the world and a pull towards spiritual depth. Raja Yoga becomes more than practice — it becomes the soul’s way of being. There's joy in simplicity, power in silence, and beauty in remembrance of God. At this stage, one becomes a pillar of stability and spiritual presence, spreading vibrations of peace, contentment, and bliss to others. This is a sacred phase of preparing for jeevan mukti (liberation-in-life)."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:57:47.061Z",
+              "updatedAt": "2025-04-23T06:09:58.153Z",
+              "publishedAt": "2025-03-27T06:57:49.402Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 20,
+      "attributes": {
+        "Category": "Soul Legacy",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Share your vibrations as blessings to the world."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "With a life full of experiences, your energy becomes a legacy. This meditation helps you radiate peace, wisdom, and contentment, becoming a silent benefactor."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:17:29.785Z",
+        "updatedAt": "2025-03-27T07:17:31.504Z",
+        "publishedAt": "2025-03-27T07:17:31.500Z",
+        "CategoryDisplay": "Soul Legacy",
+        "slug": "soul-legacy",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 4,
+            "attributes": {
+              "name": "Beyond 50",
+              "spectrum": ">50",
+              "slug": "beyond-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is the soul’s graceful preparation for inner detachment, karmic settlement, and becoming a spiritual guide for others."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "In this golden age of life, the soul prepares to settle accounts and become free. There’s a natural withdrawal from the chaos of the world and a pull towards spiritual depth. Raja Yoga becomes more than practice — it becomes the soul’s way of being. There's joy in simplicity, power in silence, and beauty in remembrance of God. At this stage, one becomes a pillar of stability and spiritual presence, spreading vibrations of peace, contentment, and bliss to others. This is a sacred phase of preparing for jeevan mukti (liberation-in-life)."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:57:47.061Z",
+              "updatedAt": "2025-04-23T06:09:58.153Z",
+              "publishedAt": "2025-03-27T06:57:49.402Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 21,
+      "attributes": {
+        "Category": "Divine Connection",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Deepen your loving relationship with the Supreme."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "At this stage, there is a natural urge to merge with the Supreme. This meditation facilitates deep remembrance — the meeting of the soul with God — filled with love and silence."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:17:56.686Z",
+        "updatedAt": "2025-04-23T10:00:04.647Z",
+        "publishedAt": "2025-03-27T07:17:58.673Z",
+        "CategoryDisplay": "Divine Connection",
+        "slug": "divine-connection",
+        "FeaturedImage": {
+          "data": {
+            "id": 41629,
+            "attributes": {
+              "name": "Young Adulthood.webp",
+              "alternativeText": null,
+              "caption": null,
+              "width": 1500,
+              "height": 857,
+              "formats": {
+                "Thumbnail": {
+                  "name": "Thumbnail_Young Adulthood.webp",
+                  "hash": "Thumbnail_Young_Adulthood_3e50449ad5",
+                  "ext": ".webp",
+                  "mime": "image/webp",
+                  "path": null,
+                  "width": 100,
+                  "height": 57,
+                  "size": 1.64,
+                  "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/Thumbnail_Young_Adulthood_3e50449ad5.webp"
+                },
+                "thumbnail": {
+                  "name": "thumbnail_Young Adulthood.webp",
+                  "hash": "thumbnail_Young_Adulthood_3e50449ad5",
+                  "ext": ".webp",
+                  "mime": "image/webp",
+                  "path": null,
+                  "width": 245,
+                  "height": 140,
+                  "size": 6.34,
+                  "sizeInBytes": 6344,
+                  "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/thumbnail_Young_Adulthood_3e50449ad5.webp"
+                },
+                "FullHD": {
+                  "name": "FullHD_Young Adulthood.webp",
+                  "hash": "FullHD_Young_Adulthood_3e50449ad5",
+                  "ext": ".webp",
+                  "mime": "image/webp",
+                  "path": null,
+                  "width": 1500,
+                  "height": 857,
+                  "size": 118.27,
+                  "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/FullHD_Young_Adulthood_3e50449ad5.webp"
+                },
+                "HD": {
+                  "name": "HD_Young Adulthood.webp",
+                  "hash": "HD_Young_Adulthood_3e50449ad5",
+                  "ext": ".webp",
+                  "mime": "image/webp",
+                  "path": null,
+                  "width": 1280,
+                  "height": 731,
+                  "size": 94.85,
+                  "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/HD_Young_Adulthood_3e50449ad5.webp"
+                }
+              },
+              "hash": "Young_Adulthood_3e50449ad5",
+              "ext": ".webp",
+              "mime": "image/webp",
+              "size": 83.32,
+              "url": "https://bkstrapiapp.blob.core.windows.net/strapi-uploads/assets/Young_Adulthood_3e50449ad5.webp",
+              "previewUrl": null,
+              "provider": "strapi-provider-upload-azure-storage",
+              "provider_metadata": null,
+              "createdAt": "2025-04-23T05:47:22.059Z",
+              "updatedAt": "2025-04-23T05:47:22.059Z"
+            }
+          }
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 1,
+              "attributes": {
+                "Title": "Who Am I-World Benefactor",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "who-am-i-world-benefactor",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "4",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-22T09:21:14.839Z",
+                "publishedAt": "2025-04-21T06:49:34.547Z"
+              }
+            },
+            {
+              "id": 3,
+              "attributes": {
+                "Title": "Home Coming",
+                "Trending": false,
+                "DisplayTitle": "Home Coming",
+                "Slug": "home-coming",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "22",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-23T10:15:26.649Z",
+                "publishedAt": "2025-04-22T06:26:14.613Z"
+              }
+            }
+          ]
+        },
+        "gm_age": {
+          "data": {
+            "id": 4,
+            "attributes": {
+              "name": "Beyond 50",
+              "spectrum": ">50",
+              "slug": "beyond-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is the soul’s graceful preparation for inner detachment, karmic settlement, and becoming a spiritual guide for others."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "In this golden age of life, the soul prepares to settle accounts and become free. There’s a natural withdrawal from the chaos of the world and a pull towards spiritual depth. Raja Yoga becomes more than practice — it becomes the soul’s way of being. There's joy in simplicity, power in silence, and beauty in remembrance of God. At this stage, one becomes a pillar of stability and spiritual presence, spreading vibrations of peace, contentment, and bliss to others. This is a sacred phase of preparing for jeevan mukti (liberation-in-life)."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:57:47.061Z",
+              "updatedAt": "2025-04-23T06:09:58.153Z",
+              "publishedAt": "2025-03-27T06:57:49.402Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 22,
+      "attributes": {
+        "Category": "Karmic Closure",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Settle the past and feel free."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "The soul begins settling its accounts. This meditation brings awareness and power to finish karmic debts with love, detachment, and blessings — preparing for liberation."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:18:23.072Z",
+        "updatedAt": "2025-03-27T07:18:25.105Z",
+        "publishedAt": "2025-03-27T07:18:25.101Z",
+        "CategoryDisplay": "Karmic Closure",
+        "slug": "karmic-closure",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": [
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "The Light House",
+                "Trending": true,
+                "DisplayTitle": "Guided Meditation",
+                "Slug": "the-light-house",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "25",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-26T04:52:44.124Z",
+                "publishedAt": "2025-04-21T06:50:00.105Z"
+              }
+            },
+            {
+              "id": 3,
+              "attributes": {
+                "Title": "Home Coming",
+                "Trending": false,
+                "DisplayTitle": "Home Coming",
+                "Slug": "home-coming",
+                "CommentaryLyrics": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsShort": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "BenefitsBig": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Screen-Free Meals: Avoid any screens during breakfast, lunch, and dinner. This helps you reconnect with your food and companions."
+                      }
+                    ]
+                  }
+                ],
+                "Duration": "22",
+                "createdAt": "2025-04-21T06:49:23.666Z",
+                "updatedAt": "2025-04-23T10:15:26.649Z",
+                "publishedAt": "2025-04-22T06:26:14.613Z"
+              }
+            }
+          ]
+        },
+        "gm_age": {
+          "data": {
+            "id": 4,
+            "attributes": {
+              "name": "Beyond 50",
+              "spectrum": ">50",
+              "slug": "beyond-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is the soul’s graceful preparation for inner detachment, karmic settlement, and becoming a spiritual guide for others."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "In this golden age of life, the soul prepares to settle accounts and become free. There’s a natural withdrawal from the chaos of the world and a pull towards spiritual depth. Raja Yoga becomes more than practice — it becomes the soul’s way of being. There's joy in simplicity, power in silence, and beauty in remembrance of God. At this stage, one becomes a pillar of stability and spiritual presence, spreading vibrations of peace, contentment, and bliss to others. This is a sacred phase of preparing for jeevan mukti (liberation-in-life)."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:57:47.061Z",
+              "updatedAt": "2025-04-23T06:09:58.153Z",
+              "publishedAt": "2025-03-27T06:57:49.402Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 23,
+      "attributes": {
+        "Category": "Peace Vibration",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Become a tower of silence and serve the world."
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Now is the time to serve through subtle vibrations. This meditation helps you spread peace and calmness simply through your thoughts — making your presence healing to others."
+              }
+            ]
+          }
+        ],
+        "Trending": null,
+        "createdAt": "2025-03-27T07:18:48.951Z",
+        "updatedAt": "2025-03-27T07:18:50.587Z",
+        "publishedAt": "2025-03-27T07:18:50.584Z",
+        "CategoryDisplay": "Peace Vibration",
+        "slug": "peace-vibration",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 4,
+            "attributes": {
+              "name": "Beyond 50",
+              "spectrum": ">50",
+              "slug": "beyond-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is the soul’s graceful preparation for inner detachment, karmic settlement, and becoming a spiritual guide for others."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "In this golden age of life, the soul prepares to settle accounts and become free. There’s a natural withdrawal from the chaos of the world and a pull towards spiritual depth. Raja Yoga becomes more than practice — it becomes the soul’s way of being. There's joy in simplicity, power in silence, and beauty in remembrance of God. At this stage, one becomes a pillar of stability and spiritual presence, spreading vibrations of peace, contentment, and bliss to others. This is a sacred phase of preparing for jeevan mukti (liberation-in-life)."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:57:47.061Z",
+              "updatedAt": "2025-04-23T06:09:58.153Z",
+              "publishedAt": "2025-03-27T06:57:49.402Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 24,
+      "attributes": {
+        "Category": "Final Return",
+        "ShortIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "Prepare joyfully for the soul’s upcoming journey"
+              }
+            ]
+          }
+        ],
+        "BigIntro": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "text": "The soul knows its journey is nearing the return to Paramdham. This sacred meditation offers the experience of going beyond — to the soul world, resting in golden silence with the Supreme Light."
+              }
+            ]
+          }
+        ],
+        "Trending": true,
+        "createdAt": "2025-03-27T07:19:40.159Z",
+        "updatedAt": "2025-03-27T07:19:45.990Z",
+        "publishedAt": "2025-03-27T07:19:45.986Z",
+        "CategoryDisplay": "Final Return",
+        "slug": "final-return",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 4,
+            "attributes": {
+              "name": "Beyond 50",
+              "spectrum": ">50",
+              "slug": "beyond-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This is the soul’s graceful preparation for inner detachment, karmic settlement, and becoming a spiritual guide for others."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "In this golden age of life, the soul prepares to settle accounts and become free. There’s a natural withdrawal from the chaos of the world and a pull towards spiritual depth. Raja Yoga becomes more than practice — it becomes the soul’s way of being. There's joy in simplicity, power in silence, and beauty in remembrance of God. At this stage, one becomes a pillar of stability and spiritual presence, spreading vibrations of peace, contentment, and bliss to others. This is a sacred phase of preparing for jeevan mukti (liberation-in-life)."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:57:47.061Z",
+              "updatedAt": "2025-04-23T06:09:58.153Z",
+              "publishedAt": "2025-03-27T06:57:49.402Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 25,
+      "attributes": {
+        "Category": "test",
+        "ShortIntro": null,
+        "BigIntro": null,
+        "Trending": null,
+        "createdAt": "2025-04-22T05:50:51.865Z",
+        "updatedAt": "2025-04-22T05:50:53.489Z",
+        "publishedAt": "2025-04-22T05:50:53.485Z",
+        "CategoryDisplay": "test",
+        "slug": "test",
+        "FeaturedImage": {
+          "data": null
+        },
+        "gm_meditations": {
+          "data": []
+        },
+        "gm_age": {
+          "data": {
+            "id": 3,
+            "attributes": {
+              "name": "Mid life",
+              "spectrum": "36-50",
+              "slug": "36-50",
+              "ShortBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "A period of self-evaluation, emotional maturity, and the soul’s pull towards deeper meaning, healing, and lasting peace."
+                    }
+                  ]
+                }
+              ],
+              "LongBio": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "This stage marks the turning inward. With half of life’s journey traveled, the soul starts reflecting on karma, relationships, and life’s direction. There’s often a silent quest: What have I really gained? The Brahma Kumaris’ wisdom enables the soul to reconnect with its original sanskars of peace, purity, and love. Meditation becomes a way to clean karmic accounts, forgive, and regain mastery over the self. It's a phase of refining the intellect, becoming an example for others, and serving through vibrations."
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2025-03-27T06:52:57.918Z",
+              "updatedAt": "2025-04-23T06:03:30.345Z",
+              "publishedAt": "2025-03-27T06:56:24.739Z"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 25
+    }
+  }
+}
