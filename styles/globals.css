@@ -120,6 +120,18 @@
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* Animation for gradient text */
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-flow {
+  background-size: 200% 200%;
+  animation: gradient-flow 4s ease infinite;
+}
+
 /* Add custom styles for the aspect ratio */
 .aspect-w-16 {
   position: relative;
@@ -211,4 +223,4 @@ input[type="range"]::-moz-range-thumb:hover {
   z-index: 50;
   background-color: white;
   box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
-} 
+}

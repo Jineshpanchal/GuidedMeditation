@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../../components/layout/Layout';
 import MeditationCard from '../../../../components/meditation/MeditationCard';
+import Image from 'next/image';
 import { getAgeGroups, getCategories, getMeditations, getMeditationsByCategory } from '../../../../lib/api/strapi';
 
 export default function CategoryPage({ ageGroup, category, meditations }) {
@@ -24,27 +25,48 @@ export default function CategoryPage({ ageGroup, category, meditations }) {
       </Head>
 
       {/* Hero Section */}
-      <section className="bg-pastel-gradient-1 py-12 md:py-20">
-        <div className="container-custom">
-          <Link 
-            href={`/rajyog-meditation/${ageGroup.attributes.slug}`}
-            className="inline-flex items-center text-sm text-gray-700 hover:text-spiritual-dark mb-4"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-            </svg>
-            Go back to {ageGroupName}
-          </Link>
-          
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
-              {categoryName}
-            </h1>
-            <p className="text-lg text-gray-800 mb-6">
-              {categoryDescription}
-            </p>
-            <div className="inline-block rounded-full bg-white bg-opacity-30 backdrop-blur-sm px-4 py-2 text-sm font-medium text-gray-800">
-              For {ageGroupName} ({ageGroup.attributes.spectrum})
+      <section 
+        className="relative py-12 md:py-20 overflow-hidden"
+        style={{
+          backgroundImage: category.attributes.FeaturedImage?.data 
+            ? `url(${category.attributes.FeaturedImage.data.attributes.url})` 
+            : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Blurred Background Overlay */}
+        {category.attributes.FeaturedImage?.data && (
+          <div className="absolute inset-0 bg-cover bg-center backdrop-blur-lg" 
+               style={{ backgroundImage: `url(${category.attributes.FeaturedImage.data.attributes.url})` }}>
+          </div>
+        )}
+        
+        {/* Gradient Overlay - Fades from white */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white/0 via-white/80 to-white md:bg-gradient-to-l md:from-white/0 md:via-white/90 md:to-white"></div>
+
+        {/* Content Container */}
+        <div className="container-custom relative z-10"> {/* Added relative and z-10 */}
+          <div className="flex flex-col md:flex-row md:items-center">
+            <div className="md:w-1/2 mb-8 md:mb-0">
+              <Link 
+                href={`/rajyog-meditation/${ageGroup.attributes.slug}`}
+                className="inline-flex items-center text-sm text-gray-700 hover:text-spiritual-dark mb-4"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                </svg>
+                Go back to {ageGroupName}
+              </Link>
+              <h1 className="text-3xl md:text-4xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-500 mb-4 animate-gradient-flow">
+                {categoryName}
+              </h1>
+              <p className="text-lg text-gray-800 mb-6">
+                {categoryDescription}
+              </p>
+              <div className="inline-block rounded-full bg-white bg-opacity-30 backdrop-blur-sm px-4 py-2 text-sm font-medium text-gray-800">
+                For {ageGroupName} ({ageGroup.attributes.spectrum})
+              </div>
             </div>
           </div>
         </div>
@@ -137,9 +159,9 @@ export async function getStaticProps({ params }) {
     };
   }
   
-  // Get the category data
+  // Get the category data, populating the featured image
   const categories = await getCategories({
-    'populate': ['gm_meditations']
+    'populate': ['gm_meditations', 'FeaturedImage'] // Added FeaturedImage population
   });
   const category = categories.find(
     (cat) => cat.attributes.slug === categorySlug
@@ -184,4 +206,4 @@ export async function getStaticProps({ params }) {
     },
     revalidate: 60 * 60, // Revalidate every hour
   };
-} 
+}

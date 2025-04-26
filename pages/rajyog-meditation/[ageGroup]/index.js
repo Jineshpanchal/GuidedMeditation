@@ -15,8 +15,8 @@ import {
 export default function AgeGroupPage({ 
   ageGroup, 
   categories, 
-  trendingMeditations,
-  categoryMeditations 
+  trendingMeditations
+  // categoryMeditations removed for performance
 }) {
   if (!ageGroup) {
     return <div>Age group not found</div>;
@@ -35,8 +35,28 @@ export default function AgeGroupPage({
       </Head>
 
       {/* Hero Section */}
-      <section className="bg-pastel-gradient-2 py-12 md:py-20">
-        <div className="container-custom">
+      <section 
+        className="relative py-12 md:py-20 overflow-hidden"
+        style={{
+          backgroundImage: ageGroup.attributes.featuredimage?.data 
+            ? `url(${ageGroup.attributes.featuredimage.data.attributes.url})` 
+            : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Blurred Background Overlay */}
+        {ageGroup.attributes.featuredimage?.data && (
+          <div className="absolute inset-0 bg-cover bg-center backdrop-blur-lg" 
+               style={{ backgroundImage: `url(${ageGroup.attributes.featuredimage.data.attributes.url})` }}>
+          </div>
+        )}
+        
+        {/* Gradient Overlay - Fades from white */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-white/90 to-white md:bg-gradient-to-l md:from-white/0 md:via-white/90 md:to-white"></div>
+
+        {/* Content Container */}
+        <div className="container-custom relative z-10"> {/* Added relative and z-10 */}
           <div className="flex flex-col md:flex-row md:items-center">
             <div className="md:w-1/2 mb-8 md:mb-0">
               <Link href="/rajyog-meditation" className="inline-flex items-center text-sm text-gray-700 hover:text-spiritual-dark mb-4">
@@ -45,7 +65,7 @@ export default function AgeGroupPage({
                 </svg>
                 Go back to Home Page
               </Link>
-              <h1 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
+              <h1 className="text-3xl md:text-4xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-500 mb-4 animate-gradient-flow">
                 {ageGroupName}
               </h1>
               <p className="text-lg text-gray-800 mb-6">
@@ -57,29 +77,6 @@ export default function AgeGroupPage({
             </div>
             <div className="md:w-1/2 md:pl-12">
               <div className="rounded-lg overflow-hidden shadow-lg">
-                {/* Display featuredImage if available */}
-                <div className="bg-white p-0 h-64 flex items-center justify-center relative">
-                  {ageGroup.attributes.featuredimage?.data ? (
-                    <div className="w-full h-full relative rounded-lg overflow-hidden" 
-                         style={{
-                           boxShadow: '0 0 10px rgba(134, 97, 255, 0.3), 0 0 0 1px rgba(134, 97, 255, 0.2)',
-                           background: 'linear-gradient(to right, rgba(134, 97, 255, 0.05), rgba(230, 223, 255, 0.1))'
-                         }}>
-                      <Image 
-                        src={ageGroup.attributes.featuredimage.data.attributes.url} 
-                        alt={ageGroupName}
-                        className="object-cover"
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        priority
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-20 h-20 rounded-full bg-spiritual-light flex items-center justify-center">
-                      <span className="text-spiritual-dark font-bold text-2xl">BK</span>
-                    </div>
-                  )}
-                </div>
               </div>
             </div>
           </div>
@@ -113,19 +110,22 @@ export default function AgeGroupPage({
         </div>
       </section>
 
-      {/* Category Carousels */}
+      {/* Category Carousels - Removed categoryMeditations pre-fetching for performance */}
+      {/* 
       {categories.map((category) => {
-        const meditations = categoryMeditations[category.id] || [];
-        if (meditations.length === 0) return null;
+        // Fetch meditations client-side here if needed
+        // const meditations = categoryMeditations[category.id] || []; 
+        // if (meditations.length === 0) return null;
         
-        return (
-          <MeditationCarousel
-            key={category.id}
-            title={category.attributes.CategoryDisplay || category.attributes.Category}
-            meditations={meditations}
-          />
-        );
-      })}
+        // return (
+        //   <MeditationCarousel
+        //     key={category.id}
+        //     title={category.attributes.CategoryDisplay || category.attributes.Category}
+        //     meditations={meditations}
+        //   />
+        // );
+      })} 
+      */}
     </Layout>
   );
 }
@@ -166,22 +166,22 @@ export async function getStaticProps({ params }) {
   // Get trending meditations for this age group
   const trendingMeditations = await getTrendingMeditationsByAgeGroup(ageGroupSlug);
   
-  // Get meditations for each category
-  const categoryMeditations = {};
-  await Promise.all(
-    categories.map(async (category) => {
-      const meditations = await getMeditationsByCategory(category.id);
-      categoryMeditations[category.id] = meditations;
-    })
-  );
+  // Removed fetching all category meditations in getStaticProps for performance
+  // const categoryMeditations = {};
+  // await Promise.all(
+  //   categories.map(async (category) => {
+  //     const meditations = await getMeditationsByCategory(category.id);
+  //     categoryMeditations[category.id] = meditations;
+  //   })
+  // );
   
   return {
     props: {
       ageGroup,
       categories,
       trendingMeditations,
-      categoryMeditations,
+      // categoryMeditations, // Removed
     },
     revalidate: 60 * 60, // Revalidate every hour
   };
-} 
+}
