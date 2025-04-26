@@ -24,6 +24,30 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-meditation': 'linear-gradient(to right, #FF8C94, #DDA0DD, #ADD8E6)',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.8s ease-out forwards',
+        'fade-in-delayed': 'fadeIn 0.8s ease-out 0.2s forwards',
+        'float': 'float 6s ease-in-out infinite',
+        'float-delayed': 'float 6s ease-in-out 3s infinite',
+        'spin-slow': 'spin 20s linear infinite',
+        'spin-slow-reverse': 'spin 25s linear infinite reverse',
+        'gradient': 'gradient 4s ease infinite',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' }
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' }
+        },
+        gradient: {
+          '0%': { 'background-position': '0% 50%' },
+          '50%': { 'background-position': '100% 50%' },
+          '100%': { 'background-position': '0% 50%' }
+        }
       }
     },
   },

@@ -56,44 +56,80 @@ export default function TeacherPage({ teacher, meditations }) {
         <meta name="keywords" content={`meditation, spirituality, brahma kumaris, raja yoga, ${teacherName.toLowerCase()}, teacher, guide`} />
       </Head>
 
-      {/* Modern Hero Section - With reduced height */}
-      <section className="relative bg-gradient-to-r from-purple-200 to-pink-200 py-12 md:py-16 overflow-hidden">
-        {/* Light Effect */}
-        <div className="absolute top-8 right-1/2 transform translate-x-1/2 w-8 h-8 rounded-full bg-white opacity-50 blur-xl" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-20" />
-        
+      {/* Immersive Hero Section */}
+      <section className="relative min-h-[80vh] bg-gradient-to-br from-purple-100 via-pink-50 to-spiritual-light overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('/patterns/sacred-yantra.svg')] opacity-5 bg-repeat bg-[length:400px_400px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-white/30 to-transparent rounded-full blur-3xl" />
+          <div className="absolute top-20 right-20 w-32 h-32 bg-spiritual-light/20 rounded-full blur-2xl animate-float" />
+          <div className="absolute bottom-20 left-20 w-24 h-24 bg-purple-200/30 rounded-full blur-2xl animate-float-delayed" />
+        </div>
+
+        {/* Content Container */}
         <div className="container-custom relative z-10">
-          <Link 
-            href="/rajyog-meditation"
-            className="inline-flex items-center text-sm text-gray-700 hover:text-spiritual-dark mb-6"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-            </svg>
-            Go back to Home Page
-          </Link>
-          
-          <div className="flex flex-col md:flex-row md:items-center justify-between">
-            <div className="md:w-1/2 mb-8 md:mb-0">
-              <h1 className="text-3xl md:text-5xl font-display font-bold text-gray-900 mb-4">
-                {teacherName}
-              </h1>
-              <p className="text-xl text-gray-800">
-                {teacherDesignation}
-              </p>
+          {/* Back Navigation */}
+          <div className="pt-8 md:pt-12">
+            <Link 
+              href="/rajyog-meditation"
+              className="inline-flex items-center px-4 py-2 text-sm text-gray-700 hover:text-spiritual-dark bg-white/80 backdrop-blur-sm rounded-full transition-all hover:bg-white/90"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+              </svg>
+              Back to Meditations
+            </Link>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex flex-col lg:flex-row items-center justify-between py-12 md:py-20 gap-12 lg:gap-20">
+            {/* Text Content */}
+            <div className="w-full lg:w-1/2 text-center lg:text-left">
+              <div className="space-y-6">
+                <h1 className="text-3xl md:text-5xl xl:text-6xl font-display font-bold leading-tight animate-fade-in relative">
+                  <span className="absolute inset-0 bg-gradient-to-r from-spiritual-dark via-spiritual-purple to-spiritual-blue bg-[length:200%_auto] bg-clip-text text-transparent blur-xl opacity-50 animate-gradient">
+                    {teacherName}
+                  </span>
+                  <span className="bg-gradient-to-r from-spiritual-dark via-spiritual-purple to-spiritual-blue bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient">
+                    {teacherName}
+                  </span>
+                </h1>
+                <p className="text-xl md:text-2xl text-gray-700 font-light max-w-2xl mx-auto lg:mx-0 animate-fade-in-delayed">
+                  {teacherDesignation}
+                </p>
+                {teacher.attributes.ShortIntro && (
+                  <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto lg:mx-0 animate-fade-in-delayed leading-relaxed">
+                    {typeof teacher.attributes.ShortIntro === 'string' 
+                      ? teacher.attributes.ShortIntro 
+                      : teacher.attributes.ShortIntro.map((block, index) => 
+                          block.children.map((child, childIndex) => 
+                            <span key={`${index}-${childIndex}`}>{child.text}</span>
+                          )
+                        )
+                    }
+                  </p>
+                )}
+                <div className="h-1 w-20 bg-gradient-to-r from-spiritual-dark via-spiritual-purple to-spiritual-blue bg-[length:200%_auto] rounded-full mx-auto lg:mx-0 animate-gradient" />
+              </div>
             </div>
-            
-            <div className="md:w-1/3 flex justify-center">
-              <div className="relative w-64 h-64">
-                <div className="absolute -inset-1.5 bg-white opacity-50 blur-md"></div>
-                <div className="w-64 h-64 overflow-hidden shadow-xl relative z-10">
+
+            {/* Image Container */}
+            <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
+              <div className="relative w-72 h-72 md:w-96 md:h-96 animate-fade-in">
+                {/* Decorative Ring */}
+                <div className="absolute inset-0 border-2 border-spiritual-dark/10 rounded-full transform rotate-45 animate-spin-slow" />
+                <div className="absolute inset-4 border-2 border-spiritual-dark/5 rounded-full transform -rotate-45 animate-spin-slow-reverse" />
+                
+                {/* Image with Backdrop */}
+                <div className="absolute inset-8 rounded-full overflow-hidden bg-gradient-to-b from-white to-spiritual-light shadow-2xl">
+                  <div className="absolute inset-0 bg-white/50 backdrop-blur-sm mix-blend-overlay" />
                   {teacher.attributes.FeaturedImage?.data && 
                    Array.isArray(teacher.attributes.FeaturedImage.data) && 
                    teacher.attributes.FeaturedImage.data.length > 0 ? (
                     <img 
                       src={teacher.attributes.FeaturedImage.data[0].attributes.url} 
                       alt={teacherName}
-                      className="object-cover w-full h-full scale-100"
+                      className="w-full h-full object-cover object-center scale-110 hover:scale-105 transition-transform duration-700"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.style.display = 'none';
@@ -104,7 +140,7 @@ export default function TeacherPage({ teacher, meditations }) {
                     <img 
                       src={teacher.attributes.FeaturedImage.data.attributes.url} 
                       alt={teacherName}
-                      className="object-cover w-full h-full scale-125"
+                      className="w-full h-full object-cover object-center scale-110 hover:scale-105 transition-transform duration-700"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.style.display = 'none';
@@ -113,7 +149,7 @@ export default function TeacherPage({ teacher, meditations }) {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-spiritual-light">
-                      <span className="text-spiritual-dark font-bold text-5xl">
+                      <span className="text-spiritual-dark font-bold text-6xl">
                         {teacherName ? teacherName.charAt(0) : 'BK'}
                       </span>
                     </div>
@@ -253,13 +289,17 @@ export default function TeacherPage({ teacher, meditations }) {
             
             <div className="prose prose-lg max-w-none">
               {teacher.attributes.BigIntro ? (
-                teacher.attributes.BigIntro.map((block, index) => (
-                  <p key={index}>
-                    {block.children.map((child, childIndex) => (
-                      <span key={childIndex}>{child.text}</span>
-                    ))}
-                  </p>
-                ))
+                Array.isArray(teacher.attributes.BigIntro) ? 
+                  teacher.attributes.BigIntro.map((block, index) => (
+                    <p key={index}>
+                      {block.children?.map((child, childIndex) => (
+                        <span key={childIndex}>{child.text}</span>
+                      )) || block.text}
+                    </p>
+                  ))
+                : typeof teacher.attributes.BigIntro === 'string' ? 
+                    <p>{teacher.attributes.BigIntro}</p>
+                  : <p>{JSON.stringify(teacher.attributes.BigIntro)}</p>
               ) : (
                 <p>
                   A dedicated Raja Yoga meditation teacher with the Brahma Kumaris. Through years of spiritual practice and study, they have mastered the art of guiding others into deeper states of awareness and connection with the inner self.
@@ -304,6 +344,7 @@ export async function getStaticProps({ params }) {
       'fields[2]': 'Designation',
       'fields[3]': 'BigIntro',
       'fields[4]': 'KnowMore',
+      'fields[5]': 'ShortIntro',
       'populate[FeaturedImage]': '*',
     });
     

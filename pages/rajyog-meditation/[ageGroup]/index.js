@@ -53,7 +53,7 @@ export default function AgeGroupPage({
         )}
         
         {/* Gradient Overlay - Fades from white */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-white/90 to-white md:bg-gradient-to-l md:from-white/0 md:via-white/90 md:to-white"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white/0 via-white/80 to-white md:bg-gradient-to-l md:from-white/0 md:via-white/10 md:to-white"></div>
 
         {/* Content Container */}
         <div className="container-custom relative z-10"> {/* Added relative and z-10 */}
