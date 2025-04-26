@@ -5,7 +5,12 @@ import Footer from './Footer';
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 import Script from 'next/script';
 
-const Layout = ({ children, title = 'Guided Meditation | Brahma Kumaris', description = 'Explore Raja Yoga meditation with Brahma Kumaris. Guided audio meditations for all age groups and spiritual topics.' }) => {
+const Layout = ({ 
+  children, 
+  title = 'Guided Meditation | Brahma Kumaris', 
+  description = 'Explore Raja Yoga meditation with Brahma Kumaris. Guided audio meditations for all age groups and spiritual topics.',
+  hideHeaderFooter = false 
+}) => {
   const { currentMeditation } = useAudioPlayer();
   const hasActivePlayer = Boolean(currentMeditation);
 
@@ -37,13 +42,13 @@ const Layout = ({ children, title = 'Guided Meditation | Brahma Kumaris', descri
       </Head>
       
       <div className={`flex flex-col min-h-screen ${hasActivePlayer ? 'page-content-with-player' : ''}`}>
-        <Header />
+        {!hideHeaderFooter && <Header />}
         
-        <main className="flex-grow">
+        <main className={`flex-grow ${hideHeaderFooter ? 'h-screen' : ''}`}>
           {children}
         </main>
         
-        <Footer />
+        {!hideHeaderFooter && <Footer />}
       </div>
       
       {/* PWA service worker registration */}

@@ -23,7 +23,22 @@ export default function AgeGroupPage({
   }
 
   const ageGroupName = ageGroup.attributes.name;
-  const ageGroupDescription = ageGroup.attributes.ShortBio?.[0]?.children?.[0]?.text || '';
+  
+  // Handle all possible formats of ShortBio
+  let ageGroupDescription = '';
+  const shortBio = ageGroup.attributes.ShortBio;
+  
+  if (!shortBio) {
+    ageGroupDescription = '';
+  } else if (typeof shortBio === 'string') {
+    ageGroupDescription = shortBio;
+  } else if (Array.isArray(shortBio) && shortBio.length > 0) {
+    // Handle rich text array format
+    ageGroupDescription = shortBio[0]?.children?.[0]?.text || '';
+  } else if (typeof shortBio === 'object') {
+    // Handle other object formats
+    ageGroupDescription = String(shortBio);
+  }
 
   return (
     <Layout
@@ -37,26 +52,24 @@ export default function AgeGroupPage({
       {/* Hero Section */}
       <section 
         className="relative py-12 md:py-20 overflow-hidden"
-        style={{
-          backgroundImage: ageGroup.attributes.featuredimage?.data 
-            ? `url(${ageGroup.attributes.featuredimage.data.attributes.url})` 
-            : 'none',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
       >
-        {/* Blurred Background Overlay */}
+        {/* Background Image with Blur */}
         {ageGroup.attributes.featuredimage?.data && (
-          <div className="absolute inset-0 bg-cover bg-center backdrop-blur-lg" 
-               style={{ backgroundImage: `url(${ageGroup.attributes.featuredimage.data.attributes.url})` }}>
-          </div>
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ 
+              backgroundImage: `url(${ageGroup.attributes.featuredimage.data.attributes.url})`,
+              filter: 'blur(8px)',
+              transform: 'scale(1.1)' // Prevent blur from showing edges
+            }}
+          />
         )}
         
         {/* Gradient Overlay - Fades from white */}
         <div className="absolute inset-0 bg-gradient-to-t from-white/0 via-white/80 to-white md:bg-gradient-to-l md:from-white/0 md:via-white/10 md:to-white"></div>
 
         {/* Content Container */}
-        <div className="container-custom relative z-10"> {/* Added relative and z-10 */}
+        <div className="container-custom relative z-10">
           <div className="flex flex-col md:flex-row md:items-center">
             <div className="md:w-1/2 mb-8 md:mb-0">
               <Link href="/rajyog-meditation" className="inline-flex items-center text-sm text-gray-700 hover:text-spiritual-dark mb-4">
@@ -146,42 +159,60 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { ageGroup: ageGroupSlug } = params;
   
-  // Get the age group data with featuredImage populated
-  const ageGroups = await getAgeGroups({
-    'populate[featuredimage]': '*' // Use lowercase 'i' to match API field name
-  });
-  const ageGroup = ageGroups.find(
-    (group) => group.attributes.slug === ageGroupSlug
-  );
-  
-  if (!ageGroup) {
+  // Get the age group data with only necessary fields populated
+  // Ensure we get a properly formatted ShortBio field
+  try {
+    const ageGroups = await getAgeGroups({
+      'filters[slug][$eq]': ageGroupSlug,
+      'fields[0]': 'name',
+      'fields[1]': 'spectrum',
+      'fields[2]': 'slug',
+      'fields[3]': 'ShortBio',
+      'populate[featuredimage][fields][0]': 'url', // Only get the URL, not all image formats
+    });
+    
+    let ageGroup = ageGroups.find(
+      (group) => group.attributes.slug === ageGroupSlug
+    );
+    
+    if (!ageGroup) {
+      return {
+        notFound: true,
+      };
+    }
+    
+    // Convert complex ShortBio to simple string if needed
+    if (ageGroup.attributes.ShortBio && 
+        typeof ageGroup.attributes.ShortBio === 'object' && 
+        !Array.isArray(ageGroup.attributes.ShortBio)) {
+      // Handle non-array object format
+      ageGroup = {
+        ...ageGroup,
+        attributes: {
+          ...ageGroup.attributes,
+          ShortBio: ageGroup.attributes.ShortBio.toString()
+        }
+      };
+    }
+    
+    // Get categories for this age group
+    const categories = await getCategoriesByAgeGroup(ageGroupSlug);
+    
+    // Get trending meditations for this age group
+    const trendingMeditations = await getTrendingMeditationsByAgeGroup(ageGroupSlug);
+    
+    return {
+      props: {
+        ageGroup,
+        categories,
+        trendingMeditations,
+      },
+      revalidate: 60 * 60, // Revalidate every hour
+    };
+  } catch (error) {
+    console.error(`Error in getStaticProps for age group ${ageGroupSlug}:`, error);
     return {
       notFound: true,
     };
   }
-  
-  // Get categories for this age group
-  const categories = await getCategoriesByAgeGroup(ageGroupSlug);
-  
-  // Get trending meditations for this age group
-  const trendingMeditations = await getTrendingMeditationsByAgeGroup(ageGroupSlug);
-  
-  // Removed fetching all category meditations in getStaticProps for performance
-  // const categoryMeditations = {};
-  // await Promise.all(
-  //   categories.map(async (category) => {
-  //     const meditations = await getMeditationsByCategory(category.id);
-  //     categoryMeditations[category.id] = meditations;
-  //   })
-  // );
-  
-  return {
-    props: {
-      ageGroup,
-      categories,
-      trendingMeditations,
-      // categoryMeditations, // Removed
-    },
-    revalidate: 60 * 60, // Revalidate every hour
-  };
 }

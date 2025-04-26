@@ -7,6 +7,7 @@ import AudioPlayer from '../../../components/meditation/AudioPlayer';
 import { getMeditations, getMeditationBySlug, getTeachers, getLanguages } from '../../../lib/api/strapi';
 import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
 import WaveformPlayer from '../../../components/meditation/WaveformPlayer';
+import ParticlesBackground from '../../../components/ParticlesBackground';
 
 export default function MeditationPage({ meditation, teachers, languages }) {
   const { playMeditation, togglePlay, isPlaying, currentMeditation } = useAudioPlayer();
@@ -52,8 +53,9 @@ export default function MeditationPage({ meditation, teachers, languages }) {
       </Head>
 
       {/* Hero Section */}
-      <section className="bg-pastel-gradient-3 py-12 md:py-20">
-        <div className="container-custom">
+      <section className="bg-pastel-gradient-3 py-12 md:py-20 relative">
+        <ParticlesBackground />
+        <div className="container-custom relative z-10">
           <Link 
             href="/rajyog-meditation"
             className="inline-flex items-center text-sm text-gray-700 hover:text-spiritual-dark mb-4"

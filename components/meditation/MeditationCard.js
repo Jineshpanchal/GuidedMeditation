@@ -9,14 +9,17 @@ const MeditationCard = ({
   className = ''
 }) => {
   const [isThisPlaying, setIsThisPlaying] = useState(false);
+  
+  // We now directly access the URL since we're only getting that field
   const featuredImageUrl = meditation.attributes.FeaturedImage?.data?.attributes?.url;
+  
   const { playMeditation, togglePlay, currentMeditation, isPlaying } = useAudioPlayer();
   
-  // Get teacher information
+  // Get teacher information - simplified to handle our optimized data structure
   const teacher = meditation.attributes.gm_rajyoga_teachers?.data && 
                  meditation.attributes.gm_rajyoga_teachers.data.length > 0 ? 
-                  `${meditation.attributes.gm_rajyoga_teachers.data[0].attributes.Name}` : 
-                  '';
+                 meditation.attributes.gm_rajyoga_teachers.data[0].attributes.Name : 
+                 '';
   
   // Check if this is the currently playing meditation
   useEffect(() => {
@@ -88,27 +91,22 @@ const MeditationCard = ({
             )}
             
             {/* Play button in bottom right */}
-            <button 
-              className="absolute bottom-4 right-4 w-12 h-12 bg-spiritual-dark rounded-full flex items-center justify-center shadow-md hover:bg-spiritual-dark/90 transition-colors z-10"
+            <button
               onClick={handlePlayClick}
+              className={`absolute bottom-2 right-2 p-2 rounded-full w-9 h-9 flex items-center justify-center transition-colors ${
+                isThisPlaying 
+                  ? 'bg-spiritual-dark text-white' 
+                  : 'bg-spiritual-light text-spiritual-dark hover:bg-spiritual-dark hover:text-white'
+              }`}
               aria-label={isThisPlaying ? "Pause meditation" : "Play meditation"}
             >
               {isThisPlaying ? (
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-5 w-5 text-white" 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <rect x="6" y="4" width="4" height="16" />
+                  <rect x="14" y="4" width="4" height="16" />
                 </svg>
               ) : (
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-5 w-5 text-white" 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               )}
