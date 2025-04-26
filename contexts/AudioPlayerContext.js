@@ -29,6 +29,7 @@ export const AudioPlayerProvider = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
   const [hasEnded, setHasEnded] = useState(false);
   const [playError, setPlayError] = useState(null);
+  const [isVideo, setIsVideo] = useState(false);
   const timeUpdateIntervalRef = useRef(null);
 
   // Load audio when meditation changes
@@ -40,12 +41,17 @@ export const AudioPlayerProvider = ({ children }) => {
       let audioUrl = currentMeditation?.attributes?.AudioFile?.data?.attributes?.url || 
                    currentMeditation?.attributes?.Media?.data?.attributes?.url;
       
-      console.log('[AudioPlayerContext] Setting up audio for meditation:', {
+      // Check if the media is a video
+      const isVideoContent = audioUrl?.toLowerCase().endsWith('.mp4');
+      setIsVideo(isVideoContent);
+
+      console.log('[AudioPlayerContext] Setting up media for meditation:', {
         id: currentMeditation?.id,
         title: currentMeditation?.attributes?.Title,
         audioFile: currentMeditation?.attributes?.AudioFile?.data?.attributes?.url,
         mediaFile: currentMeditation?.attributes?.Media?.data?.attributes?.url,
-        finalUrl: audioUrl
+        finalUrl: audioUrl,
+        isVideo: isVideoContent
       });
       
       if (audioUrl) {
@@ -217,7 +223,9 @@ export const AudioPlayerProvider = ({ children }) => {
   const playMeditation = (meditation) => {
     console.log('Playing meditation:', meditation?.attributes?.Title);
     setCurrentMeditation(meditation);
+    setIsReady(false);
     setHasEnded(false);
+    setPlayError(null);
   };
 
   const value = {
@@ -228,10 +236,11 @@ export const AudioPlayerProvider = ({ children }) => {
     isReady,
     hasEnded,
     playError,
-    playMeditation,
+    isVideo,
+    formatTime,
     togglePlay,
     seekTo,
-    formatTime,
+    playMeditation,
   };
 
   return (
@@ -242,6 +251,12 @@ export const AudioPlayerProvider = ({ children }) => {
 };
 
 // Custom hook to use the audio player context
-export const useAudioPlayer = () => useContext(AudioPlayerContext);
+export const useAudioPlayer = () => {
+  const context = useContext(AudioPlayerContext);
+  if (context === undefined) {
+    throw new Error('useAudioPlayer must be used within an AudioPlayerProvider');
+  }
+  return context;
+};
 
 export default AudioPlayerContext; 
