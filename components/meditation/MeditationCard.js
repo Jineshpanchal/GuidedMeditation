@@ -3,6 +3,32 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 
+// Helper function to handle different FeaturedImage data structures and get the best URL
+const getImageUrl = (imageData) => {
+  if (!imageData) return '/images/placeholder.jpg';
+  
+  // Handle array structure
+  if (Array.isArray(imageData) && imageData.length > 0) {
+    if (imageData[0].attributes?.formats?.HD?.url) {
+      return imageData[0].attributes.formats.HD.url;
+    }
+    if (imageData[0].attributes?.url) {
+      return imageData[0].attributes.url;
+    }
+  } 
+  // Handle object structure
+  else if (imageData.attributes) {
+    if (imageData.attributes.formats?.HD?.url) {
+      return imageData.attributes.formats.HD.url;
+    }
+    if (imageData.attributes.url) {
+      return imageData.attributes.url;
+    }
+  }
+  
+  return '/images/placeholder.jpg';
+};
+
 const MeditationCard = ({ 
   meditation, 
   href = `/rajyog-meditation/meditations/${meditation.attributes.Slug}`,
@@ -10,8 +36,10 @@ const MeditationCard = ({
 }) => {
   const [isThisPlaying, setIsThisPlaying] = useState(false);
   
-  // We now directly access the URL since we're only getting that field
-  const featuredImageUrl = meditation.attributes.FeaturedImage?.data?.attributes?.url;
+  // Get image URL using the helper function
+  const featuredImageUrl = meditation.attributes.FeaturedImage?.data
+    ? getImageUrl(meditation.attributes.FeaturedImage.data)
+    : null;
   
   const { playMeditation, togglePlay, currentMeditation, isPlaying } = useAudioPlayer();
   

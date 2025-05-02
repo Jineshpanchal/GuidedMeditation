@@ -12,6 +12,32 @@ import {
   getMeditationsByCategory 
 } from '../../../lib/api/strapi';
 
+// Helper function to handle different FeaturedImage data structures and get the best URL
+const getImageUrl = (imageData) => {
+  if (!imageData) return '/images/placeholder.jpg';
+  
+  // Handle array structure
+  if (Array.isArray(imageData) && imageData.length > 0) {
+    if (imageData[0].attributes?.formats?.HD?.url) {
+      return imageData[0].attributes.formats.HD.url;
+    }
+    if (imageData[0].attributes?.url) {
+      return imageData[0].attributes.url;
+    }
+  } 
+  // Handle object structure
+  else if (imageData.attributes) {
+    if (imageData.attributes.formats?.HD?.url) {
+      return imageData.attributes.formats.HD.url;
+    }
+    if (imageData.attributes.url) {
+      return imageData.attributes.url;
+    }
+  }
+  
+  return '/images/placeholder.jpg';
+};
+
 export default function AgeGroupPage({ 
   ageGroup, 
   categories, 
@@ -58,7 +84,7 @@ export default function AgeGroupPage({
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: `url(${ageGroup.attributes.featuredimage.data.attributes.url})`,
+              backgroundImage: `url(${getImageUrl(ageGroup.attributes.featuredimage.data)})`,
               filter: 'blur(8px)',
               transform: 'scale(1.1)' // Prevent blur from showing edges
             }}

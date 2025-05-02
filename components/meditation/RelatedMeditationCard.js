@@ -3,6 +3,32 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 
+// Helper function to handle different FeaturedImage data structures and get the best URL
+const getImageUrl = (imageData) => {
+  if (!imageData) return '/images/placeholder.jpg';
+  
+  // Handle array structure
+  if (Array.isArray(imageData) && imageData.length > 0) {
+    if (imageData[0].attributes?.formats?.HD?.url) {
+      return imageData[0].attributes.formats.HD.url;
+    }
+    if (imageData[0].attributes?.url) {
+      return imageData[0].attributes.url;
+    }
+  } 
+  // Handle object structure
+  else if (imageData.attributes) {
+    if (imageData.attributes.formats?.HD?.url) {
+      return imageData.attributes.formats.HD.url;
+    }
+    if (imageData.attributes.url) {
+      return imageData.attributes.url;
+    }
+  }
+  
+  return '/images/placeholder.jpg';
+};
+
 const RelatedMeditationCard = ({ meditation }) => {
   const [isThisPlaying, setIsThisPlaying] = useState(false);
   const { playMeditation, togglePlay, currentMeditation, isPlaying } = useAudioPlayer();
@@ -10,8 +36,12 @@ const RelatedMeditationCard = ({ meditation }) => {
   // Extract meditation details
   const title = meditation.attributes.Title || 'Guided Meditation';
   const slug = meditation.attributes.Slug;
-  const featuredImageUrl = meditation.attributes.FeaturedImage?.data?.attributes?.url;
-  const coverImageUrl = meditation.attributes.CoverImage?.data?.attributes?.url;
+  const featuredImageUrl = meditation.attributes.FeaturedImage?.data 
+    ? getImageUrl(meditation.attributes.FeaturedImage.data) 
+    : null;
+  const coverImageUrl = meditation.attributes.CoverImage?.data 
+    ? getImageUrl(meditation.attributes.CoverImage.data)
+    : null;
   const imageUrl = featuredImageUrl || coverImageUrl;
   const duration = meditation.attributes.Duration || '5';
   
@@ -52,24 +82,20 @@ const RelatedMeditationCard = ({ meditation }) => {
     e.preventDefault();
     e.stopPropagation();
     
-    console.log("Play button clicked for:", title);
-    
     // If this is already the current meditation, just toggle play/pause
     if (currentMeditation && currentMeditation.id === meditation.id) {
-      console.log("Toggling play/pause for current meditation");
       togglePlay();
     } else {
       // Otherwise, set this as the current meditation and play it
-      console.log("Setting new meditation and playing:", title);
       playMeditation(meditation);
       // Small delay to ensure the audio is loaded before playing
       setTimeout(() => {
-        console.log("Calling toggle play after delay");
         togglePlay();
       }, 100);
     }
   };
 
+  // Add handleNavigation function
   const handleNavigation = (e) => {
     // Only navigate if not clicking on the play button
     if (e.target.closest('button')) {

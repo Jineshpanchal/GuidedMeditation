@@ -9,6 +9,32 @@ import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
 import WaveformPlayer from '../../../components/meditation/WaveformPlayer';
 import ParticlesBackground from '../../../components/ParticlesBackground';
 
+// Helper function to handle different FeaturedImage data structures and get the best URL
+const getImageUrl = (imageData) => {
+  if (!imageData) return '/images/placeholder.jpg';
+  
+  // Handle array structure
+  if (Array.isArray(imageData) && imageData.length > 0) {
+    if (imageData[0].attributes?.formats?.HD?.url) {
+      return imageData[0].attributes.formats.HD.url;
+    }
+    if (imageData[0].attributes?.url) {
+      return imageData[0].attributes.url;
+    }
+  } 
+  // Handle object structure
+  else if (imageData.attributes) {
+    if (imageData.attributes.formats?.HD?.url) {
+      return imageData.attributes.formats.HD.url;
+    }
+    if (imageData.attributes.url) {
+      return imageData.attributes.url;
+    }
+  }
+  
+  return '/images/placeholder.jpg';
+};
+
 export default function MeditationPage({ meditation, teachers, languages }) {
   const { playMeditation, togglePlay, isPlaying, currentMeditation } = useAudioPlayer();
   const [selectedLanguage, setSelectedLanguage] = useState(null);
@@ -198,35 +224,40 @@ export default function MeditationPage({ meditation, teachers, languages }) {
               Brahma Kumaris Rajyoga Teachers
             </h2>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {teachers.map(teacher => (
-                <div key={teacher.id} className="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-shadow">
-                  <div className="w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden bg-spiritual-light">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {teachers.map((teacher) => (
+                <Link 
+                  key={teacher.id}
+                  href={`/rajyog-meditation/teacher/${teacher.attributes.Slug}`}
+                  className="flex flex-col items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                >
+                  <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
                     {teacher.attributes.FeaturedImage?.data?.attributes?.url ? (
-                      <img 
-                        src={teacher.attributes.FeaturedImage.data.attributes.url}
-                        alt={teacher.attributes.Name}
-                        className="w-full h-full object-cover"
+                      <img
+                        src={getImageUrl(teacher.attributes.FeaturedImage.data)}
+                        alt={teacher.attributes.Name || "Teacher"}
+                        className="object-cover w-full h-full"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.style.display = 'none';
+                          e.target.parentNode.classList.add('bg-spiritual-light');
+                        }}
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-spiritual-dark font-bold text-xl">BK</span>
+                      <div className="w-full h-full flex items-center justify-center bg-spiritual-light">
+                        <span className="text-spiritual-dark font-bold text-2xl">
+                          {teacher.attributes.Name ? teacher.attributes.Name.charAt(0) : 'BK'}
+                        </span>
                       </div>
                     )}
                   </div>
-                  <h3 className="font-medium text-spiritual-dark">{teacher.attributes.Name}</h3>
-                  {teacher.attributes.Title && (
-                    <p className="text-sm text-gray-600">{teacher.attributes.Title}</p>
-                  )}
-                  {teacher.attributes.Slug && (
-                    <Link 
-                      href={`/rajyog-meditation/teacher/${teacher.attributes.Slug}`}
-                      className="mt-2 inline-block text-xs text-spiritual-dark underline"
-                    >
-                      View Meditations
-                    </Link>
-                  )}
-                </div>
+                  <h3 className="text-lg font-medium text-gray-900 text-center">
+                    {teacher.attributes.Name || "Brahma Kumaris Teacher"}
+                  </h3>
+                  <p className="text-sm text-gray-600 text-center">
+                    {teacher.attributes.Designation || "Meditation Guide"}
+                  </p>
+                </Link>
               ))}
             </div>
           </div>

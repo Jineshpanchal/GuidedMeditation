@@ -6,6 +6,32 @@ import TrendingMeditationCard from '../../components/meditation/TrendingMeditati
 import { getAgeGroups, getMeditations, getTeachers } from '../../lib/api/strapi';
 import ParticlesBackground from '../../components/ParticlesBackground';
 
+// Helper function to handle different FeaturedImage data structures and get the best URL
+const getImageUrl = (imageData) => {
+  if (!imageData) return '/images/placeholder.jpg';
+  
+  // Handle array structure
+  if (Array.isArray(imageData) && imageData.length > 0) {
+    if (imageData[0].attributes?.formats?.HD?.url) {
+      return imageData[0].attributes.formats.HD.url;
+    }
+    if (imageData[0].attributes?.url) {
+      return imageData[0].attributes.url;
+    }
+  } 
+  // Handle object structure
+  else if (imageData.attributes) {
+    if (imageData.attributes.formats?.HD?.url) {
+      return imageData.attributes.formats.HD.url;
+    }
+    if (imageData.attributes.url) {
+      return imageData.attributes.url;
+    }
+  }
+  
+  return '/images/placeholder.jpg';
+};
+
 export default function RajyogMeditationHome({ ageGroups, featuredMeditations, teachers }) {
   const [showAllSections, setShowAllSections] = useState(false);
   
@@ -133,7 +159,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
                            Array.isArray(teacher.attributes.FeaturedImage.data) && 
                            teacher.attributes.FeaturedImage.data.length > 0 ? (
                             <img 
-                              src={teacher.attributes.FeaturedImage.data[0].attributes.url} 
+                              src={getImageUrl(teacher.attributes.FeaturedImage.data[0])} 
                               alt={teacher.attributes.Name || 'Teacher'}
                               className="object-cover w-full h-full"
                               onError={(e) => {
@@ -144,7 +170,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
                             />
                           ) : teacher.attributes.FeaturedImage?.data && !Array.isArray(teacher.attributes.FeaturedImage.data) ? (
                             <img 
-                              src={teacher.attributes.FeaturedImage.data.attributes.url} 
+                              src={getImageUrl(teacher.attributes.FeaturedImage.data)} 
                               alt={teacher.attributes.Name || 'Teacher'}
                               className="object-cover w-full h-full"
                               onError={(e) => {

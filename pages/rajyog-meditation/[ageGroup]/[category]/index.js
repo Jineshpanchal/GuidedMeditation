@@ -6,6 +6,32 @@ import MeditationCard from '../../../../components/meditation/MeditationCard';
 import Image from 'next/image';
 import { getAgeGroups, getCategories, getMeditations, getMeditationsByCategory } from '../../../../lib/api/strapi';
 
+// Helper function to handle different FeaturedImage data structures and get the best URL
+const getImageUrl = (imageData) => {
+  if (!imageData) return '/images/placeholder.jpg';
+  
+  // Handle array structure
+  if (Array.isArray(imageData) && imageData.length > 0) {
+    if (imageData[0].attributes?.formats?.HD?.url) {
+      return imageData[0].attributes.formats.HD.url;
+    }
+    if (imageData[0].attributes?.url) {
+      return imageData[0].attributes.url;
+    }
+  } 
+  // Handle object structure
+  else if (imageData.attributes) {
+    if (imageData.attributes.formats?.HD?.url) {
+      return imageData.attributes.formats.HD.url;
+    }
+    if (imageData.attributes.url) {
+      return imageData.attributes.url;
+    }
+  }
+  
+  return '/images/placeholder.jpg';
+};
+
 export default function CategoryPage({ ageGroup, category, meditations }) {
   if (!category || !ageGroup) {
     return <div>Category or age group not found</div>;
@@ -29,7 +55,7 @@ export default function CategoryPage({ ageGroup, category, meditations }) {
         className="relative py-12 md:py-20 overflow-hidden"
         style={{
           backgroundImage: category.attributes.FeaturedImage?.data 
-            ? `url(${category.attributes.FeaturedImage.data.attributes.url})` 
+            ? `url(${getImageUrl(category.attributes.FeaturedImage.data)})` 
             : 'none',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -38,7 +64,7 @@ export default function CategoryPage({ ageGroup, category, meditations }) {
         {/* Blurred Background Overlay */}
         {category.attributes.FeaturedImage?.data && (
           <div className="absolute inset-0 bg-cover bg-center backdrop-blur-lg" 
-               style={{ backgroundImage: `url(${category.attributes.FeaturedImage.data.attributes.url})` }}>
+               style={{ backgroundImage: `url(${getImageUrl(category.attributes.FeaturedImage.data)})` }}>
           </div>
         )}
         
