@@ -153,7 +153,91 @@ export const AudioPlayerProvider = ({ children }) => {
     };
   }, [isPlaying, audio]);
 
-  // Handle play/pause
+  // Play a specific meditation
+  const playMeditation = (meditation) => {
+    console.log('Playing meditation:', meditation?.attributes?.Title);
+    setCurrentMeditation(meditation);
+    setIsReady(false);
+    setHasEnded(false);
+    setPlayError(null);
+    
+    // If we have an audio element, start preloading right away
+    if (audio) {
+      const audioUrl = meditation?.attributes?.AudioFile?.data?.attributes?.url || 
+                    meditation?.attributes?.Media?.data?.attributes?.url;
+                    
+      if (audioUrl) {
+        // Proxy the URL through our local API to avoid CORS issues
+        const proxiedUrl = getProxiedAudioUrl(audioUrl);
+        
+        console.log('Preloading audio file:', proxiedUrl);
+        
+        // Load the audio file
+        audio.src = proxiedUrl;
+        audio.load();
+        
+        // Try to preload the audio data
+        if (audio.readyState >= 2) {  // HAVE_CURRENT_DATA or higher
+          setIsReady(true);
+        }
+      }
+    }
+  };
+  
+  // Function to check if audio is ready and try to play
+  const tryPlayWhenReady = (maxAttempts = 5, delayMs = 200) => {
+    let attempts = 0;
+    
+    const attemptPlay = () => {
+      attempts++;
+      console.log(`Attempt ${attempts} to play audio`);
+      
+      if (audio && (audio.readyState >= 2 || isReady)) {
+        // Audio is ready, try to play
+        console.log('Audio is ready, attempting to play');
+        setIsReady(true);
+        
+        try {
+          const playPromise = audio.play();
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                console.log('Audio playback started successfully');
+                setIsPlaying(true);
+                setPlayError(null);
+              })
+              .catch(error => {
+                console.error('Error playing audio:', error);
+                setIsPlaying(false);
+                setPlayError(error.message || 'Failed to play audio');
+              });
+          } else {
+            setIsPlaying(true);
+          }
+        } catch (error) {
+          console.error('Error playing audio:', error);
+          setIsPlaying(false);
+          setPlayError(error.message || 'Failed to play audio');
+        }
+        
+        return true; // Successful play attempt
+      } else if (attempts < maxAttempts) {
+        // Not ready yet, schedule another attempt
+        console.log('Audio not ready yet, will try again');
+        setTimeout(attemptPlay, delayMs);
+        return false; // Still attempting
+      } else {
+        // Max attempts reached
+        console.warn('Max attempts reached, audio may not be playable');
+        setPlayError('Audio could not be loaded. Please try again.');
+        return false; // Failed to play
+      }
+    };
+    
+    return attemptPlay();
+  };
+
+  // Handle play/pause with better error recovery
   const togglePlay = () => {
     if (!audio) {
       console.error('Cannot play: Audio element is not available');
@@ -161,60 +245,76 @@ export const AudioPlayerProvider = ({ children }) => {
       return;
     }
     
+    if (isPlaying) {
+      // If already playing, just pause
+      audio.pause();
+      setIsPlaying(false);
+      return;
+    }
+    
+    // If not ready, try to get it ready and play
     if (!isReady) {
-      console.warn('Cannot play: Audio not ready or initialized');
+      console.log('Audio not ready, attempting to initialize and play');
       // Check if we have valid audio source
       const audioSrc = audio.src;
       console.log('Current audio source:', audioSrc);
       
-      // Check if meditation has valid audio URL
-      const audioUrl = currentMeditation?.attributes?.AudioFile?.data?.attributes?.url || 
-                    currentMeditation?.attributes?.Media?.data?.attributes?.url;
-      console.log('Meditation audio URL:', audioUrl);
-      
-      if (!audioUrl) {
-        setPlayError(`No audio URL found for meditation: ${currentMeditation?.attributes?.Title}`);
-      } else {
-        setPlayError('Audio is still loading. Please try again in a few seconds.');
-      }
-      return;
-    }
-
-    if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    } else {
-      try {
-        console.log('Attempting to play audio...');
-        const playPromise = audio.play();
+      if (!audioSrc || audioSrc === '') {
+        // No audio source, check if we can get it from the meditation
+        const audioUrl = currentMeditation?.attributes?.AudioFile?.data?.attributes?.url || 
+                      currentMeditation?.attributes?.Media?.data?.attributes?.url;
         
-        // Modern browsers return a promise from play()
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              console.log('Audio playback started successfully');
-              setIsPlaying(true);
-              setPlayError(null);
-            })
-            .catch(error => {
-              console.error('Error playing audio:', error);
-              setIsPlaying(false);
-              setPlayError(error.message || 'Failed to play audio');
-              
-              // If it's an autoplay policy error, provide specific feedback
-              if (error.name === 'NotAllowedError') {
-                console.warn('Autoplay policy prevented playback. User interaction required.');
-              }
-            });
+        if (!audioUrl) {
+          setPlayError(`No audio URL found for meditation: ${currentMeditation?.attributes?.Title}`);
+          return;
         } else {
-          // Older browsers don't return a promise
-          setIsPlaying(true);
+          // We have a URL but it's not loaded yet, load it and try to play
+          const proxiedUrl = getProxiedAudioUrl(audioUrl);
+          audio.src = proxiedUrl;
+          audio.load();
+          
+          // Try to play when ready with multiple attempts
+          tryPlayWhenReady();
+          return;
         }
-      } catch (error) {
-        console.error('Unexpected error playing audio:', error);
-        setIsPlaying(false);
-        setPlayError(error.message || 'Failed to play audio');
+      } else {
+        // We have a source but it's not ready, try to play with retry
+        tryPlayWhenReady();
+        return;
       }
+    }
+    
+    // If we get here, audio is ready to play
+    try {
+      console.log('Attempting to play audio...');
+      const playPromise = audio.play();
+      
+      // Modern browsers return a promise from play()
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log('Audio playback started successfully');
+            setIsPlaying(true);
+            setPlayError(null);
+          })
+          .catch(error => {
+            console.error('Error playing audio:', error);
+            setIsPlaying(false);
+            setPlayError(error.message || 'Failed to play audio');
+            
+            // If it's an autoplay policy error, provide specific feedback
+            if (error.name === 'NotAllowedError') {
+              console.warn('Autoplay policy prevented playback. User interaction required.');
+            }
+          });
+      } else {
+        // Older browsers don't return a promise
+        setIsPlaying(true);
+      }
+    } catch (error) {
+      console.error('Unexpected error playing audio:', error);
+      setIsPlaying(false);
+      setPlayError(error.message || 'Failed to play audio');
     }
   };
 
@@ -241,15 +341,6 @@ export const AudioPlayerProvider = ({ children }) => {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // Play a specific meditation
-  const playMeditation = (meditation) => {
-    console.log('Playing meditation:', meditation?.attributes?.Title);
-    setCurrentMeditation(meditation);
-    setIsReady(false);
-    setHasEnded(false);
-    setPlayError(null);
-  };
-
   const value = {
     currentMeditation,
     isPlaying,
@@ -263,6 +354,7 @@ export const AudioPlayerProvider = ({ children }) => {
     togglePlay,
     seekTo,
     playMeditation,
+    tryPlayWhenReady
   };
 
   return (

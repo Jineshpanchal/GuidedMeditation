@@ -33,7 +33,7 @@ const getImageUrl = (imageData) => {
 };
 
 export default function TeacherPage({ teacher, meditations }) {
-  const { playMeditation, togglePlay, currentMeditation, isPlaying, isReady } = useAudioPlayer();
+  const { playMeditation, togglePlay, currentMeditation, isPlaying, isReady, tryPlayWhenReady } = useAudioPlayer();
   const [playingStates, setPlayingStates] = useState({});
   const [listenedCounts, setListenedCounts] = useState({});
   
@@ -108,23 +108,16 @@ export default function TeacherPage({ teacher, meditations }) {
     } else {
       // Otherwise, set this as the current meditation and play it
       playMeditation(meditation);
-      // Increased delay to ensure the audio is loaded before playing
+      
+      // Try playing with retry logic
       setTimeout(() => {
-        // Check if audio is ready before toggling play
         if (isReady) {
           togglePlay();
         } else {
-          console.log('Waiting for audio to be ready...');
-          // Additional wait and check
-          setTimeout(() => {
-            if (isReady) {
-              togglePlay();
-            } else {
-              console.warn('Audio still not ready after extended wait');
-            }
-          }, 1000);
+          // Not ready yet, use retry logic
+          tryPlayWhenReady();
         }
-      }, 500);
+      }, 100);
     }
   };
 

@@ -39,7 +39,7 @@ const getImageUrl = (imageData) => {
 const TrendingMeditationCard = ({ meditation }) => {
   const [isThisPlaying, setIsThisPlaying] = useState(false);
   const [listenedCount, setListenedCount] = useState(parseInt(meditation?.attributes?.Listened || '0', 10));
-  const { playMeditation, togglePlay, currentMeditation, isPlaying, isReady } = useAudioPlayer();
+  const { playMeditation, togglePlay, currentMeditation, isPlaying, isReady, tryPlayWhenReady } = useAudioPlayer();
   
   const featuredImageUrl = meditation.attributes.FeaturedImage?.data 
     ? getImageUrl(meditation.attributes.FeaturedImage.data)
@@ -107,23 +107,15 @@ const TrendingMeditationCard = ({ meditation }) => {
       // Otherwise, set this as the current meditation and play it
       playMeditation(meditation);
       
-      // Increased delay to ensure the audio is loaded before playing
+      // Try playing with retry logic
       setTimeout(() => {
-        // Check if audio is ready before toggling play
         if (isReady) {
           togglePlay();
         } else {
-          console.log('Waiting for audio to be ready...');
-          // Additional wait and check
-          setTimeout(() => {
-            if (isReady) {
-              togglePlay();
-            } else {
-              console.warn('Audio still not ready after extended wait');
-            }
-          }, 1000);
+          // Not ready yet, use retry logic
+          tryPlayWhenReady();
         }
-      }, 500);
+      }, 100);
     }
   };
 

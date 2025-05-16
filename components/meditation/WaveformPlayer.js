@@ -12,6 +12,8 @@ const WaveformPlayer = ({ meditation }) => {
     seekTo, 
     formatTime,
     playMeditation,
+    tryPlayWhenReady,
+    isReady,
     playError 
   } = useAudioPlayer();
   
@@ -138,12 +140,20 @@ const WaveformPlayer = ({ meditation }) => {
     updateListenedCount();
     
     if (!isCurrentMeditation) {
+      // Set up the meditation first
       playMeditation(meditation);
-      // Allow time for the meditation to load before playing
+      
+      // Then try to play it when ready
       setTimeout(() => {
-        togglePlay();
-      }, 300);
+        if (isReady) {
+          togglePlay();
+        } else {
+          // Try playing with retry logic if not ready yet
+          tryPlayWhenReady();
+        }
+      }, 100);
     } else {
+      // Already the current meditation, just toggle play state
       togglePlay();
     }
   };
