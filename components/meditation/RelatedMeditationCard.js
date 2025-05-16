@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
+import axios from 'axios';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
 const getImageUrl = (imageData) => {
@@ -37,7 +38,8 @@ const getImageUrl = (imageData) => {
 
 const RelatedMeditationCard = ({ meditation }) => {
   const [isThisPlaying, setIsThisPlaying] = useState(false);
-  const { playMeditation, togglePlay, currentMeditation, isPlaying } = useAudioPlayer();
+  const [listenedCount, setListenedCount] = useState(parseInt(meditation?.attributes?.Listened || '0', 10));
+  const { playMeditation, togglePlay, currentMeditation, isPlaying, isReady } = useAudioPlayer();
   
   // Extract meditation details
   const title = meditation.attributes.Title || 'Guided Meditation';
@@ -84,9 +86,31 @@ const RelatedMeditationCard = ({ meditation }) => {
     );
   }, [isPlaying, currentMeditation, meditation.id]);
   
+  // Function to update Listened count when play is clicked
+  const updateListenedCount = async () => {
+    try {
+      const response = await axios.post('/api/meditation/interaction', {
+        meditationId: meditation.id,
+        action: 'listened',
+      });
+      
+      if (response.data.success) {
+        const newCount = response.data.data.listened;
+        setListenedCount(newCount);
+      }
+    } catch (error) {
+      console.error('Failed to update listened count:', error);
+    }
+  };
+  
   const handlePlayClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Update listen count when playing a new meditation
+    if (!currentMeditation || currentMeditation.id !== meditation.id) {
+      updateListenedCount();
+    }
     
     // If this is already the current meditation, just toggle play/pause
     if (currentMeditation && currentMeditation.id === meditation.id) {
@@ -94,10 +118,24 @@ const RelatedMeditationCard = ({ meditation }) => {
     } else {
       // Otherwise, set this as the current meditation and play it
       playMeditation(meditation);
-      // Small delay to ensure the audio is loaded before playing
+      
+      // Increased delay to ensure the audio is loaded before playing
       setTimeout(() => {
-        togglePlay();
-      }, 100);
+        // Check if audio is ready before toggling play
+        if (isReady) {
+          togglePlay();
+        } else {
+          console.log('Waiting for audio to be ready...');
+          // Additional wait and check
+          setTimeout(() => {
+            if (isReady) {
+              togglePlay();
+            } else {
+              console.warn('Audio still not ready after extended wait');
+            }
+          }, 1000);
+        }
+      }, 500);
     }
   };
 
@@ -137,6 +175,22 @@ const RelatedMeditationCard = ({ meditation }) => {
             <p className="text-gray-600 text-sm line-clamp-2">
               {benefits || 'Experience the peace and tranquility of Raja Yoga meditation.'}
             </p>
+            
+            <div className="flex items-center mt-3 space-x-3 text-xs text-gray-500">
+              <span className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                  <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                </svg>
+                {listenedCount}
+              </span>
+              <span className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                </svg>
+                {meditation.attributes.like || '0'}
+              </span>
+            </div>
             
             {/* Play button in bottom right */}
             <button 

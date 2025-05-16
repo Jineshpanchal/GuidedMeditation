@@ -2,7 +2,7 @@ const axios = require('axios');
 const fs = require('fs').promises;
 
 const API_BASE_URL = 'https://webapp.brahmakumaris.com/api';
-const API_TOKEN = 'e8afa458e2e8652c4dc4825f99d7cf799032c77f6ef66bd6508a68f41c0219b3254a1cfad27a9eb8b53358ea971523adc4c8c2a78ca1eeaeb37ab3214862bb958eacd289aa50073349697300d856d0d8c6d4fa88ab394a5d4f52cdd99f68f5bf77ae1baf022f165201ccf9c11dcbac4f979e97ed4dd6d7d4625280a0769b7fc1';
+const API_TOKEN = '92b282ac1b112c731a88bbcc817b0582abc4a1bfc59d416628ab852cb6e7c7346103dd9cdd984de6e7b3dc911a8fd01f9e85f720eb820acb3beed2d67cf1a346f410e2faa0c80b8318d122ba52889473575bf85b37d3353292f9113b1d141c37f3dd28f5df8ba19d0aec35ce9ff4a6881fb64f647b5ef5f8c753ba63f2205322';
 
 const ENDPOINTS = [
   '/gm-ages?populate=*',

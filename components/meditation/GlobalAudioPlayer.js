@@ -28,7 +28,7 @@ const GlobalAudioPlayer = () => {
   // Navigate to meditation page when clicking on title
   const navigateToMeditation = () => {
     if (currentMeditation?.attributes?.Slug) {
-      router.push(`/rajyog-meditation/meditation/${currentMeditation.attributes.Slug}`);
+      router.push(`/rajyog-meditation/meditations/${currentMeditation.attributes.Slug}`);
     }
   };
 

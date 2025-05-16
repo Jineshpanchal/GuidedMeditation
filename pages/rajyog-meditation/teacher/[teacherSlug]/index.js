@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Layout from '../../../../components/layout/Layout';
 import { getTeachers, getTeacherBySlug, getMeditations } from '../../../../lib/api/strapi';
 import { useAudioPlayer } from '../../../../contexts/AudioPlayerContext';
+import axios from 'axios';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
 const getImageUrl = (imageData) => {
@@ -32,8 +33,9 @@ const getImageUrl = (imageData) => {
 };
 
 export default function TeacherPage({ teacher, meditations }) {
-  const { playMeditation, togglePlay, currentMeditation, isPlaying } = useAudioPlayer();
+  const { playMeditation, togglePlay, currentMeditation, isPlaying, isReady } = useAudioPlayer();
   const [playingStates, setPlayingStates] = useState({});
+  const [listenedCounts, setListenedCounts] = useState({});
   
   if (!teacher) {
     return <div>Teacher not found</div>;
@@ -41,6 +43,17 @@ export default function TeacherPage({ teacher, meditations }) {
 
   const teacherName = teacher.attributes.Name || 'Brahma Kumaris Teacher';
   const teacherDesignation = teacher.attributes.Designation || '';
+  
+  // Initialize listened counts from meditation data
+  useEffect(() => {
+    if (meditations && meditations.length > 0) {
+      const counts = {};
+      meditations.forEach(meditation => {
+        counts[meditation.id] = parseInt(meditation?.attributes?.Listened || '0', 10);
+      });
+      setListenedCounts(counts);
+    }
+  }, [meditations]);
   
   // Update the playing states when the current meditation changes
   useEffect(() => {
@@ -56,9 +69,38 @@ export default function TeacherPage({ teacher, meditations }) {
     }
   }, [isPlaying, currentMeditation, meditations]);
   
+  // Function to update Listened count when play is clicked
+  const updateListenedCount = async (meditationId) => {
+    try {
+      console.log('Updating listened count for meditation:', meditationId);
+      const response = await axios.post('/api/meditation/interaction', {
+        meditationId: meditationId,
+        action: 'listened',
+      });
+      
+      if (response.data.success) {
+        const newCount = response.data.data.listened;
+        console.log('New listened count:', newCount);
+        
+        // Update the local state
+        setListenedCounts(prevCounts => ({
+          ...prevCounts,
+          [meditationId]: newCount
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to update listened count:', error);
+    }
+  };
+  
   const handlePlayClick = (e, meditation) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Update listen count when playing a new meditation
+    if (!currentMeditation || currentMeditation.id !== meditation.id) {
+      updateListenedCount(meditation.id);
+    }
     
     // If this is already the current meditation, just toggle play/pause
     if (currentMeditation && currentMeditation.id === meditation.id) {
@@ -66,10 +108,23 @@ export default function TeacherPage({ teacher, meditations }) {
     } else {
       // Otherwise, set this as the current meditation and play it
       playMeditation(meditation);
-      // Small delay to ensure the audio is loaded before playing
+      // Increased delay to ensure the audio is loaded before playing
       setTimeout(() => {
-        togglePlay();
-      }, 100);
+        // Check if audio is ready before toggling play
+        if (isReady) {
+          togglePlay();
+        } else {
+          console.log('Waiting for audio to be ready...');
+          // Additional wait and check
+          setTimeout(() => {
+            if (isReady) {
+              togglePlay();
+            } else {
+              console.warn('Audio still not ready after extended wait');
+            }
+          }, 1000);
+        }
+      }, 500);
     }
   };
 
@@ -233,6 +288,22 @@ export default function TeacherPage({ teacher, meditations }) {
                         <span>{meditationTeacher}</span>
                       </div>
                       
+                      <div className="flex items-center mt-2 space-x-3 text-xs text-gray-500">
+                        <span className="flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                            <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                          </svg>
+                          {listenedCounts[meditation.id] || 0}
+                        </span>
+                        <span className="flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                          </svg>
+                          {meditation.attributes.like || 0}
+                        </span>
+                      </div>
+                      
                       {meditation.attributes.Trending && (
                         <div className="mt-2">
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-spiritual-light text-spiritual-dark">
@@ -385,8 +456,11 @@ export async function getStaticProps({ params }) {
       'fields[1]': 'Slug',
       'fields[2]': 'Duration',
       'fields[3]': 'Trending',
+      'fields[4]': 'Listened',
+      'fields[5]': 'like',
       'populate[FeaturedImage]': '*', // Get complete image data
-      'populate[Media]': '*',
+      'populate[Media]': '*', // Add Media population for audio files
+      'populate[AudioFile]': '*', // Also include AudioFile as fallback
       'populate[gm_rajyoga_teachers][fields][0]': 'Name',
       'populate[gm_rajyoga_teachers][fields][1]': 'Slug',
       'pagination[limit]': 40 // Limit to 40 meditations per teacher

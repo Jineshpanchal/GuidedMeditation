@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
+import axios from 'axios';
 
 const WaveformPlayer = ({ meditation }) => {
   const { 
@@ -19,12 +20,16 @@ const WaveformPlayer = ({ meditation }) => {
   const [progress, setProgress] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [audioUrl, setAudioUrl] = useState('');
+  const [listenedCount, setListenedCount] = useState(parseInt(meditation?.attributes?.Listened || '0', 10));
+  const [likeCount, setLikeCount] = useState(parseInt(meditation?.attributes?.like || '0', 10));
+  const [isLiked, setIsLiked] = useState(false);
+  const [playClicked, setPlayClicked] = useState(false);
   const intervalRef = useRef(null);
   
   const isCurrentMeditation = currentMeditation && currentMeditation.id === meditation.id;
   const displayDuration = isCurrentMeditation ? duration : (meditation.attributes.Duration * 60) || 300;
   
-  // Extract audio URL on component mount
+  // Extract audio URL and initialize counts on component mount
   useEffect(() => {
     const url = meditation?.attributes?.Media?.data?.attributes?.url || 
                 meditation?.attributes?.AudioFile?.data?.attributes?.url;
@@ -34,6 +39,10 @@ const WaveformPlayer = ({ meditation }) => {
     } else {
       console.warn(`No audio URL found for meditation: ${meditation?.attributes?.Title}`);
     }
+
+    // Initialize listened and like counts from meditation data
+    setListenedCount(parseInt(meditation?.attributes?.Listened || '0', 10));
+    setLikeCount(parseInt(meditation?.attributes?.like || '0', 10));
   }, [meditation]);
 
   // Update progress based on current time
@@ -74,8 +83,60 @@ const WaveformPlayer = ({ meditation }) => {
     };
   }, [isPlaying, isCurrentMeditation, currentTime, duration, isDragging]);
 
+  // Function to update Listened count when play is clicked
+  const updateListenedCount = async () => {
+    try {
+      if (!playClicked && meditation?.id) {
+        const response = await axios.post('/api/meditation/interaction', {
+          meditationId: meditation.id,
+          action: 'listened',
+        });
+        
+        if (response.data.success) {
+          const newCount = response.data.data.listened;
+          console.log('New listened count:', newCount);
+          setListenedCount(newCount);
+          setPlayClicked(true);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to update listened count:', error);
+    }
+  };
+
+  // Function to toggle like status
+  const toggleLike = async () => {
+    try {
+      if (meditation?.id) {
+        const newLikedState = !isLiked;
+        
+        const response = await axios.post('/api/meditation/interaction', {
+          meditationId: meditation.id,
+          action: 'like',
+          value: newLikedState
+        });
+        
+        if (response.data.success) {
+          const newCount = response.data.data.like;
+          console.log('New like count:', newCount);
+          setIsLiked(newLikedState);
+          setLikeCount(newCount);
+        } else {
+          // Revert UI state if the API call fails
+          setIsLiked(!newLikedState);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to update like count:', error);
+      // Revert UI state if the API call fails
+      setIsLiked(!isLiked);
+    }
+  };
+
   // Handle play/pause
   const handlePlayPause = () => {
+    updateListenedCount();
+    
     if (!isCurrentMeditation) {
       playMeditation(meditation);
       // Allow time for the meditation to load before playing
@@ -187,7 +248,7 @@ const WaveformPlayer = ({ meditation }) => {
         />
       </div>
       
-      {/* Controls */}
+      {/* Controls with added Stats */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
           {/* Rewind button */}
@@ -228,10 +289,46 @@ const WaveformPlayer = ({ meditation }) => {
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
             </svg>
           </button>
+          
+          {/* Like button */}
+          <button
+            onClick={toggleLike}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 shadow-sm transition-colors focus:outline-none ml-2"
+            aria-label={isLiked ? "Unlike" : "Like"}
+          >
+            {isLiked ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+              </svg>
+            )}
+          </button>
         </div>
         
-        <div className="text-sm font-medium text-gray-700">
-          {meditation.attributes.gm_language?.data?.attributes?.Name || 'English'} | {meditation.attributes.Duration || '5'} min
+        <div className="flex items-center space-x-4">
+          {/* Stats display */}
+          <div className="flex items-center text-sm text-gray-500">
+            <span className="flex items-center mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+              </svg>
+              {listenedCount}
+            </span>
+            <span className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mr-1 ${isLiked ? 'text-red-500' : ''}`} viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+              </svg>
+              {likeCount}
+            </span>
+          </div>
+          
+          <div className="text-sm font-medium text-gray-700">
+            {meditation.attributes.gm_language?.data?.attributes?.Name || 'English'} | {meditation.attributes.Duration || '5'} min
+          </div>
         </div>
       </div>
     </div>

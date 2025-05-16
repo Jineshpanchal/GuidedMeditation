@@ -155,8 +155,28 @@ export const AudioPlayerProvider = ({ children }) => {
 
   // Handle play/pause
   const togglePlay = () => {
-    if (!audio || !isReady) {
+    if (!audio) {
+      console.error('Cannot play: Audio element is not available');
+      setPlayError('Audio element is not available');
+      return;
+    }
+    
+    if (!isReady) {
       console.warn('Cannot play: Audio not ready or initialized');
+      // Check if we have valid audio source
+      const audioSrc = audio.src;
+      console.log('Current audio source:', audioSrc);
+      
+      // Check if meditation has valid audio URL
+      const audioUrl = currentMeditation?.attributes?.AudioFile?.data?.attributes?.url || 
+                    currentMeditation?.attributes?.Media?.data?.attributes?.url;
+      console.log('Meditation audio URL:', audioUrl);
+      
+      if (!audioUrl) {
+        setPlayError(`No audio URL found for meditation: ${currentMeditation?.attributes?.Title}`);
+      } else {
+        setPlayError('Audio is still loading. Please try again in a few seconds.');
+      }
       return;
     }
 
@@ -165,12 +185,14 @@ export const AudioPlayerProvider = ({ children }) => {
       setIsPlaying(false);
     } else {
       try {
+        console.log('Attempting to play audio...');
         const playPromise = audio.play();
         
         // Modern browsers return a promise from play()
         if (playPromise !== undefined) {
           playPromise
             .then(() => {
+              console.log('Audio playback started successfully');
               setIsPlaying(true);
               setPlayError(null);
             })
