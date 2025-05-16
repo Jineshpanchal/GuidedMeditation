@@ -10,11 +10,11 @@ const getImageUrl = (imageData) => {
   
   // Handle array structure
   if (Array.isArray(imageData) && imageData.length > 0) {
-    if (imageData[0].attributes?.formats?.Thumbnail?.url) {
-      return imageData[0].attributes.formats.Thumbnail.url;
-    }
     if (imageData[0].attributes?.formats?.HD?.url) {
       return imageData[0].attributes.formats.HD.url;
+    }
+    if (imageData[0].attributes?.formats?.Thumbnail?.url) {
+      return imageData[0].attributes.formats.Thumbnail.url;
     }
     if (imageData[0].attributes?.url) {
       return imageData[0].attributes.url;
@@ -22,11 +22,11 @@ const getImageUrl = (imageData) => {
   } 
   // Handle object structure
   else if (imageData.attributes) {
-    if (imageData.attributes.formats?.Thumbnail?.url) {
-      return imageData.attributes.formats.Thumbnail.url;
-    }
     if (imageData.attributes.formats?.HD?.url) {
       return imageData.attributes.formats.HD.url;
+    }
+    if (imageData.attributes.formats?.Thumbnail?.url) {
+      return imageData.attributes.formats.Thumbnail.url;
     }
     if (imageData.attributes.url) {
       return imageData.attributes.url;
