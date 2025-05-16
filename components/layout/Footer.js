@@ -93,7 +93,7 @@ const Footer = () => {
               <p>Brahma Kumaris World Spiritual University</p>
               <p>Global Headquarters</p>
               <p>Mount Abu, Rajasthan, India</p>
-              <p>Email: info@brahmakumaris.org</p>
+              <p>Email: contact@brahmakumaris.com</p>
             </address>
           </div>
         </div>
