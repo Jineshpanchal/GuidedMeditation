@@ -48,8 +48,8 @@ const Header = () => {
               About Raja Yoga
             </Link>
             <Link 
-              href="#" 
-              className="text-sm font-medium text-gray-600 hover:text-spiritual-dark"
+              href="/rajyog-meditation/teacher" 
+              className={`text-sm font-medium ${router.pathname.includes('/rajyog-meditation/teacher') ? 'text-spiritual-dark' : 'text-gray-600 hover:text-spiritual-dark'}`}
             >
               Teachers
             </Link>
@@ -89,8 +89,8 @@ const Header = () => {
               </li>
               <li>
                 <Link 
-                  href="#" 
-                  className="block text-sm font-medium text-gray-600"
+                  href="/rajyog-meditation/teacher" 
+                  className={`block text-sm font-medium ${router.pathname.includes('/rajyog-meditation/teacher') ? 'text-spiritual-dark' : 'text-gray-600'}`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Teachers
