@@ -53,6 +53,12 @@ const RelatedMeditationCard = ({ meditation }) => {
   const imageUrl = featuredImageUrl || coverImageUrl;
   const duration = meditation.attributes.Duration || '5';
   
+  // Get teacher information
+  const teacher = meditation.attributes.gm_rajyoga_teachers?.data && 
+                 meditation.attributes.gm_rajyoga_teachers.data.length > 0 ? 
+                 meditation.attributes.gm_rajyoga_teachers.data[0].attributes.Name : 
+                 '';
+  
   // Log audio sources for debugging
   useEffect(() => {
     const audioUrl = meditation.attributes.AudioFile?.data?.attributes?.url;
@@ -140,35 +146,33 @@ const RelatedMeditationCard = ({ meditation }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col">
-      <Link href={`/rajyog-meditation/meditations/${slug}`} onClick={handleNavigation}>
-        <div className="cursor-pointer flex-1">
-          {imageUrl ? (
-            <div className="h-48 overflow-hidden relative">
+    <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+      <Link href={`/rajyog-meditation/meditations/${slug}`} onClick={handleNavigation} className="block">
+        <div className="cursor-pointer">
+          <div className="aspect-w-16 aspect-h-9 bg-spiritual-light relative">
+            {imageUrl ? (
               <Image 
-                src={imageUrl} 
+                src={imageUrl}
                 alt={title}
                 className="object-cover"
                 fill
-                sizes="(max-width: 768px) 100vw, 25vw"
+                sizes="(max-width: 768px) 100vw, 33vw"
               />
-              <div className="absolute bottom-2 right-2 bg-white bg-opacity-90 rounded-full px-3 py-1 text-xs font-medium">
-                {duration} min
-              </div>
-            </div>
-          ) : (
-            <div className="h-48 bg-spiritual-light flex items-center justify-center">
-              <span className="text-spiritual-dark text-lg font-medium">Brahma Kumaris</span>
-            </div>
-          )}
+            ) : (
+              <div className="w-full h-full bg-pastel-gradient-2"></div>
+            )}
+          </div>
           
-          <div className="p-4 relative">
-            <h3 className="font-medium text-lg text-gray-900 mb-1">{title}</h3>
-            <p className="text-gray-600 text-sm line-clamp-2">
-              {benefits || 'Experience the peace and tranquility of Raja Yoga meditation.'}
-            </p>
+          <div className="p-4 flex-grow flex flex-col relative">
+            <div className="text-xs text-gray-500 mb-1">AUDIO: {duration} Minutes</div>
+            <h3 className="font-medium text-gray-900 mb-1">
+              {title}
+            </h3>
+            <div className="text-xs text-gray-500 flex items-center">
+              <span>{teacher}</span>
+            </div>
             
-            <div className="flex items-center mt-3 space-x-3 text-xs text-gray-500">
+            <div className="flex items-center mt-2 space-x-3 text-xs text-gray-500">
               <span className="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -182,30 +186,33 @@ const RelatedMeditationCard = ({ meditation }) => {
                 </svg>
                 {meditation.attributes.like || '0'}
               </span>
+              {meditation.attributes.Trending && (
+                <span className="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />
+                  </svg>
+                  Trending
+                </span>
+              )}
             </div>
             
             {/* Play button in bottom right */}
-            <button 
-              className="absolute bottom-4 right-4 w-12 h-12 bg-spiritual-dark rounded-full flex items-center justify-center shadow-md hover:bg-spiritual-dark/90 transition-colors z-10"
+            <button
               onClick={handlePlayClick}
+              className={`absolute bottom-2 right-2 p-2 rounded-full w-9 h-9 flex items-center justify-center transition-colors ${
+                isThisPlaying 
+                  ? 'bg-spiritual-dark text-white' 
+                  : 'bg-spiritual-light text-spiritual-dark hover:bg-spiritual-dark hover:text-white'
+              }`}
               aria-label={isThisPlaying ? "Pause meditation" : "Play meditation"}
             >
               {isThisPlaying ? (
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-5 w-5 text-white" 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <rect x="6" y="4" width="4" height="16" />
+                  <rect x="14" y="4" width="4" height="16" />
                 </svg>
               ) : (
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-5 w-5 text-white" 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               )}

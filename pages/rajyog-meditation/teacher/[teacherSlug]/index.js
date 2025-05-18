@@ -255,83 +255,80 @@ export default function TeacherPage({ teacher, meditations }) {
                 const isThisPlaying = playingStates[meditation.id] || false;
                 
                 return (
-                  <div key={meditation.id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col">
+                  <div key={meditation.id} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
                     <Link href={`/rajyog-meditation/meditations/${meditation.attributes.Slug}`} className="block">
-                      <div className="aspect-w-16 aspect-h-9 bg-pink-100 relative">
-                        {meditation.attributes.FeaturedImage?.data?.attributes?.url ? (
-                          <img 
-                            src={getImageUrl(meditation.attributes.FeaturedImage.data)}
-                            alt={meditation.attributes.Title || 'Meditation'} 
-                            className="w-full h-full object-cover"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-pink-100"></div>
-                        )}
+                      <div className="cursor-pointer">
+                        <div className="aspect-w-16 aspect-h-9 bg-spiritual-light relative">
+                          {meditation.attributes.FeaturedImage?.data?.attributes?.url ? (
+                            <img 
+                              src={getImageUrl(meditation.attributes.FeaturedImage.data)}
+                              alt={meditation.attributes.Title || 'Meditation'} 
+                              className="w-full h-full object-cover"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-pastel-gradient-2"></div>
+                          )}
+                        </div>
+                        <div className="p-4 flex-grow flex flex-col relative">
+                          <div className="text-xs text-gray-500 mb-1">
+                            AUDIO: {meditation.attributes.Duration || '5'} Minutes
+                          </div>
+                          <h3 className="font-medium text-gray-900 mb-1">
+                            {meditation.attributes.Title || 'Guided Meditation'}
+                          </h3>
+                          <div className="text-xs text-gray-500 flex items-center">
+                            <span>{meditationTeacher}</span>
+                          </div>
+                          
+                          <div className="flex items-center mt-2 space-x-3 text-xs text-gray-500">
+                            <span className="flex items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                              </svg>
+                              {listenedCounts[meditation.id] || 0}
+                            </span>
+                            <span className="flex items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                              </svg>
+                              {meditation.attributes.like || 0}
+                            </span>
+                            {meditation.attributes.Trending && (
+                              <span className="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />
+                                </svg>
+                                Trending
+                              </span>
+                            )}
+                          </div>
+                          
+                          {/* Play button in bottom right */}
+                          <button 
+                            className={`absolute bottom-2 right-2 p-2 rounded-full w-9 h-9 flex items-center justify-center transition-colors ${
+                              isThisPlaying 
+                                ? 'bg-spiritual-dark text-white' 
+                                : 'bg-spiritual-light text-spiritual-dark hover:bg-spiritual-dark hover:text-white'
+                            }`}
+                            onClick={(e) => handlePlayClick(e, meditation)}
+                            aria-label={isThisPlaying ? "Pause meditation" : "Play meditation"}
+                          >
+                            {isThisPlaying ? (
+                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <rect x="6" y="4" width="4" height="16" />
+                                <rect x="14" y="4" width="4" height="16" />
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            )}
+                          </button>
+                        </div>
                       </div>
                     </Link>
-                    <div className="p-4 flex-grow flex flex-col relative">
-                      <div className="text-xs text-gray-500 mb-1">
-                        AUDIO: {meditation.attributes.Duration || '5'} Minutes
-                      </div>
-                      <h3 className="font-medium text-gray-900 mb-1">
-                        {meditation.attributes.Title || 'Guided Meditation'}
-                      </h3>
-                      <div className="text-xs text-gray-500 flex items-center">
-                        <span>{meditationTeacher}</span>
-                      </div>
-                      
-                      <div className="flex items-center mt-2 space-x-3 text-xs text-gray-500">
-                        <span className="flex items-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                            <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
-                          </svg>
-                          {listenedCounts[meditation.id] || 0}
-                        </span>
-                        <span className="flex items-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                          </svg>
-                          {meditation.attributes.like || 0}
-                        </span>
-                      </div>
-                      
-                      {meditation.attributes.Trending && (
-                        <div className="mt-2">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-spiritual-light text-spiritual-dark">
-                            Trending
-                          </span>
-                        </div>
-                      )}
-                      
-                      {/* Play button in bottom right */}
-                      <button 
-                        className="absolute bottom-4 right-4 w-12 h-12 bg-spiritual-dark rounded-full flex items-center justify-center shadow-md hover:bg-spiritual-dark/90 transition-colors z-10"
-                        onClick={(e) => handlePlayClick(e, meditation)}
-                        aria-label={isThisPlaying ? "Pause meditation" : "Play meditation"}
-                      >
-                        {isThisPlaying ? (
-                          <svg 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            className="h-5 w-5 text-white" 
-                            fill="currentColor" 
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-                          </svg>
-                        ) : (
-                          <svg 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            className="h-5 w-5 text-white" 
-                            fill="currentColor" 
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        )}
-                      </button>
-                    </div>
                   </div>
                 );
               })}
