@@ -178,7 +178,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
                 <div className="mb-8 mt-6">
                   <Link href={`/rajyog-meditation/teacher/${teacherInfo.slug}`}>
                     <div className="flex items-start bg-gray-50 p-5 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer">
-                      <div className="flex-shrink-0 h-24 w-24 rounded-full overflow-hidden bg-spiritual-light mr-5">
+                      <div className="flex-shrink-0 w-24 aspect-square rounded-full overflow-hidden bg-spiritual-light mr-5">
                         {teacherInfo.image ? (
                           <img 
                             src={teacherInfo.image}
@@ -357,7 +357,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
             </h2>
             
             <div className="flex flex-col md:flex-row items-start md:items-center mb-8">
-              <div className="flex-shrink-0 h-32 w-32 rounded-full overflow-hidden bg-spiritual-light mr-4 mb-4 md:mb-0">
+              <div className="flex-shrink-0 w-32 aspect-square rounded-full overflow-hidden bg-spiritual-light mr-4 mb-4 md:mb-0">
                 {teacher.attributes.FeaturedImage?.data ? (
                   <img 
                     src={getImageUrl(teacher.attributes.FeaturedImage.data)}
@@ -430,7 +430,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
                 <div key={t.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                   <Link href={`/rajyog-meditation/teacher/${t.attributes.Slug || ''}`}>
                     <div className="cursor-pointer">
-                      <div className="w-full h-48 overflow-hidden bg-pink-100 relative">
+                      <div className="w-full aspect-square overflow-hidden bg-pink-100 relative">
                         {t.attributes.FeaturedImage?.data ? (
                           <img 
                             src={getImageUrl(t.attributes.FeaturedImage.data)}
