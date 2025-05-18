@@ -76,46 +76,75 @@ export default function AgeGroupPage({
       </Head>
 
       {/* Hero Section */}
-      <section 
-        className="relative py-12 md:py-20 overflow-hidden"
-      >
-        {/* Background Image with Blur */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-spiritual-light/10 to-white py-16 md:py-24">
+        {/* Background Image with Parallax Effect */}
         {ageGroup.attributes.featuredimage?.data && (
           <div 
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-center opacity-20 md:opacity-30"
             style={{ 
               backgroundImage: `url(${getImageUrl(ageGroup.attributes.featuredimage.data)})`,
-              filter: 'blur(8px)',
-              transform: 'scale(1.1)' // Prevent blur from showing edges
+              transform: 'translateZ(0)',
             }}
-          />
+          >
+            {/* Decorative elements */}
+            <div className="absolute inset-0 bg-gradient-radial from-spiritual-light/30 to-transparent"></div>
+            
+            {/* Subtle geometric patterns */}
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'radial-gradient(circle at 20% 80%, rgba(147, 51, 234, 0.07) 0%, transparent 25%), radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 25%)'
+            }}></div>
+          </div>
         )}
         
-        {/* Gradient Overlay - Fades from white */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/0 via-white/80 to-white md:bg-gradient-to-l md:from-white/0 md:via-white/10 md:to-white"></div>
-
         {/* Content Container */}
         <div className="container-custom relative z-10">
-          <div className="flex flex-col md:flex-row md:items-center">
-            <div className="md:w-1/2 mb-8 md:mb-0">
-              <Link href="/rajyog-meditation" className="inline-flex items-center text-sm text-gray-700 hover:text-spiritual-dark mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+          <div className="mx-auto max-w-6xl">
+            {/* Breadcrumb Navigation */}
+            <nav className="mb-8 transition-all hover:opacity-80">
+              <Link href="/rajyog-meditation" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-sm font-medium text-gray-700 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:text-spiritual-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
                 </svg>
                 Go back to Home Page
               </Link>
-              <h1 className="text-3xl md:text-4xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-500 mb-4 animate-gradient-flow">
-                {ageGroupName}
-              </h1>
-              <p className="text-lg text-gray-800 mb-6">
-                {ageGroupDescription}
-              </p>
-              <div className="inline-block rounded-full bg-white bg-opacity-30 backdrop-blur-sm px-4 py-2 text-sm font-medium text-gray-800">
-                {ageGroup.attributes.spectrum}
+            </nav>
+            
+            <div className="flex flex-col-reverse gap-12 md:flex-row md:items-center">
+              {/* Content Column */}
+              <div className="md:w-1/2">
+                <div className="relative">
+                  <div className="absolute -left-6 top-0 h-20 w-20 rounded-full bg-spiritual-light/20 blur-xl"></div>
+                  <h1 className="relative text-4xl font-display font-bold md:text-5xl lg:text-6xl">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 animate-gradient-flow">
+                      {ageGroupName}
+                    </span>
+                  </h1>
+                </div>
+                
+                <p className="mt-6 text-lg leading-relaxed text-gray-700 md:pr-8">
+                  {ageGroupDescription}
+                </p>
+                
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <div className="inline-flex items-center rounded-full bg-white/90 px-5 py-2.5 text-sm font-medium text-gray-800 shadow-sm backdrop-blur-sm">
+                    <span className="mr-2 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600"></span>
+                    {ageGroup.attributes.spectrum}
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="md:w-1/2 md:pl-12">
-              <div className="rounded-lg overflow-hidden shadow-lg">
+              
+              {/* Image Column */}
+              <div className="md:w-1/2">
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                  {ageGroup.attributes.featuredimage?.data && (
+                    <div className="absolute inset-0 bg-cover bg-center transform transition-all"
+                      style={{ 
+                        backgroundImage: `url(${getImageUrl(ageGroup.attributes.featuredimage.data)})`,
+                      }}
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-purple-900/30 to-transparent mix-blend-multiply"></div>
+                </div>
               </div>
             </div>
           </div>

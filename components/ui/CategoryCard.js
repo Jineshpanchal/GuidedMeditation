@@ -7,6 +7,10 @@ const CategoryCard = ({ category, ageGroup }) => {
   const featuredImageUrl = FeaturedImage?.data?.attributes?.url;
   const categoryName = CategoryDisplay || Category;
   
+  // Get image dimensions for proper aspect ratio
+  const imageWidth = FeaturedImage?.data?.attributes?.width || 400;
+  const imageHeight = FeaturedImage?.data?.attributes?.height || 300;
+  
   // Extract text from ShortIntro that could be a string or rich text object
   const shortIntroText = typeof ShortIntro === 'string' 
     ? ShortIntro 
@@ -15,19 +19,22 @@ const CategoryCard = ({ category, ageGroup }) => {
   return (
     <Link href={`/rajyog-meditation/${ageGroup}/${slug}`}>
       <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:transform hover:scale-[1.02] group h-full flex flex-col">
-        <div className="h-32 bg-spiritual-light relative overflow-hidden">
+        <div className="bg-spiritual-light relative overflow-hidden flex justify-center">
           {featuredImageUrl ? (
-            <Image 
-              src={featuredImageUrl}
-              alt={categoryName || 'Category'}
-              className="object-cover transition-transform duration-300 group-hover:scale-110"
-              fill
-              sizes="(max-width: 768px) 100vw, 33vw"
-            />
+            <div className="w-full relative">
+              <Image 
+                src={featuredImageUrl}
+                alt={categoryName || 'Category'}
+                width={imageWidth}
+                height={imageHeight}
+                className="w-full transition-transform duration-300 group-hover:scale-110"
+                style={{ objectFit: 'contain' }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+            </div>
           ) : (
-            <div className="w-full h-full bg-pastel-gradient-2"></div>
+            <div className="w-full h-48 bg-pastel-gradient-2"></div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
         </div>
         
         <div className="p-4 flex-grow">
