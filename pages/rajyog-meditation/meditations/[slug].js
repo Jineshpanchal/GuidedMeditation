@@ -4,9 +4,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Layout from '../../../components/layout/Layout';
 import WaveformPlayer from '../../../components/meditation/WaveformPlayer';
-import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
-import { getMeditations, getMeditationBySlug, getTeacherById, getTeachers, getLanguages } from '../../../lib/api/strapi';
 import RelatedMeditationCard from '../../../components/meditation/RelatedMeditationCard';
+import TeacherCard from '../../../components/ui/TeacherCard';
+import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
+import axios from 'axios';
+import { 
+  getMeditations, 
+  getMeditationBySlug, 
+  getTeacherById, 
+  getTeachers 
+} from '../../../lib/api/strapi';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
 const getImageUrl = (imageData) => {
@@ -34,7 +41,7 @@ const getImageUrl = (imageData) => {
   return '/images/placeholder.jpg';
 };
 
-export default function MeditationPage({ meditation, relatedMeditations, teacher, teacherMeditations, teachers }) {
+export default function MeditationPage({ meditation, relatedMeditations, teacher, teacherMeditations, teachers, meditationCounts }) {
   const { playMeditation, togglePlay, isPlaying, currentMeditation, hasEnded } = useAudioPlayer();
   
   if (!meditation) {
@@ -422,48 +429,16 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
         <section className="py-12 bg-gradient-to-br from-spiritual-light/10 to-blue-50">
           <div className="container-custom">
             <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 mb-8 text-left">
-              Rajyoga Meditation Teacher :
+              Rajyoga Meditation Teachers
             </h2>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {teachers.map(t => (
-                <div key={t.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                  <Link href={`/rajyog-meditation/teacher/${t.attributes.Slug || ''}`}>
-                    <div className="cursor-pointer">
-                      <div className="w-full aspect-square overflow-hidden bg-pink-100 relative">
-                        {t.attributes.FeaturedImage?.data ? (
-                          <img 
-                            src={getImageUrl(t.attributes.FeaturedImage.data)}
-                            alt={t.attributes.Name}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.style.display = 'none';
-                              e.target.parentNode.classList.add('bg-spiritual-light');
-                              e.target.parentNode.innerHTML = `<div class="h-full w-full flex items-center justify-center"><span class="text-spiritual-dark font-bold text-3xl">${t.attributes.Name ? t.attributes.Name.charAt(0) : 'BK'}</span></div>`;
-                            }}
-                          />
-                        ) : (
-                          <div className="h-full w-full flex items-center justify-center bg-spiritual-light">
-                            <span className="text-spiritual-dark font-bold text-3xl">
-                              {t.attributes.Name ? t.attributes.Name.charAt(0) : 'BK'}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div className="p-4">
-                        <h3 className="font-medium text-lg text-gray-900 mb-1">{t.attributes.Name}</h3>
-                        {t.attributes.Designation && (
-                          <p className="text-sm text-gray-600 mb-2">{t.attributes.Designation}</p>
-                        )}
-                        {t.attributes.ShortIntro && typeof t.attributes.ShortIntro === 'string' && (
-                          <p className="text-sm text-gray-700 line-clamp-2 mb-3">{t.attributes.ShortIntro}</p>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
-                </div>
+                <TeacherCard 
+                  key={t.id} 
+                  teacher={t} 
+                  meditationCount={meditationCounts[t.id] || 0}
+                />
               ))}
             </div>
           </div>
@@ -507,6 +482,7 @@ export async function getStaticProps({ params }) {
       'populate[gm_categories]': '*',
       'populate[gm_language]': '*',
       'populate[gm_rajyoga_teacher]': '*',
+      'populate[gm_rajyoga_teachers]': '*', // Make sure to populate teachers relationship
       'populate[CommentaryLyrics]': '*',
       'populate[BenefitsBig]': '*',
       'populate[BenefitsShort]': '*'
@@ -590,8 +566,30 @@ export async function getStaticProps({ params }) {
       console.log("No teacher data found in the meditation");
     }
     
+    // Get meditation's teachers from gm_rajyoga_teachers relationship
+    let meditationTeacherIds = [];
+    
+    // Check for teachers in both possible relationships
+    if (meditation.attributes.gm_rajyoga_teachers?.data) {
+      // It could be an array or a single object
+      if (Array.isArray(meditation.attributes.gm_rajyoga_teachers.data)) {
+        meditationTeacherIds = meditation.attributes.gm_rajyoga_teachers.data.map(t => t.id);
+      } else if (meditation.attributes.gm_rajyoga_teachers.data.id) {
+        meditationTeacherIds = [meditation.attributes.gm_rajyoga_teachers.data.id];
+      }
+    }
+    
+    if (meditation.attributes.gm_rajyoga_teacher?.data?.id) {
+      meditationTeacherIds.push(meditation.attributes.gm_rajyoga_teacher.data.id);
+    }
+    
+    // Remove duplicates
+    meditationTeacherIds = [...new Set(meditationTeacherIds)];
+    
+    console.log(`Meditation teacher IDs: ${meditationTeacherIds.join(', ')}`);
+    
     // Get all teachers for the teachers grid with formats specifically targeted
-    const teachers = await getTeachers({
+    let teachers = await getTeachers({
       'fields[0]': 'Name',
       'fields[1]': 'Slug',
       'fields[2]': 'Designation',
@@ -600,38 +598,57 @@ export async function getStaticProps({ params }) {
       'pagination[limit]': 20
     });
     
-    console.log(`Found ${teachers.length} teachers with populated image data`);
-    
-    // Log first teacher to debug image structure
-    if (teachers.length > 0) {
-      console.log("First teacher image data structure:", 
-        JSON.stringify({
-          name: teachers[0].attributes.Name,
-          hasData: !!teachers[0].attributes.FeaturedImage?.data,
-          dataType: teachers[0].attributes.FeaturedImage?.data ? 
-            (Array.isArray(teachers[0].attributes.FeaturedImage.data) ? 'array' : 'object') : 'none',
-          imageUrl: getImageUrl(teachers[0].attributes.FeaturedImage?.data)
-        }));
+    // Filter teachers to only include those who guided this meditation
+    if (meditationTeacherIds.length > 0) {
+      teachers = teachers.filter(t => meditationTeacherIds.includes(t.id));
     }
     
-    // Get language information
-    const languages = await getLanguages();
-    const meditationLanguage = meditation.attributes.gm_language?.data;
-    const languageInfo = meditationLanguage 
-      ? languages.find(l => l.id === meditationLanguage.id)
-      : null;
+    console.log(`Found ${teachers.length} teachers for this meditation`);
     
-    if (languageInfo) {
-      meditation.attributes.gm_language.data = languageInfo;
-    }
+    // Create a map to store meditation counts for each teacher
+    const meditationCounts = {};
+    
+    // Fetch all meditations with teacher relationships in a single query
+    const allMeditations = await getMeditations({
+      'fields[0]': 'id',  // Only get ID to minimize data
+      'populate[gm_rajyoga_teachers][fields][0]': 'id', // Only populate teacher IDs
+      'populate[gm_rajyoga_teacher][fields][0]': 'id', // Also check the singular relationship
+      'pagination[limit]': 500 // Higher limit to get all
+    });
+    
+    // Process all meditations and count by teacher
+    allMeditations.forEach(med => {
+      // Check both possible teacher relationships
+      
+      // Check plural relationship first
+      const medTeachers = med.attributes?.gm_rajyoga_teachers?.data;
+      if (medTeachers) {
+        if (Array.isArray(medTeachers)) {
+          medTeachers.forEach(t => {
+            if (t && t.id) {
+              meditationCounts[t.id] = (meditationCounts[t.id] || 0) + 1;
+            }
+          });
+        } else if (medTeachers.id) {
+          meditationCounts[medTeachers.id] = (meditationCounts[medTeachers.id] || 0) + 1;
+        }
+      }
+      
+      // Check singular relationship
+      const medTeacher = med.attributes?.gm_rajyoga_teacher?.data;
+      if (medTeacher && medTeacher.id) {
+        meditationCounts[medTeacher.id] = (meditationCounts[medTeacher.id] || 0) + 1;
+      }
+    });
     
     return {
       props: {
         meditation,
-        relatedMeditations: relatedMeditations || [],
-        teacher: teacher || null,
-        teacherMeditations: teacherMeditations || [],
-        teachers: teachers || [],
+        relatedMeditations,
+        teacher,
+        teacherMeditations,
+        teachers,
+        meditationCounts
       },
       revalidate: 60, // Revalidate every minute
     };
