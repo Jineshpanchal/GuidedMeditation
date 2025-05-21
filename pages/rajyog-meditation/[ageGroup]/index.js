@@ -9,7 +9,8 @@ import {
   getAgeGroups, 
   getCategoriesByAgeGroup, 
   getTrendingMeditationsByAgeGroup,
-  getMeditationsByCategory 
+  getMeditationsByCategory,
+  getMeditations
 } from '../../../lib/api/strapi';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
@@ -41,8 +42,8 @@ const getImageUrl = (imageData) => {
 export default function AgeGroupPage({ 
   ageGroup, 
   categories, 
-  trendingMeditations
-  // categoryMeditations removed for performance
+  trendingMeditations,
+  meditationCounts
 }) {
   const [scrolled, setScrolled] = useState(false);
   
@@ -226,6 +227,7 @@ export default function AgeGroupPage({
                 key={category.id} 
                 category={category} 
                 ageGroup={ageGroup.attributes.slug}
+                meditationCount={meditationCounts[category.id] || 0}
               />
             ))}
           </div>
@@ -268,8 +270,6 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { ageGroup: ageGroupSlug } = params;
   
-  // Get the age group data with only necessary fields populated
-  // Ensure we get a properly formatted ShortBio field
   try {
     const ageGroups = await getAgeGroups({
       'filters[slug][$eq]': ageGroupSlug,
@@ -277,7 +277,7 @@ export async function getStaticProps({ params }) {
       'fields[1]': 'spectrum',
       'fields[2]': 'slug',
       'fields[3]': 'ShortBio',
-      'populate[featuredimage][fields][0]': 'url', // Only get the URL, not all image formats
+      'populate[featuredimage][fields][0]': 'url',
     });
     
     let ageGroup = ageGroups.find(
@@ -294,7 +294,6 @@ export async function getStaticProps({ params }) {
     if (ageGroup.attributes.ShortBio && 
         typeof ageGroup.attributes.ShortBio === 'object' && 
         !Array.isArray(ageGroup.attributes.ShortBio)) {
-      // Handle non-array object format
       ageGroup = {
         ...ageGroup,
         attributes: {
@@ -309,12 +308,31 @@ export async function getStaticProps({ params }) {
     
     // Get trending meditations for this age group
     const trendingMeditations = await getTrendingMeditationsByAgeGroup(ageGroupSlug);
+
+    // Create a map to store meditation counts for each category
+    const meditationCounts = {};
+    
+    // Fetch meditation counts for each category
+    await Promise.all(categories.map(async (category) => {
+      try {
+        // Get meditations by category ID instead of slug
+        const meditations = await getMeditations({
+          'filters[gm_categories][id][$eq]': category.id,
+          'fields[0]': 'id' // Only fetch IDs for counting
+        });
+        meditationCounts[category.id] = meditations.length;
+      } catch (error) {
+        console.error(`Error fetching meditations for category ${category.attributes.slug}:`, error);
+        meditationCounts[category.id] = 0;
+      }
+    }));
     
     return {
       props: {
         ageGroup,
         categories,
         trendingMeditations,
+        meditationCounts
       },
       revalidate: 60 * 60, // Revalidate every hour
     };
