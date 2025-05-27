@@ -85,7 +85,7 @@ export default function AgeGroupPage({
       </Head>
 
       {/* Spiritual Hero Section with Enhanced Visual Effects */}
-      <section className="relative min-h-[60vh] md:min-h-[65vh] flex items-center py-12 md:py-16 overflow-hidden">
+      <section className="hero-section relative min-h-[70vh] md:min-h-[80vh] flex items-center overflow-hidden">
         {/* Animated Background Layers */}
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-900 to-pink-800 opacity-90"></div>
         
@@ -118,7 +118,7 @@ export default function AgeGroupPage({
         <div className="absolute inset-0 bg-[url('/images/sacred-geometry.png')] bg-repeat opacity-5"></div>
         
         {/* Content Container with Elegant Layout */}
-        <div className="container-custom relative z-10">
+        <div className="container-custom relative z-10 py-8 md:py-16">
           {/* Spiritual Glow Effect */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-64 rounded-full bg-purple-300/10 blur-3xl"></div>
           

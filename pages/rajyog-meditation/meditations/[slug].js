@@ -109,8 +109,8 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
 
       {/* Hero Section with Featured Image */}
       <section className="relative">
-        {/* Featured Image or Cover Image */}
-        <div className="h-64 md:h-96 w-full relative bg-spiritual-light overflow-hidden">
+        {/* Featured Image or Cover Image - starts from very top */}
+        <div className="h-96 md:h-[32rem] w-full relative bg-spiritual-light overflow-hidden">
           {(featuredImageUrl || coverImageUrl) ? (
             <Image 
               src={featuredImageUrl || coverImageUrl}
@@ -127,8 +127,8 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
           <div className="absolute inset-0 bg-black bg-opacity-30" />
         </div>
         
-        {/* Content overlay */}
-        <div className="absolute inset-0 flex items-center">
+        {/* Content overlay - positioned below header */}
+        <div className="absolute inset-0 flex items-center pt-28 md:pt-32">
           <div className="container-custom text-white">
             <Link href="/rajyog-meditation" className="inline-flex items-center text-sm text-white hover:text-gray-200 mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">

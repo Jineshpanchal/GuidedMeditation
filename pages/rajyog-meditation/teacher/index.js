@@ -54,7 +54,7 @@ export default function TeachersIndexPage({ teachers, meditationCounts }) {
       </Head>
 
       {/* Hero Section - Enhanced with parallax effect */}
-      <section className="relative bg-gradient-to-br from-purple-100 via-pink-50 to-spiritual-light py-20 md:py-28 overflow-hidden">
+      <section className="hero-section relative bg-gradient-to-br from-purple-100 via-pink-50 to-spiritual-light overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full bg-[url('/patterns/sacred-yantra.svg')] opacity-5 bg-repeat bg-[length:400px_400px]" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-white/30 to-transparent rounded-full blur-3xl" />
@@ -65,7 +65,7 @@ export default function TeachersIndexPage({ teachers, meditationCounts }) {
           <div className="absolute top-1/3 right-[20%] w-12 h-12 bg-spiritual-dark/10 rounded-full blur-lg animate-pulse"></div>
         </div>
 
-        <div className="container-custom relative z-10 text-center">
+        <div className="container-custom relative z-10 text-center py-8 md:py-12">
           <h1 className="text-3xl md:text-5xl xl:text-6xl font-display font-bold mb-6 animate-fade-in relative">
             <span className="absolute inset-0 bg-gradient-to-r from-spiritual-dark via-spiritual-purple to-spiritual-blue bg-[length:200%_auto] bg-clip-text text-transparent blur-xl opacity-50 animate-gradient">
               Raja Yoga Teachers

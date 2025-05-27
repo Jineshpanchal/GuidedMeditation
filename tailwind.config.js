@@ -33,6 +33,8 @@ module.exports = {
         'spin-slow': 'spin 20s linear infinite',
         'spin-slow-reverse': 'spin 25s linear infinite reverse',
         'gradient': 'gradient 4s ease infinite',
+        'breathe': 'breathe 4s ease-in-out infinite',
+        'gentle-pulse': 'gentle-pulse 3s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -47,6 +49,14 @@ module.exports = {
           '0%': { 'background-position': '0% 50%' },
           '50%': { 'background-position': '100% 50%' },
           '100%': { 'background-position': '0% 50%' }
+        },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.7' },
+          '50%': { transform: 'scale(1.05)', opacity: '0.9' }
+        },
+        'gentle-pulse': {
+          '0%, 100%': { opacity: '0.6' },
+          '50%': { opacity: '0.8' }
         }
       }
     },

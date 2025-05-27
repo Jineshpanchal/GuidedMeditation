@@ -58,7 +58,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
       </Head>
 
       {/* Hero Section with Gradient Background and Particles */}
-      <section className="relative bg-gradient-meditation h-screen flex items-center justify-center overflow-hidden">
+      <section className="hero-full-height relative bg-gradient-meditation h-screen flex items-center justify-center overflow-hidden">
         {/* Particles Background */}
         <ParticlesBackground />
         

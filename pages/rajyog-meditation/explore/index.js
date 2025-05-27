@@ -107,8 +107,8 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
       </Head>
 
       {/* Hero Section with search */}
-      <section className="bg-gradient-to-r from-spiritual-light/50 to-spiritual-accent/20 py-12 md:py-20">
-        <div className="container-custom">
+      <section className="hero-section bg-gradient-to-r from-spiritual-light/50 to-spiritual-accent/20">
+        <div className="container-custom py-8 md:py-12">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-3xl md:text-5xl font-display font-bold text-gray-900 mb-6">
               Explore Guided Meditations

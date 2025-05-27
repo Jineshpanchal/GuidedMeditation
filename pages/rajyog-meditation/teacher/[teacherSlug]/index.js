@@ -226,7 +226,7 @@ export default function TeacherPage({ teacher, meditations: initialMeditations }
       </Head>
 
       {/* Immersive Hero Section */}
-      <section className="relative min-h-[80vh] bg-gradient-to-br from-purple-100 via-pink-50 to-spiritual-light overflow-hidden">
+      <section className="hero-section relative min-h-[80vh] bg-gradient-to-br from-purple-100 via-pink-50 to-spiritual-light overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full bg-[url('/patterns/sacred-yantra.svg')] opacity-5 bg-repeat bg-[length:400px_400px]" />
@@ -251,7 +251,7 @@ export default function TeacherPage({ teacher, meditations: initialMeditations }
           </div>
 
           {/* Main Content */}
-          <div className="flex flex-col lg:flex-row items-center justify-between py-12 md:py-20 gap-12 lg:gap-20">
+          <div className="flex flex-col lg:flex-row items-center justify-between py-6 md:py-10 gap-12 lg:gap-20">
             {/* Text Content */}
             <div className="w-full lg:w-1/2 text-center lg:text-left">
               <div className="space-y-5">

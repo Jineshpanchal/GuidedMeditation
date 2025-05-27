@@ -143,16 +143,16 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
       </Head>
 
       {/* Hero Section - Modern Asymmetric Design */}
-      <section className="relative bg-gradient-to-br from-indigo-50 to-purple-50 overflow-hidden">
+      <section className="hero-section relative bg-gradient-to-br from-indigo-50 to-purple-50 overflow-hidden min-h-[60vh] md:min-h-[70vh]">
         {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-bl from-indigo-100 to-transparent opacity-70"></div>
         <div className="absolute bottom-0 left-0 w-1/4 h-1/2 bg-gradient-to-tr from-purple-100 to-transparent opacity-50"></div>
         <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-gradient-to-bl from-pink-200 to-indigo-200 blur-xl opacity-30"></div>
         <div className="absolute -bottom-8 left-1/4 w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-300 to-purple-200 blur-lg opacity-20"></div>
         
-        <div className="container-custom relative z-10 py-10 md:py-16">
+        <div className="container-custom relative z-10 py-8 md:py-12 lg:py-16">
           {/* Two Column Layout for Desktop */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start lg:items-center">
             {/* Content Column */}
             <div className="lg:col-span-7 relative">
               {/* Breadcrumb Navigation */}
@@ -186,8 +186,8 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
               
               {/* Description */}
               {categoryDescription && (
-                <p className="text-gray-700 text-lg md:text-xl max-w-2xl leading-relaxed">
-                  {categoryDescription}
+                <p className="text-gray-700 text-lg md:text-xl max-w-2xl leading-relaxed line-clamp-3">
+                  {categoryDescription.length > 200 ? `${categoryDescription.substring(0, 200)}...` : categoryDescription}
                 </p>
               )}
             </div>
