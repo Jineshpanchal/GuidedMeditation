@@ -32,7 +32,6 @@
     "react-dom": "^18.2.0",
     "react-tsparticles": "^2.12.2",
     "redis": "^5.1.0",
-    "swr": "^2.3.3",
     "tsparticles": "^3.8.1",
     "tsparticles-slim": "^2.12.0"
   },

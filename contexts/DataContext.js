@@ -1,107 +1,151 @@
-import React, { createContext, useContext } from 'react';
-import useSWR from 'swr';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Create the data context
 const DataContext = createContext();
 
-// Fetcher function for SWR
+// Simple in-memory cache for client-side
+const cache = new Map();
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+
+// Simple fetcher function
 const fetcher = async (url) => {
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
+  const cacheKey = url;
+  const cached = cache.get(cacheKey);
+  
+  // Check if we have valid cached data
+  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    console.log(`✅ Cache hit: ${url}`);
+    return cached.data;
   }
-  return res.json();
+  
+  console.log(`❌ Cache miss: ${url}, fetching...`);
+  
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch: ${res.status}`);
+    }
+    const data = await res.json();
+    
+    // Cache the result
+    cache.set(cacheKey, {
+      data,
+      timestamp: Date.now()
+    });
+    
+    return data;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error;
+  }
 };
 
-// SWR configuration for optimal performance
-const swrConfig = {
-  revalidateOnFocus: false,
-  revalidateOnReconnect: true,
-  refreshInterval: 0, // Disable automatic refresh
-  dedupingInterval: 60000, // 1 minute deduping
-  errorRetryCount: 3,
-  errorRetryInterval: 5000,
-  loadingTimeout: 10000,
-  focusThrottleInterval: 5000,
+// Custom hook for data fetching with simple caching
+const useSimpleFetch = (url, dependencies = []) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!url) return;
+
+    setLoading(true);
+    setError(null);
+
+    fetcher(url)
+      .then((result) => {
+        setData(result);
+        setError(null);
+      })
+      .catch((err) => {
+        setError(err);
+        setData(null);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [url, ...dependencies]);
+
+  return { data, loading, error };
 };
 
 // Custom hooks for different data types
 export const useAgeGroups = () => {
-  return useSWR('/api/data/age-groups', fetcher, {
-    ...swrConfig,
-    refreshInterval: 30 * 60 * 1000, // 30 minutes for static data
-  });
+  return useSimpleFetch('/api/data/age-groups');
 };
 
 export const useTeachers = () => {
-  return useSWR('/api/data/teachers', fetcher, {
-    ...swrConfig,
-    refreshInterval: 30 * 60 * 1000, // 30 minutes for static data
-  });
+  return useSimpleFetch('/api/data/teachers');
 };
 
 export const useMeditations = (filters = {}) => {
-  const key = Object.keys(filters).length > 0 
-    ? `/api/data/meditations?${new URLSearchParams(filters).toString()}`
-    : '/api/data/meditations';
-    
-  return useSWR(key, fetcher, {
-    ...swrConfig,
-    refreshInterval: 10 * 60 * 1000, // 10 minutes for dynamic data
-  });
+  const queryString = Object.keys(filters).length > 0 
+    ? `?${new URLSearchParams(filters).toString()}`
+    : '';
+  const url = `/api/data/meditations${queryString}`;
+  
+  return useSimpleFetch(url, [JSON.stringify(filters)]);
 };
 
 export const useTeacher = (slug) => {
-  return useSWR(slug ? `/api/data/teacher/${slug}` : null, fetcher, {
-    ...swrConfig,
-    refreshInterval: 30 * 60 * 1000,
-  });
+  const url = slug ? `/api/data/teacher/${slug}` : null;
+  return useSimpleFetch(url, [slug]);
 };
 
 export const useMeditation = (slug) => {
-  return useSWR(slug ? `/api/data/meditation/${slug}` : null, fetcher, {
-    ...swrConfig,
-    refreshInterval: 30 * 60 * 1000,
-  });
+  const url = slug ? `/api/data/meditation/${slug}` : null;
+  return useSimpleFetch(url, [slug]);
 };
 
 export const useAgeGroup = (slug) => {
-  return useSWR(slug ? `/api/data/age-group/${slug}` : null, fetcher, {
-    ...swrConfig,
-    refreshInterval: 30 * 60 * 1000,
-  });
+  const url = slug ? `/api/data/age-group/${slug}` : null;
+  return useSimpleFetch(url, [slug]);
 };
 
-// Search hook with debouncing
+// Search hook with simple debouncing
 export const useSearch = (query, type = 'meditations') => {
-  const debouncedQuery = useDebounce(query, 300);
-  
-  return useSWR(
-    debouncedQuery ? `/api/search/${type}?q=${encodeURIComponent(debouncedQuery)}` : null,
-    fetcher,
-    {
-      ...swrConfig,
-      refreshInterval: 0, // No auto-refresh for search
-      dedupingInterval: 30000, // 30 seconds deduping for search
-    }
-  );
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  const url = debouncedQuery 
+    ? `/api/search/${type}?q=${encodeURIComponent(debouncedQuery)}`
+    : null;
+    
+  return useSimpleFetch(url, [debouncedQuery, type]);
 };
 
-// Debounce hook
-const useDebounce = (value, delay) => {
-  const [debouncedValue, setDebouncedValue] = React.useState(value);
+// Clear cache function
+export const clearCache = () => {
+  cache.clear();
+  console.log('🗑️ Cache cleared');
+};
 
-  React.useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
+// Get cache stats
+export const getCacheStats = () => {
+  const now = Date.now();
+  let validEntries = 0;
+  let expiredEntries = 0;
+  
+  cache.forEach((value) => {
+    if (now - value.timestamp < CACHE_DURATION) {
+      validEntries++;
+    } else {
+      expiredEntries++;
+    }
+  });
+  
+  return {
+    total: cache.size,
+    valid: validEntries,
+    expired: expiredEntries
+  };
 };
 
 // Data provider component
@@ -115,6 +159,8 @@ export const DataProvider = ({ children }) => {
     useMeditation,
     useAgeGroup,
     useSearch,
+    clearCache,
+    getCacheStats,
   };
 
   return (

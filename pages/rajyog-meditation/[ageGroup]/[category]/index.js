@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../../components/layout/Layout';
 import MeditationCard from '../../../../components/meditation/MeditationCard';
+import { SkeletonGrid } from '../../../../components/ui/LoadingSpinner';
 import Image from 'next/image';
 import { getAgeGroups, getCategories, getMeditations } from '../../../../lib/api/strapi-optimized';
 
@@ -33,6 +34,7 @@ const getImageUrl = (imageData) => {
 };
 
 export default function CategoryPage({ ageGroup, category, meditations: initialMeditations }) {
+  const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('default');
   const [sortDirection, setSortDirection] = useState('desc'); // 'asc' or 'desc'
   const [isLoading, setIsLoading] = useState(false);
@@ -58,12 +60,24 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
     }
   };
 
-  // Apply sorting
+  // Apply search and sorting
   useEffect(() => {
     setIsLoading(true);
     
-    // Sort by selected option
-    let sorted = [...initialMeditations];
+    // First, filter by search query
+    let filtered = initialMeditations;
+    
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = initialMeditations.filter(meditation => {
+        const title = meditation.attributes.Title?.toLowerCase() || '';
+        const description = meditation.attributes.DisplayTitle?.toLowerCase() || '';
+        return title.includes(query) || description.includes(query);
+      });
+    }
+    
+    // Then sort by selected option
+    let sorted = [...filtered];
     const multiplier = sortDirection === 'asc' ? 1 : -1;
     
     switch (sortOption) {
@@ -104,7 +118,7 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
     
     setDisplayedMeditations(sorted);
     setIsLoading(false);
-  }, [sortOption, sortDirection, initialMeditations]);
+  }, [searchQuery, sortOption, sortDirection, initialMeditations]);
 
   // Helper to render sort direction icon - only for non-default sorts
   const renderSortIcon = (option) => {
@@ -223,6 +237,29 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
                 Guided <span className="font-normal">commentaries</span>
               </h2>
               
+              {/* Search bar */}
+              <div className="relative max-w-md w-full md:w-auto">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search meditations..."
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-full shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-spiritual-accent focus:border-spiritual-accent text-gray-900"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
+            
+            {/* Sort options */}
+            <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between items-center mb-6">
+              <p className="text-sm text-gray-600">
+                {displayedMeditations.length} meditation{displayedMeditations.length !== 1 ? 's' : ''} found
+              </p>
+              
               {/* Horizontal scrollable area for sorting options */}
               <div className="w-full md:w-auto overflow-x-auto hide-scrollbar">
                 <div className="flex items-center space-x-2 min-w-max py-1">
@@ -284,18 +321,11 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
                 </div>
               </div>
             </div>
-            
-            {/* Meditations count */}
-            <p className="text-sm text-gray-600">
-              {displayedMeditations.length} meditation{displayedMeditations.length !== 1 ? 's' : ''} found
-            </p>
           </div>
           
           {/* Meditation Cards */}
           {isLoading ? (
-            <div className="h-64 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-spiritual-accent"></div>
-            </div>
+            <SkeletonGrid count={6} />
           ) : displayedMeditations.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {displayedMeditations.map((meditation) => (
@@ -303,8 +333,36 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
               ))}
             </div>
           ) : (
-            <div className="text-center py-10">
-              <p className="text-gray-600">No meditations found for this category.</p>
+            <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <h3 className="mt-4 text-lg font-medium text-gray-900">No meditations found</h3>
+              <p className="mt-2 text-sm text-gray-500">
+                {searchQuery 
+                  ? "Try adjusting your search query to find what you're looking for."
+                  : "No meditations found for this category."
+                }
+              </p>
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-spiritual-accent hover:bg-spiritual-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiritual-accent"
+                >
+                  Clear search
+                </button>
+              )}
             </div>
           )}
         </div>

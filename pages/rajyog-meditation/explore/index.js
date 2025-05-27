@@ -3,22 +3,14 @@ import Head from 'next/head';
 import Layout from '../../../components/layout/Layout';
 import MeditationCard from '../../../components/meditation/MeditationCard';
 import LoadingSpinner, { SkeletonGrid } from '../../../components/ui/LoadingSpinner';
-import { useMeditations, useSearch } from '../../../contexts/DataContext';
+import { getExplorePageData } from '../../../lib/api/strapi-optimized';
 
 export default function ExplorePage({ meditations: initialMeditations = [] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('default');
   const [sortDirection, setSortDirection] = useState('desc'); // 'asc' or 'desc'
+  const [isLoading, setIsLoading] = useState(false);
   const [displayedMeditations, setDisplayedMeditations] = useState(initialMeditations);
-  
-  // Use SWR for client-side data fetching
-  const { data: meditationsData, error: meditationsError, isLoading: meditationsLoading } = useMeditations();
-  const { data: searchData, error: searchError, isLoading: searchLoading } = useSearch(searchQuery, 'meditations');
-  
-  // Use client-side data if available, fallback to SSR data
-  const meditations = meditationsData?.data || initialMeditations;
-  const searchResults = searchData?.data || [];
-  const isLoading = meditationsLoading || searchLoading;
 
   // Toggle sort direction when clicking on the same option
   const handleSortChange = (option) => {
@@ -34,8 +26,19 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
 
   // Apply search and sorting
   useEffect(() => {
-    // Use search results if searching, otherwise use all meditations
-    let filtered = searchQuery ? searchResults : meditations;
+    setIsLoading(true);
+    
+    // First, filter by search query
+    let filtered = initialMeditations;
+    
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = initialMeditations.filter(meditation => {
+        const title = meditation.attributes.Title?.toLowerCase() || '';
+        const description = meditation.attributes.DisplayTitle?.toLowerCase() || '';
+        return title.includes(query) || description.includes(query);
+      });
+    }
     
     // Then sort by selected option
     let sorted = [...filtered];
@@ -78,7 +81,8 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
     }
     
     setDisplayedMeditations(sorted);
-  }, [searchQuery, sortOption, sortDirection, meditations, searchResults]);
+    setIsLoading(false);
+  }, [searchQuery, sortOption, sortDirection, initialMeditations]);
 
   // Helper to render sort direction icon - only for non-default sorts
   const renderSortIcon = (option) => {
@@ -260,12 +264,29 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
 }
 
 export async function getStaticProps() {
-  // For client-side data fetching, we can provide minimal or no SSR data
-  // This reduces build time and allows for more dynamic content
-  return {
-    props: {
-      meditations: [], // Empty array - data will be fetched client-side
-    },
-    revalidate: 60 * 60, // Revalidate every hour (less frequent since data is client-side)
-  };
+  try {
+    console.log('Fetching optimized explore page data...');
+    const startTime = Date.now();
+    
+    // Fetch all data using the optimized single call
+    const { meditations } = await getExplorePageData();
+    
+    const endTime = Date.now();
+    console.log(`Explore page data fetched in ${endTime - startTime}ms`);
+
+    return {
+      props: {
+        meditations,
+      },
+      revalidate: 60 * 10, // Re-generate the page after 10 minutes
+    };
+  } catch (error) {
+    console.error('Error fetching explore page data:', error);
+    return {
+      props: {
+        meditations: [],
+      },
+      revalidate: 60, // Try again sooner if there was an error
+    };
+  }
 }

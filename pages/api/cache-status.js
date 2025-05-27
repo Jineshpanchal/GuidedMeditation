@@ -1,6 +1,6 @@
 import { getStats, clear } from '../../lib/cache';
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
   try {
     if (req.method === 'GET') {
       // Get cache statistics

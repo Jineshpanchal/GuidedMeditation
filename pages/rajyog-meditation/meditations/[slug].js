@@ -352,74 +352,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
         </section>
       )}
 
-      {/* More from Teacher Section */}
-      {teacher && (
-        <section className="py-12 bg-white">
-          <div className="container-custom">
-            <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 mb-6">
-              {teacherMeditations.length > 0 ? `More from ${teacher.attributes.Name}` : `About ${teacher.attributes.Name}`}
-            </h2>
-            
-            <div className="flex flex-col md:flex-row items-start md:items-center mb-8">
-              <div className="flex-shrink-0 w-32 aspect-square rounded-full overflow-hidden bg-spiritual-light mr-4 mb-4 md:mb-0">
-                {teacher.attributes.FeaturedImage?.data ? (
-                  <img 
-                    src={getImageUrl(teacher.attributes.FeaturedImage.data)}
-                    alt={teacher.attributes.Name}
-                    className="h-full w-full object-cover"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.style.display = 'none';
-                      e.target.parentNode.innerHTML = `<div class="h-full w-full flex items-center justify-center bg-spiritual-light"><span class="text-spiritual-dark font-bold text-2xl">${teacher.attributes.Name ? teacher.attributes.Name.charAt(0) : 'BK'}</span></div>`;
-                    }}
-                  />
-                ) : (
-                  <div className="h-full w-full flex items-center justify-center bg-spiritual-light">
-                    <span className="text-spiritual-dark font-bold text-2xl">
-                      {teacher.attributes.Name ? teacher.attributes.Name.charAt(0) : 'BK'}
-                    </span>
-                  </div>
-                )}
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-medium">{teacher.attributes.Name}</h3>
-                {teacher.attributes.Designation && (
-                  <p className="text-sm text-gray-600 mb-2">{teacher.attributes.Designation}</p>
-                )}
-                <p className="text-gray-700">
-                  {typeof teacher.attributes.ShortIntro === 'string' && teacher.attributes.ShortIntro
-                    ? teacher.attributes.ShortIntro
-                    : (typeof teacher.attributes.Bio === 'string' 
-                        ? (teacher.attributes.Bio.substring(0, 180) + (teacher.attributes.Bio.length > 180 ? '...' : ''))
-                        : 'Brahma Kumaris Teacher who guides meditations with deep spiritual insights.')}
-                </p>
-              </div>
-            </div>
-            
-            {teacherMeditations.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {teacherMeditations.map((teacherMeditation) => (
-                  <RelatedMeditationCard 
-                    key={teacherMeditation.id} 
-                    meditation={teacherMeditation} 
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center bg-gray-50 p-6 rounded-lg shadow-sm">
-                <p className="text-gray-600 mb-4">
-                  Explore more meditations from BK {teacher.attributes.Name} coming soon.
-                </p>
-                <Link href="/rajyog-meditation/explore">
-                  <span className="inline-block py-2 px-6 bg-spiritual-dark hover:bg-spiritual-accent text-white rounded-md transition-colors cursor-pointer">
-                    Explore All Meditations
-                  </span>
-                </Link>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+
 
       {/* Teachers Grid Section */}
       {teachers && teachers.length > 0 && (
