@@ -6,6 +6,7 @@ import Layout from '../../../components/layout/Layout';
 import WaveformPlayer from '../../../components/meditation/WaveformPlayer';
 import RelatedMeditationCard from '../../../components/meditation/RelatedMeditationCard';
 import TeacherCard from '../../../components/ui/TeacherCard';
+import RichTextRenderer from '../../../components/ui/RichTextRenderer';
 import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
 import axios from 'axios';
 import { 
@@ -83,6 +84,13 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
   if (!meditation) {
     return <div>Meditation not found</div>;
   }
+
+  // Debug: Log the meditation data structure
+  console.log('Meditation data:', {
+    title: meditation.attributes.Title,
+    commentaryLyrics: meditation.attributes.CommentaryLyrics,
+    benefitsBig: meditation.attributes.BenefitsBig
+  });
 
   const isCurrentlyPlaying = 
     currentMeditation && 
@@ -220,13 +228,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
               {meditation.attributes.CommentaryLyrics && Array.isArray(meditation.attributes.CommentaryLyrics) && meditation.attributes.CommentaryLyrics.length > 0 && (
                 <CollapsibleSection title="Commentary" defaultOpen={true}>
                   <div className="prose prose-lg max-w-none">
-                    {meditation.attributes.CommentaryLyrics.map((block, index) => (
-                      <p key={index} className="mb-4 text-gray-700 leading-relaxed">
-                        {block.children?.map((child, childIndex) => (
-                          <span key={childIndex}>{typeof child.text === 'string' ? child.text : ''}</span>
-                        ))}
-                      </p>
-                    ))}
+                    <RichTextRenderer content={meditation.attributes.CommentaryLyrics} />
                   </div>
                 </CollapsibleSection>
               )}
@@ -235,13 +237,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
               <CollapsibleSection title="Benefits" defaultOpen={false}>
                 <div className="prose prose-lg max-w-none">
                   {meditation.attributes.BenefitsBig && Array.isArray(meditation.attributes.BenefitsBig) && meditation.attributes.BenefitsBig.length > 0 ? (
-                    meditation.attributes.BenefitsBig.map((block, index) => (
-                      <p key={index} className="mb-4 text-gray-700 leading-relaxed">
-                        {block.children?.map((child, childIndex) => (
-                          <span key={childIndex}>{typeof child.text === 'string' ? child.text : ''}</span>
-                        ))}
-                      </p>
-                    ))
+                    <RichTextRenderer content={meditation.attributes.BenefitsBig} />
                   ) : (
                     <p className="text-gray-700 leading-relaxed">
                       {typeof meditationBenefits === 'string' ? meditationBenefits : 'Experience deep inner calm, mental clarity, and spiritual connection.'}
@@ -420,7 +416,7 @@ export async function getStaticProps({ params }) {
         teachers,
         meditationCounts
       },
-      revalidate: 60 * 60, // Revalidate every hour
+      revalidate: 300, // Revalidate every 5 minutes for faster updates
     };
   } catch (error) {
     console.error("Error getting meditation:", error);
