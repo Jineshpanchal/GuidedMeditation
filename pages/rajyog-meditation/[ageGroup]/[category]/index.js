@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Layout from '../../../../components/layout/Layout';
 import MeditationCard from '../../../../components/meditation/MeditationCard';
 import Image from 'next/image';
-import { getAgeGroups, getCategories, getMeditations, getMeditationsByCategory } from '../../../../lib/api/strapi';
+import { getAgeGroups, getCategories, getMeditations } from '../../../../lib/api/strapi-optimized';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
 const getImageUrl = (imageData) => {
@@ -339,88 +339,118 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
 }
 
 export async function getStaticPaths() {
-  const ageGroups = await getAgeGroups();
-  const categories = await getCategories();
-  
-  const paths = [];
-  
-  for (const ageGroup of ageGroups) {
-    for (const category of categories) {
-      paths.push({
-        params: {
-          ageGroup: ageGroup.attributes.slug,
-          category: category.attributes.slug,
-        },
-      });
+  try {
+    const ageGroups = await getAgeGroups();
+    const categories = await getCategories();
+    
+    const paths = [];
+    
+    for (const ageGroup of ageGroups) {
+      // Ensure ageGroup slug is a string
+      const ageGroupSlug = typeof ageGroup.attributes?.slug === 'string' 
+        ? ageGroup.attributes.slug 
+        : String(ageGroup.attributes?.slug || '');
+        
+      if (!ageGroupSlug) {
+        console.warn('Skipping ageGroup with missing slug:', ageGroup);
+        continue;
+      }
+      
+      for (const category of categories) {
+        // Ensure category slug is a string
+        const categorySlug = typeof category.attributes?.slug === 'string' 
+          ? category.attributes.slug 
+          : String(category.attributes?.slug || '');
+          
+        if (!categorySlug) {
+          console.warn('Skipping category with missing slug:', category);
+          continue;
+        }
+        
+        paths.push({
+          params: {
+            ageGroup: ageGroupSlug,
+            category: categorySlug,
+          },
+        });
+      }
     }
+    
+    console.log(`Generated ${paths.length} static paths for category pages`);
+    
+    return {
+      paths,
+      fallback: 'blocking',
+    };
+  } catch (error) {
+    console.error('Error in getStaticPaths for category page:', error);
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
   }
-  
-  return {
-    paths,
-    fallback: 'blocking',
-  };
 }
 
 export async function getStaticProps({ params }) {
-  const { ageGroup: ageGroupSlug, category: categorySlug } = params;
-  
-  // Get the age group data
-  const ageGroups = await getAgeGroups();
-  const ageGroup = ageGroups.find(
-    (group) => group.attributes.slug === ageGroupSlug
-  );
-  
-  if (!ageGroup) {
-    return {
-      notFound: true,
-    };
-  }
-  
-  // Get the category data, populating the featured image
-  const categories = await getCategories({
-    'populate': ['gm_meditations', 'FeaturedImage'] // Added FeaturedImage population
-  });
-  const category = categories.find(
-    (cat) => cat.attributes.slug === categorySlug
-  );
-  
-  if (!category) {
-    return {
-      notFound: true,
-    };
-  }
-  
-  // Fetch meditations with proper filters and population 
-  let meditations = await getMeditations({
-    'filters[gm_categories][id][$eq]': category.id,
-    'populate': ['gm_categories', 'gm_rajyoga_teachers', 'Media', 'FeaturedImage', 'gm_language'],
-  });
-  
-  // If no meditations found by ID, try fetching by slug as fallback
-  if (!meditations || meditations.length === 0) {
-    console.log(`No meditations found by category ID. Trying by slug: ${categorySlug}`);
-    meditations = await getMeditations({
-      'filters[gm_categories][slug][$eq]': categorySlug,
-      'populate': ['gm_categories', 'gm_rajyoga_teachers', 'Media', 'FeaturedImage', 'gm_language'],
+  try {
+    const { ageGroup: ageGroupSlug, category: categorySlug } = params;
+    
+    // Get the age group data using optimized function
+    const ageGroups = await getAgeGroups('withImage');
+    const ageGroup = ageGroups.find(
+      (group) => group.attributes.slug === ageGroupSlug
+    );
+    
+    if (!ageGroup) {
+      return {
+        notFound: true,
+      };
+    }
+    
+    // Get the category data using optimized function
+    const categories = await getCategories('withImage');
+    const category = categories.find(
+      (cat) => cat.attributes.slug === categorySlug
+    );
+    
+    if (!category) {
+      return {
+        notFound: true,
+      };
+    }
+    
+    // Fetch meditations using optimized function with filters
+    let meditations = await getMeditations('full', {
+      'filters[gm_categories][id][$eq]': category.id,
     });
     
-    // If still no results, try the dedicated helper function as final fallback
+    // If no meditations found by ID, try fetching by slug as fallback
     if (!meditations || meditations.length === 0) {
-      console.log(`Still no meditations found. Trying getMeditationsByCategory helper...`);
-      meditations = await getMeditationsByCategory(category.id, categorySlug, {
-        'populate': ['gm_categories', 'gm_rajyoga_teachers', 'Media', 'FeaturedImage', 'gm_language'],
+      console.log(`No meditations found by category ID. Trying by slug: ${categorySlug}`);
+      meditations = await getMeditations('full', {
+        'filters[gm_categories][slug][$eq]': categorySlug,
       });
     }
+    
+    console.log(`Fetched ${meditations.length} meditations for category: ${categorySlug} (ID: ${category.id})`);
+    
+    return {
+      props: {
+        ageGroup,
+        category,
+        meditations: meditations || [],
+      },
+      revalidate: 60 * 60, // Revalidate every hour
+    };
+  } catch (error) {
+    console.error('Error in getStaticProps for category page:', error);
+    return {
+      props: {
+        ageGroup: null,
+        category: null,
+        meditations: [],
+      },
+      revalidate: 60, // Try again sooner if there was an error
+    };
   }
-  
-  console.log(`Fetched ${meditations.length} meditations for category: ${categorySlug} (ID: ${category.id})`);
-  
-  return {
-    props: {
-      ageGroup,
-      category,
-      meditations,
-    },
-    revalidate: 60 * 60, // Revalidate every hour
-  };
 }

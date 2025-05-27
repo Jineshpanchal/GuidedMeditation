@@ -9,11 +9,8 @@ import TeacherCard from '../../../components/ui/TeacherCard';
 import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
 import axios from 'axios';
 import { 
-  getMeditations, 
-  getMeditationBySlug, 
-  getTeacherById, 
-  getTeachers 
-} from '../../../lib/api/strapi';
+  getMeditationPageData
+} from '../../../lib/api/strapi-optimized';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
 const getImageUrl = (imageData) => {
@@ -450,7 +447,9 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
 
 export async function getStaticPaths() {
   try {
-    const meditations = await getMeditations();
+    // Import here to avoid circular dependency
+    const { getMeditations } = await import('../../../lib/api/strapi-optimized');
+    const meditations = await getMeditations('minimal');
     
     const paths = meditations.map((meditation) => ({
       params: { slug: meditation.attributes.Slug },
@@ -472,185 +471,34 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   try {
     const { slug } = params;
-    console.log(`Fetching meditation with slug: ${slug}`);
+    console.log(`Fetching optimized meditation page data for: ${slug}`);
+    const startTime = Date.now();
     
-    const meditation = await getMeditationBySlug(slug, {
-      'populate[CoverImage]': '*',
-      'populate[FeaturedImage]': '*',
-      'populate[Media]': '*',
-      'populate[AudioFile]': '*',
-      'populate[gm_categories]': '*',
-      'populate[gm_language]': '*',
-      'populate[gm_rajyoga_teacher]': '*',
-      'populate[gm_rajyoga_teachers]': '*', // Make sure to populate teachers relationship
-      'populate[CommentaryLyrics]': '*',
-      'populate[BenefitsBig]': '*',
-      'populate[BenefitsShort]': '*'
-    });
+    // Fetch all data using the optimized single call
+    const pageData = await getMeditationPageData(slug);
     
-    if (!meditation) {
+    if (!pageData) {
       console.error(`No meditation found with slug: ${slug}`);
       return {
         notFound: true,
       };
     }
     
-    console.log(`Found meditation: ${meditation.attributes.Title || 'Unknown title'}`);
+    const { meditation, relatedMeditations, teachers, meditationCounts } = pageData;
     
-    // Get related meditations from the same categories
-    let relatedMeditations = [];
-    const categoryIds = meditation.attributes.gm_categories?.data?.map(cat => cat.id) || [];
-    
-    if (categoryIds.length > 0) {
-      // Get meditations from the same categories
-      const allRelatedMeditations = await getMeditations({
-        'filters[gm_categories][id][$in]': categoryIds,
-        'filters[id][$ne]': meditation.id, // Exclude current meditation
-        'pagination[limit]': 4,
-        'populate[FeaturedImage][fields][0]': 'formats',
-        'populate[FeaturedImage][fields][1]': 'url',
-        'populate[Media]': '*',
-      });
-      
-      relatedMeditations = allRelatedMeditations;
-      console.log(`Found ${relatedMeditations.length} related meditations by category`);
-    }
-    
-    // Get teacher details and meditations
-    let teacher = null;
-    let teacherMeditations = [];
-    
-    // Thorough debugging for teacher data
-    console.log(`Teacher data structure in meditation:`, 
-      JSON.stringify(meditation.attributes.gm_rajyoga_teacher || {}).substring(0, 200) + "...");
-    
-    // Try multiple approaches to get the teacher
-    if (meditation.attributes.gm_rajyoga_teacher?.data) {
-      const teacherId = meditation.attributes.gm_rajyoga_teacher.data.id;
-      console.log(`Found teacher ID in meditation: ${teacherId}`);
-      
-      if (teacherId) {
-        // Approach 1: Direct fetch by ID with specifically targeting formats
-        teacher = await getTeacherById(teacherId);
-        console.log(`Teacher fetch result: ${teacher ? 'Success' : 'Failed'}`);
-        
-        if (!teacher) {
-          // Approach 2: Get all teachers and filter with specifically targeting formats
-          console.log("Trying alternative approach to get teacher");
-          const allTeachers = await getTeachers({
-            'populate[FeaturedImage][fields][0]': 'formats',
-            'populate[FeaturedImage][fields][1]': 'url',
-          });
-          teacher = allTeachers.find(t => t.id === teacherId);
-          console.log(`Teacher fetch via all teachers: ${teacher ? 'Success' : 'Failed'}`);
-        }
-        
-        // If we have teacher, get their meditations
-        if (teacher) {
-          console.log(`Found teacher: ${teacher.attributes.Name || 'Unknown name'}`);
-          
-          const allTeacherMeditations = await getMeditations({
-            'filters[gm_rajyoga_teacher][id][$eq]': teacherId,
-            'filters[id][$ne]': meditation.id, // Exclude current meditation
-            'pagination[limit]': 4,
-            'populate[FeaturedImage][fields][0]': 'formats',
-            'populate[FeaturedImage][fields][1]': 'url',
-            'populate[Media]': '*',
-          });
-          
-          teacherMeditations = allTeacherMeditations;
-          console.log(`Found ${teacherMeditations.length} meditations by this teacher`);
-        }
-      }
-    } else {
-      console.log("No teacher data found in the meditation");
-    }
-    
-    // Get meditation's teachers from gm_rajyoga_teachers relationship
-    let meditationTeacherIds = [];
-    
-    // Check for teachers in both possible relationships
-    if (meditation.attributes.gm_rajyoga_teachers?.data) {
-      // It could be an array or a single object
-      if (Array.isArray(meditation.attributes.gm_rajyoga_teachers.data)) {
-        meditationTeacherIds = meditation.attributes.gm_rajyoga_teachers.data.map(t => t.id);
-      } else if (meditation.attributes.gm_rajyoga_teachers.data.id) {
-        meditationTeacherIds = [meditation.attributes.gm_rajyoga_teachers.data.id];
-      }
-    }
-    
-    if (meditation.attributes.gm_rajyoga_teacher?.data?.id) {
-      meditationTeacherIds.push(meditation.attributes.gm_rajyoga_teacher.data.id);
-    }
-    
-    // Remove duplicates
-    meditationTeacherIds = [...new Set(meditationTeacherIds)];
-    
-    console.log(`Meditation teacher IDs: ${meditationTeacherIds.join(', ')}`);
-    
-    // Get all teachers for the teachers grid with formats specifically targeted
-    let teachers = await getTeachers({
-      'fields[0]': 'Name',
-      'fields[1]': 'Slug',
-      'fields[2]': 'Designation',
-      'fields[3]': 'ShortIntro',
-      'populate[FeaturedImage]': '*', // Get the complete Featured Image structure to ensure all formats
-      'pagination[limit]': 20
-    });
-    
-    // Filter teachers to only include those who guided this meditation
-    if (meditationTeacherIds.length > 0) {
-      teachers = teachers.filter(t => meditationTeacherIds.includes(t.id));
-    }
-    
-    console.log(`Found ${teachers.length} teachers for this meditation`);
-    
-    // Create a map to store meditation counts for each teacher
-    const meditationCounts = {};
-    
-    // Fetch all meditations with teacher relationships in a single query
-    const allMeditations = await getMeditations({
-      'fields[0]': 'id',  // Only get ID to minimize data
-      'populate[gm_rajyoga_teachers][fields][0]': 'id', // Only populate teacher IDs
-      'populate[gm_rajyoga_teacher][fields][0]': 'id', // Also check the singular relationship
-      'pagination[limit]': 500 // Higher limit to get all
-    });
-    
-    // Process all meditations and count by teacher
-    allMeditations.forEach(med => {
-      // Check both possible teacher relationships
-      
-      // Check plural relationship first
-      const medTeachers = med.attributes?.gm_rajyoga_teachers?.data;
-      if (medTeachers) {
-        if (Array.isArray(medTeachers)) {
-          medTeachers.forEach(t => {
-            if (t && t.id) {
-              meditationCounts[t.id] = (meditationCounts[t.id] || 0) + 1;
-            }
-          });
-        } else if (medTeachers.id) {
-          meditationCounts[medTeachers.id] = (meditationCounts[medTeachers.id] || 0) + 1;
-        }
-      }
-      
-      // Check singular relationship
-      const medTeacher = med.attributes?.gm_rajyoga_teacher?.data;
-      if (medTeacher && medTeacher.id) {
-        meditationCounts[medTeacher.id] = (meditationCounts[medTeacher.id] || 0) + 1;
-      }
-    });
+    const endTime = Date.now();
+    console.log(`Meditation page data fetched in ${endTime - startTime}ms`);
     
     return {
       props: {
         meditation,
         relatedMeditations,
-        teacher,
-        teacherMeditations,
+        teacher: teachers.length > 0 ? teachers[0] : null, // For backward compatibility
+        teacherMeditations: [], // Not needed anymore
         teachers,
         meditationCounts
       },
-      revalidate: 60, // Revalidate every minute
+      revalidate: 60 * 60, // Revalidate every hour
     };
   } catch (error) {
     console.error("Error getting meditation:", error);

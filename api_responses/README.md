@@ -47,7 +47,7 @@ Refer to `data_structure_and_relationships.md` for a detailed mapping of these c
 
 ### Base URL
 ```
-https://webapp.brahmakumaris.com/api
+https://portal.brahmakumaris.com/api
 ```
 
 ### Authentication

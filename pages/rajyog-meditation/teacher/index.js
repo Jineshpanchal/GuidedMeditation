@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../components/layout/Layout';
-import { getTeachers, getMeditations } from '../../../lib/api/strapi';
+import { getTeachersPageData } from '../../../lib/api/strapi-optimized';
 import TeacherCard from '../../../components/ui/TeacherCard';
 
 export default function TeachersIndexPage({ teachers, meditationCounts }) {
@@ -212,52 +212,14 @@ export default function TeachersIndexPage({ teachers, meditationCounts }) {
 
 export async function getStaticProps() {
   try {
-    // Fetch all teachers with necessary fields
-    const teachers = await getTeachers({
-      'fields[0]': 'Name',
-      'fields[1]': 'Slug',
-      'fields[2]': 'Designation',
-      'fields[3]': 'ShortIntro',
-      'populate[FeaturedImage]': '*', // Get complete image data
-      'pagination[limit]': 100 // Set a reasonable limit
-    });
+    console.log('Fetching optimized teachers page data...');
+    const startTime = Date.now();
     
-    console.log(`Found ${teachers.length} teachers`);
+    // Fetch all data using the optimized single call
+    const { teachers, meditationCounts } = await getTeachersPageData();
     
-    // Create a map to store meditation counts for each teacher
-    const meditationCounts = {};
-    
-    // Fetch all meditations with teacher relationships in a single query
-    const allMeditations = await getMeditations({
-      'fields[0]': 'id',  // Only get ID to minimize data
-      'populate[gm_rajyoga_teachers][fields][0]': 'id', // Only populate teacher IDs
-      'pagination[limit]': 500 // Higher limit to get all
-    });
-    
-    console.log(`Found total ${allMeditations.length} meditations`);
-    
-    // Process all meditations and count by teacher
-    allMeditations.forEach(meditation => {
-      // Check if this meditation has teachers
-      const meditationTeachers = meditation.attributes?.gm_rajyoga_teachers?.data;
-      
-      if (meditationTeachers) {
-        // Can be either an array or single object
-        if (Array.isArray(meditationTeachers)) {
-          meditationTeachers.forEach(teacher => {
-            if (teacher && teacher.id) {
-              meditationCounts[teacher.id] = (meditationCounts[teacher.id] || 0) + 1;
-            }
-          });
-        } else if (meditationTeachers.id) {
-          // Single teacher case
-          meditationCounts[meditationTeachers.id] = (meditationCounts[meditationTeachers.id] || 0) + 1;
-        }
-      }
-    });
-    
-    // Log the final counts for debugging
-    console.log('Final meditation counts:', meditationCounts);
+    const endTime = Date.now();
+    console.log(`Teachers page data fetched in ${endTime - startTime}ms`);
     
     return {
       props: {

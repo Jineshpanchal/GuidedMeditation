@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../../components/layout/Layout';
-import { getTeachers, getTeacherBySlug, getMeditations } from '../../../../lib/api/strapi';
+import { getTeacherPageData } from '../../../../lib/api/strapi-optimized';
 import { useAudioPlayer } from '../../../../contexts/AudioPlayerContext';
 import axios from 'axios';
 
@@ -408,7 +408,9 @@ export default function TeacherPage({ teacher, meditations }) {
 }
 
 export async function getStaticPaths() {
-  const teachers = await getTeachers();
+  // Import here to avoid circular dependency
+  const { getTeachers } = await import('../../../../lib/api/strapi-optimized');
+  const teachers = await getTeachers('minimal');
   
   const paths = teachers.map((teacher) => ({
     params: { teacherSlug: teacher.attributes.Slug },
@@ -424,53 +426,27 @@ export async function getStaticProps({ params }) {
   const { teacherSlug } = params;
   
   try {
-    // Fetch only necessary teacher data with optimized image fields
-    const teacher = await getTeacherBySlug(teacherSlug, {
-      'populate[FeaturedImage]': '*' // Get complete image data
-    });
+    console.log(`Fetching optimized teacher page data for: ${teacherSlug}`);
+    const startTime = Date.now();
     
-    if (!teacher) {
+    // Fetch all data using the optimized single call
+    const pageData = await getTeacherPageData(teacherSlug);
+    
+    if (!pageData) {
       return {
         notFound: true,
       };
     }
-
-    // Get the teacher ID for filtering
-    const teacherId = teacher.id;
-    console.log(`Teacher ID for ${teacherSlug}:`, teacherId);
     
-    // Fetch only the meditations for this teacher with strictly needed fields
-    const teacherMeditations = await getMeditations({
-      'filters[gm_rajyoga_teachers][id][$eq]': teacherId,
-      'fields[0]': 'Title',
-      'fields[1]': 'Slug',
-      'fields[2]': 'Duration',
-      'fields[3]': 'Trending',
-      'fields[4]': 'Listened',
-      'fields[5]': 'like',
-      'populate[FeaturedImage]': '*', // Get complete image data
-      'populate[Media]': '*', // Add Media population for audio files
-      'populate[AudioFile]': '*', // Also include AudioFile as fallback
-      'populate[gm_rajyoga_teachers][fields][0]': 'Name',
-      'populate[gm_rajyoga_teachers][fields][1]': 'Slug',
-      'pagination[limit]': 40 // Limit to 40 meditations per teacher
-    });
+    const { teacher, meditations } = pageData;
     
-    console.log(`Found ${teacherMeditations.length} meditations for teacher ${teacherSlug}`);
-    
-    // Debug teacher image structure
-    console.log("Teacher image structure:", 
-      JSON.stringify({
-        hasData: !!teacher.attributes.FeaturedImage?.data,
-        dataType: teacher.attributes.FeaturedImage?.data ? 
-          (Array.isArray(teacher.attributes.FeaturedImage.data) ? 'array' : 'object') : 'none',
-        url: getImageUrl(teacher.attributes.FeaturedImage?.data)
-      }));
+    const endTime = Date.now();
+    console.log(`Teacher page data fetched in ${endTime - startTime}ms`);
     
     return {
       props: {
         teacher,
-        meditations: teacherMeditations,
+        meditations,
       },
       revalidate: 60 * 60, // Revalidate every hour
     };

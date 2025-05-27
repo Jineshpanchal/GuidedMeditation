@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Layout from '../../components/layout/Layout';
 import TrendingMeditationCard from '../../components/meditation/TrendingMeditationCard';
-import { getAgeGroups, getMeditations, getTeachers } from '../../lib/api/strapi';
+import { getHomePageData } from '../../lib/api/strapi-optimized';
 import ParticlesBackground from '../../components/ParticlesBackground';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
@@ -276,47 +276,14 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
 
 export async function getStaticProps() {
   try {
-    // Fetch age groups for the main navigation with deep population
-    const ageGroups = await getAgeGroups({
-      'populate': '*'
-    });
+    console.log('Fetching optimized home page data...');
+    const startTime = Date.now();
     
-    // Fetch trending meditations with specific fields populated
-    const featuredMeditations = await getMeditations({
-      'filters[Trending][$eq]': true,
-      'pagination[limit]': 4,
-      'populate[FeaturedImage]': '*',
-      'populate[CoverImage]': '*',
-      'populate[Media]': '*',
-      'populate[AudioFile]': '*',
-      'populate[gm_rajyoga_teachers]': '*'
-    });
+    // Fetch all data using the optimized single call
+    const { ageGroups, featuredMeditations, teachers } = await getHomePageData();
     
-    // Debug: Log the first meditation's structure
-    if (featuredMeditations && featuredMeditations.length > 0) {
-      console.log('First meditation structure:', 
-        JSON.stringify({
-          id: featuredMeditations[0].id,
-          title: featuredMeditations[0].attributes.Title,
-          featuredImage: featuredMeditations[0].attributes.FeaturedImage,
-          teacher: featuredMeditations[0].attributes.gm_rajyoga_teachers
-        }).substring(0, 500) + '...');
-    }
-    
-    // Fetch meditation teachers
-    const teachers = await getTeachers({
-      'populate': '*'  // Use wildcard to get all related data
-    });
-    
-    // Debug: Log the teachers structure
-    if (teachers && teachers.length > 0) {
-      console.log('First teacher structure:', 
-        JSON.stringify({
-          id: teachers[0].id,
-          name: teachers[0].attributes.Name,
-          featuredImage: teachers[0].attributes.FeaturedImage
-        }).substring(0, 500) + '...');
-    }
+    const endTime = Date.now();
+    console.log(`Home page data fetched in ${endTime - startTime}ms`);
     
     return {
       props: {

@@ -82,7 +82,7 @@ The `relationships.json` file documents these connections based on the data stru
 
 - Use the `populate=*` parameter when querying the Strapi API to fetch related data
 - For deeply nested relationships, use `populate=deep` as seen in the meditations endpoint
-- The main API base URL is `https://webapp.brahmakumaris.com/api`
+- The main API base URL is `https://portal.brahmakumaris.com/api`
 - Authentication is required via an API token
 
 ## Fetching Updated Data

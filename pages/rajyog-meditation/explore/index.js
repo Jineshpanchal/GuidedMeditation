@@ -2,14 +2,23 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Layout from '../../../components/layout/Layout';
 import MeditationCard from '../../../components/meditation/MeditationCard';
-import { getMeditations } from '../../../lib/api/strapi';
+import LoadingSpinner, { SkeletonGrid } from '../../../components/ui/LoadingSpinner';
+import { useMeditations, useSearch } from '../../../contexts/DataContext';
 
-export default function ExplorePage({ meditations: initialMeditations }) {
+export default function ExplorePage({ meditations: initialMeditations = [] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('default');
   const [sortDirection, setSortDirection] = useState('desc'); // 'asc' or 'desc'
-  const [isLoading, setIsLoading] = useState(false);
   const [displayedMeditations, setDisplayedMeditations] = useState(initialMeditations);
+  
+  // Use SWR for client-side data fetching
+  const { data: meditationsData, error: meditationsError, isLoading: meditationsLoading } = useMeditations();
+  const { data: searchData, error: searchError, isLoading: searchLoading } = useSearch(searchQuery, 'meditations');
+  
+  // Use client-side data if available, fallback to SSR data
+  const meditations = meditationsData?.data || initialMeditations;
+  const searchResults = searchData?.data || [];
+  const isLoading = meditationsLoading || searchLoading;
 
   // Toggle sort direction when clicking on the same option
   const handleSortChange = (option) => {
@@ -25,19 +34,8 @@ export default function ExplorePage({ meditations: initialMeditations }) {
 
   // Apply search and sorting
   useEffect(() => {
-    setIsLoading(true);
-    
-    // First, filter by search query
-    let filtered = initialMeditations;
-    
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = initialMeditations.filter(meditation => {
-        const title = meditation.attributes.Title?.toLowerCase() || '';
-        const description = meditation.attributes.DisplayTitle?.toLowerCase() || '';
-        return title.includes(query) || description.includes(query);
-      });
-    }
+    // Use search results if searching, otherwise use all meditations
+    let filtered = searchQuery ? searchResults : meditations;
     
     // Then sort by selected option
     let sorted = [...filtered];
@@ -80,8 +78,7 @@ export default function ExplorePage({ meditations: initialMeditations }) {
     }
     
     setDisplayedMeditations(sorted);
-    setIsLoading(false);
-  }, [searchQuery, sortOption, sortDirection, initialMeditations]);
+  }, [searchQuery, sortOption, sortDirection, meditations, searchResults]);
 
   // Helper to render sort direction icon - only for non-default sorts
   const renderSortIcon = (option) => {
@@ -215,9 +212,7 @@ export default function ExplorePage({ meditations: initialMeditations }) {
           
           {/* Meditation Cards */}
           {isLoading ? (
-            <div className="h-64 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-spiritual-accent"></div>
-            </div>
+            <SkeletonGrid count={6} />
           ) : displayedMeditations.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {displayedMeditations.map((meditation) => (
@@ -265,32 +260,12 @@ export default function ExplorePage({ meditations: initialMeditations }) {
 }
 
 export async function getStaticProps() {
-  // Fetch meditations with Media field to ensure audio playability
-  const meditations = await getMeditations({
-    'fields[0]': 'Title',
-    'fields[1]': 'Slug', 
-    'fields[2]': 'DisplayTitle',
-    'fields[3]': 'Duration',
-    'fields[4]': 'Trending',
-    'fields[5]': 'Listened',
-    'fields[6]': 'like',
-    'populate[FeaturedImage]': '*',
-    'populate[Media]': '*',
-    'populate[AudioFile]': '*',
-    'populate[gm_rajyoga_teachers][fields][0]': 'Name',
-    'populate[gm_rajyoga_teachers][fields][1]': 'Slug',
-    'populate[Category]': '*',
-    'populate[AgeGroup]': '*',
-    'populate[Length]': '*',
-    'populate[Language]': '*',
-    'populate[gm_length]': '*',
-    'pagination[pageSize]': 100
-  });
-
+  // For client-side data fetching, we can provide minimal or no SSR data
+  // This reduces build time and allows for more dynamic content
   return {
     props: {
-      meditations,
+      meditations: [], // Empty array - data will be fetched client-side
     },
-    revalidate: 60, // Re-generate the page after 60 seconds
+    revalidate: 60 * 60, // Revalidate every hour (less frequent since data is client-side)
   };
 }

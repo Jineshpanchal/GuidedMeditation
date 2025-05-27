@@ -6,12 +6,8 @@ import Layout from '../../../components/layout/Layout';
 import CategoryCard from '../../../components/ui/CategoryCard';
 import MeditationCarousel from '../../../components/meditation/MeditationCarousel';
 import { 
-  getAgeGroups, 
-  getCategoriesByAgeGroup, 
-  getTrendingMeditationsByAgeGroup,
-  getMeditationsByCategory,
-  getMeditations
-} from '../../../lib/api/strapi';
+  getAgeGroupPageData
+} from '../../../lib/api/strapi-optimized';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
 const getImageUrl = (imageData) => {
@@ -255,7 +251,9 @@ export default function AgeGroupPage({
 }
 
 export async function getStaticPaths() {
-  const ageGroups = await getAgeGroups();
+  // Import here to avoid circular dependency
+  const { getAgeGroups } = await import('../../../lib/api/strapi-optimized');
+  const ageGroups = await getAgeGroups('minimal');
   
   const paths = ageGroups.map((ageGroup) => ({
     params: { ageGroup: ageGroup.attributes.slug },
@@ -271,30 +269,26 @@ export async function getStaticProps({ params }) {
   const { ageGroup: ageGroupSlug } = params;
   
   try {
-    const ageGroups = await getAgeGroups({
-      'filters[slug][$eq]': ageGroupSlug,
-      'fields[0]': 'name',
-      'fields[1]': 'spectrum',
-      'fields[2]': 'slug',
-      'fields[3]': 'ShortBio',
-      'populate[featuredimage][fields][0]': 'url',
-    });
+    console.log(`Fetching optimized age group page data for: ${ageGroupSlug}`);
+    const startTime = Date.now();
     
-    let ageGroup = ageGroups.find(
-      (group) => group.attributes.slug === ageGroupSlug
-    );
+    // Fetch all data using the optimized single call
+    const pageData = await getAgeGroupPageData(ageGroupSlug);
     
-    if (!ageGroup) {
+    if (!pageData) {
       return {
         notFound: true,
       };
     }
     
+    const { ageGroup, categories, trendingMeditations, meditationCounts } = pageData;
+    
     // Convert complex ShortBio to simple string if needed
+    let processedAgeGroup = ageGroup;
     if (ageGroup.attributes.ShortBio && 
         typeof ageGroup.attributes.ShortBio === 'object' && 
         !Array.isArray(ageGroup.attributes.ShortBio)) {
-      ageGroup = {
+      processedAgeGroup = {
         ...ageGroup,
         attributes: {
           ...ageGroup.attributes,
@@ -303,33 +297,12 @@ export async function getStaticProps({ params }) {
       };
     }
     
-    // Get categories for this age group
-    const categories = await getCategoriesByAgeGroup(ageGroupSlug);
-    
-    // Get trending meditations for this age group
-    const trendingMeditations = await getTrendingMeditationsByAgeGroup(ageGroupSlug);
-
-    // Create a map to store meditation counts for each category
-    const meditationCounts = {};
-    
-    // Fetch meditation counts for each category
-    await Promise.all(categories.map(async (category) => {
-      try {
-        // Get meditations by category ID instead of slug
-        const meditations = await getMeditations({
-          'filters[gm_categories][id][$eq]': category.id,
-          'fields[0]': 'id' // Only fetch IDs for counting
-        });
-        meditationCounts[category.id] = meditations.length;
-      } catch (error) {
-        console.error(`Error fetching meditations for category ${category.attributes.slug}:`, error);
-        meditationCounts[category.id] = 0;
-      }
-    }));
+    const endTime = Date.now();
+    console.log(`Age group page data fetched in ${endTime - startTime}ms`);
     
     return {
       props: {
-        ageGroup,
+        ageGroup: processedAgeGroup,
         categories,
         trendingMeditations,
         meditationCounts
