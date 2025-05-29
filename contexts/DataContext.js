@@ -5,7 +5,7 @@ const DataContext = createContext();
 
 // Simple in-memory cache for client-side
 const cache = new Map();
-const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+const CACHE_DURATION = 1 * 60 * 1000; // 1 minute - reduced for fresher data
 
 // Simple fetcher function
 const fetcher = async (url) => {

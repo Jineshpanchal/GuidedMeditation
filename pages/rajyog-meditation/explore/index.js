@@ -278,7 +278,7 @@ export async function getStaticProps() {
       props: {
         meditations,
       },
-      revalidate: 60 * 10, // Re-generate the page after 10 minutes
+      revalidate: 60, // Reduced from 10 minutes to 60 seconds for fresher data
     };
   } catch (error) {
     console.error('Error fetching explore page data:', error);

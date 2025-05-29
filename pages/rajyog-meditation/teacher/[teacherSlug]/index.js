@@ -662,7 +662,7 @@ export async function getStaticProps({ params }) {
         teacher,
         meditations,
       },
-      revalidate: 60 * 60, // Revalidate every hour
+      revalidate: 300, // Reduced from 1 hour to 5 minutes for fresher data
     };
   } catch (error) {
     console.error(`Error fetching data for teacher ${teacherSlug}:`, error);

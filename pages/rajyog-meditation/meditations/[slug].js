@@ -416,7 +416,7 @@ export async function getStaticProps({ params }) {
         teachers,
         meditationCounts
       },
-      revalidate: 300, // Revalidate every 5 minutes for faster updates
+      revalidate: 300, // Keep at 5 minutes for fresh meditation data
     };
   } catch (error) {
     console.error("Error getting meditation:", error);

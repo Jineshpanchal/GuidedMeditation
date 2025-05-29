@@ -291,7 +291,7 @@ export async function getStaticProps() {
         featuredMeditations: featuredMeditations || [],
         teachers: teachers || [],
       },
-      revalidate: 60 * 10, // Revalidate every 10 minutes
+      revalidate: 60, // Reduced from 10 minutes to 60 seconds for fresher data
     };
   } catch (error) {
     console.error('Error fetching data for home page:', error);

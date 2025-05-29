@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['webapp.brahmakumaris.com', 'example.com', 'bkstrapiapp.blob.core.windows.net'],
+    domains: ['portal.brahmakumaris.com', 'example.com', 'bkstrapiapp.blob.core.windows.net'],
   },
   async rewrites() {
     return [

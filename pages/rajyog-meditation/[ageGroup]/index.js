@@ -307,7 +307,7 @@ export async function getStaticProps({ params }) {
         trendingMeditations,
         meditationCounts
       },
-      revalidate: 60 * 60, // Revalidate every hour
+      revalidate: 300, // Reduced from 1 hour to 5 minutes for fresher data
     };
   } catch (error) {
     console.error(`Error in getStaticProps for age group ${ageGroupSlug}:`, error);
