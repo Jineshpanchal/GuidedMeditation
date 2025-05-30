@@ -158,7 +158,7 @@ const WaveformPlayer = ({ meditation }) => {
       
       // Use tryPlayWhenReady for better handling of not-ready audio
       setTimeout(() => {
-        tryPlayWhenReady();
+          tryPlayWhenReady();
       }, 50);
     } else {
       // Already the current meditation, just toggle play state

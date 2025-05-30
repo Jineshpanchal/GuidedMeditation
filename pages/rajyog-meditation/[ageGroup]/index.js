@@ -84,8 +84,8 @@ export default function AgeGroupPage({
         <meta name="keywords" content={`meditation, spirituality, brahma kumaris, raja yoga, ${ageGroupName.toLowerCase()}, guided meditation`} />
       </Head>
 
-      {/* Spiritual Hero Section with Enhanced Visual Effects */}
-      <section className="hero-section relative min-h-[70vh] md:min-h-[80vh] flex items-center overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative min-h-screen bg-gradient-to-br from-indigo-900 to-purple-900 overflow-hidden pt-24 md:pt-32">
         {/* Animated Background Layers */}
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-900 to-pink-800 opacity-90"></div>
         

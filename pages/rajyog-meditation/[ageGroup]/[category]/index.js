@@ -150,7 +150,7 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
         <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-gradient-to-bl from-pink-200 to-indigo-200 blur-xl opacity-30"></div>
         <div className="absolute -bottom-8 left-1/4 w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-300 to-purple-200 blur-lg opacity-20"></div>
         
-        <div className="container-custom relative z-10 py-8 md:py-12 lg:py-16">
+        <div className="container-custom relative z-10 pt-20 md:pt-20 pb-8 md:pb-12 lg:pb-16">
           {/* Two Column Layout for Desktop */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start lg:items-center">
             {/* Content Column */}

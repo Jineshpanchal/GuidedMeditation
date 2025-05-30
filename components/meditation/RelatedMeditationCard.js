@@ -127,7 +127,7 @@ const RelatedMeditationCard = ({ meditation }) => {
       
       // Use tryPlayWhenReady for immediate playback
       setTimeout(() => {
-        tryPlayWhenReady();
+          tryPlayWhenReady();
       }, 50);
     }
   };

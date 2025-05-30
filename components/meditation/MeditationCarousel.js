@@ -18,8 +18,8 @@ const MeditationCarousel = ({
         {/* Header with title and optional More button */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900">
-            {title}
-          </h2>
+          {title}
+        </h2>
           
           {/* Header More button */}
           {showHeaderButton && viewAllLink && (

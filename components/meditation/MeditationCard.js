@@ -101,7 +101,7 @@ const MeditationCard = ({
       
       // Use tryPlayWhenReady for immediate playback
       setTimeout(() => {
-        tryPlayWhenReady();
+          tryPlayWhenReady();
       }, 50);
     }
   };

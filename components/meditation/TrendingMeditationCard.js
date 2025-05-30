@@ -109,7 +109,7 @@ const TrendingMeditationCard = ({ meditation }) => {
       
       // Use tryPlayWhenReady for immediate playback
       setTimeout(() => {
-        tryPlayWhenReady();
+          tryPlayWhenReady();
       }, 50);
     }
   };

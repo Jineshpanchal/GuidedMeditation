@@ -206,7 +206,7 @@ export default function TeacherPage({ teacher, meditations: initialMeditations }
       
       // Use tryPlayWhenReady for immediate playback
       setTimeout(() => {
-        tryPlayWhenReady();
+          tryPlayWhenReady();
       }, 50);
     }
   };
