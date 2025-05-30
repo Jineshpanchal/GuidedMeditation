@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Layout from '../../components/layout/Layout';
-import SEOTester from '../../components/SEO/SEOTester';
 import TrendingMeditationCard from '../../components/meditation/TrendingMeditationCard';
 import { getHomePageData } from '../../lib/api/strapi-optimized';
 import { getWebsiteSchema, getOrganizationSchema } from '../../lib/seo/structuredData';
@@ -37,9 +36,9 @@ const getImageUrl = (imageData) => {
 export default function RajyogMeditationHome({ ageGroups, featuredMeditations, teachers }) {
   const [showAllSections, setShowAllSections] = useState(false);
   
-  // Add effect to prevent body scrolling
+  // Add effect to prevent body scrolling for fixed viewport
   React.useEffect(() => {
-    // Prevent scrolling on the body
+    // Prevent scrolling on the body for fixed viewport experience
     document.body.style.overflow = 'hidden';
     
     // Cleanup when component unmounts
@@ -47,7 +46,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
       document.body.style.overflow = 'auto';
     };
   }, []);
-
+  
   // SEO Data for home page
   const homePageSEO = {
     title: 'Brahma Kumaris Rajyog Meditation App',
@@ -76,17 +75,14 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
       keywords={homePageSEO.keywords}
       openGraph={homePageSEO.openGraph}
       structuredData={homePageSEO.structuredData}
-      hideHeaderFooter={true}
+      hideFooter={true}
     >
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
 
-      {/* SEO Tester - Only visible in development */}
-      <SEOTester enabled={process.env.NODE_ENV === 'development'} />
-
       {/* Hero Section with Gradient Background and Particles */}
-      <section className="relative bg-gradient-meditation min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
+      <section className="relative bg-gradient-meditation h-screen flex items-center justify-center overflow-hidden pt-20 sm:pt-24 md:pt-28">
         {/* Particles Background */}
         <ParticlesBackground />
         
