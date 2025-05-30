@@ -53,7 +53,7 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
       hideHeaderFooter={true}
     >
       <Head>
-        <meta name="keywords" content="meditation, spirituality, brahma kumaris, raja yoga, guided meditation, peace, calm, self-awareness" />
+        <meta name="keywords" content="meditation, spirituality, brahma kumaris, rajyoga, guided meditation, peace, calm, self-awareness" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
 

@@ -217,7 +217,7 @@ export default function TeacherPage({ teacher, meditations: initialMeditations }
       description={`Guided meditations and teachings by ${teacherName}, ${teacherDesignation}.`}
     >
       <Head>
-        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, raja yoga, ${teacherName.toLowerCase()}, teacher, guide`} />
+        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, rajyoga, ${teacherName.toLowerCase()}, teacher, guide`} />
       </Head>
 
       {/* Immersive Hero Section */}
@@ -598,7 +598,7 @@ export default function TeacherPage({ teacher, meditations: initialMeditations }
                   : <p>{JSON.stringify(teacher.attributes.BigIntro)}</p>
               ) : (
                 <p>
-                  A dedicated Raja Yoga meditation teacher with the Brahma Kumaris. Through years of spiritual practice and study, they have mastered the art of guiding others into deeper states of awareness and connection with the inner self.
+                  A dedicated Rajyoga meditation teacher with the Brahma Kumaris. Through years of spiritual practice and study, they have mastered the art of guiding others into deeper states of awareness and connection with the inner self.
                 </p>
               )}
               

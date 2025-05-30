@@ -9,7 +9,7 @@ import Script from 'next/script';
 const Layout = ({ 
   children, 
   title = 'Guided Meditation | Brahma Kumaris', 
-  description = 'Explore Raja Yoga meditation with Brahma Kumaris. Guided audio meditations for all age groups and spiritual topics.',
+  description = 'Explore Rajyoga meditation with Brahma Kumaris. Guided audio meditations for all age groups and spiritual topics.',
   hideHeaderFooter = false 
 }) => {
   const { currentMeditation } = useAudioPlayer();

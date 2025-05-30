@@ -39,7 +39,7 @@ const TeacherCard = ({ teacher, meditationCount = 0 }) => {
             {teacher.attributes.FeaturedImage?.data ? (
               <img 
                 src={getImageUrl(teacher.attributes.FeaturedImage.data)} 
-                alt={teacher.attributes.Name || 'Raja Yoga Teacher'}
+                alt={teacher.attributes.Name || 'Rajyoga Teacher'}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 onError={(e) => {
                   e.target.onerror = null;
@@ -84,7 +84,7 @@ const TeacherCard = ({ teacher, meditationCount = 0 }) => {
           {/* Teacher Info */}
           <div className="p-5 flex-grow flex flex-col">
             <h3 className="font-display font-semibold text-lg text-gray-800 group-hover:text-spiritual-dark transition-colors">
-              {teacher.attributes.Name || 'Raja Yoga Teacher'}
+              {teacher.attributes.Name || 'Rajyoga Teacher'}
             </h3>
             
             {teacher.attributes.Designation && (

@@ -81,7 +81,7 @@ export default function AgeGroupPage({
       description={`Guided meditations for ${ageGroupName} (${ageGroup.attributes.spectrum}). ${ageGroupDescription}`}
     >
       <Head>
-        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, raja yoga, ${ageGroupName.toLowerCase()}, guided meditation`} />
+        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, rajyoga, ${ageGroupName.toLowerCase()}, guided meditation`} />
       </Head>
 
       {/* Hero Section */}

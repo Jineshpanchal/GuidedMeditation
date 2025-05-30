@@ -123,11 +123,11 @@ export default function LikedMeditationsPage({ allMeditations = [] }) {
 
   return (
     <Layout
-      title="Liked Meditations | Brahma Kumaris"
-      description="Your collection of liked guided Raja Yoga meditations by Brahma Kumaris."
+      title="Liked Meditations | Brahma Kumaris Rajyoga Meditation"
+      description="Your collection of liked guided Rajyoga meditations by Brahma Kumaris."
     >
       <Head>
-        <meta name="keywords" content="meditation, spirituality, brahma kumaris, raja yoga, guided meditation, liked, favorites" />
+        <meta name="keywords" content="meditation, spirituality, brahma kumaris, rajyoga, guided meditation, liked, favorites" />
       </Head>
 
       {/* Hero Section with search */}

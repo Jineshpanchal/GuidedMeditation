@@ -56,7 +56,7 @@ const Footer = () => {
               </div>
               
               <p className="text-gray-700 leading-relaxed">
-                Transforming lives through Raja Yoga meditation and spiritual wisdom.
+                Transforming lives through Rajyoga meditation and spiritual wisdom.
               </p>
               
               <div className="flex items-center space-x-4">
@@ -133,7 +133,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link href="#" className="text-gray-700 hover:text-spiritual-purple transition-all duration-300 hover:translate-x-1 inline-flex items-center group">
-                    <span>About Raja Yoga</span>
+                    <span>About Rajyoga</span>
                     <svg className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>

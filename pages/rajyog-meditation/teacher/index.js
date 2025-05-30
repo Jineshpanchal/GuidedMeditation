@@ -46,11 +46,11 @@ export default function TeachersIndexPage({ teachers, meditationCounts }) {
   
   return (
     <Layout
-      title="Raja Yoga Teachers | Brahma Kumaris Meditation"
-      description="Meet our experienced Raja Yoga meditation teachers from around the world."
+      title="Rajyoga Teachers | Brahma Kumaris Meditation"
+      description="Meet our experienced Rajyoga meditation teachers from around the world."
     >
       <Head>
-        <meta name="keywords" content="meditation, spirituality, brahma kumaris, raja yoga, teachers, guides" />
+        <meta name="keywords" content="meditation, spirituality, brahma kumaris, rajyoga, teachers, guides" />
       </Head>
 
       {/* Hero Section - Enhanced with parallax effect */}
@@ -75,7 +75,7 @@ export default function TeachersIndexPage({ teachers, meditationCounts }) {
             </span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto animate-fade-in-delayed leading-relaxed">
-            Meet our experienced Raja Yoga meditation teachers who guide seekers on the journey to inner peace and spiritual growth.
+            Meet our experienced Rajyoga meditation teachers who guide seekers on the journey to inner peace and spiritual growth.
           </p>
           <div className="h-1 w-20 bg-gradient-to-r from-spiritual-dark via-spiritual-purple to-spiritual-blue bg-[length:200%_auto] rounded-full mx-auto mt-8 animate-gradient" />
         </div>

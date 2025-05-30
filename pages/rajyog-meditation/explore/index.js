@@ -99,11 +99,11 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
 
   return (
     <Layout
-      title="Explore Meditations | Brahma Kumaris"
-      description="Discover and explore a variety of guided Raja Yoga meditations by Brahma Kumaris."
+      title="Explore Meditations | Brahma Kumaris Rajyoga Meditation"
+      description="Discover and explore a variety of guided Rajyoga meditations by Brahma Kumaris."
     >
       <Head>
-        <meta name="keywords" content="meditation, spirituality, brahma kumaris, raja yoga, guided meditation, explore" />
+        <meta name="keywords" content="meditation, spirituality, brahma kumaris, rajyoga, guided meditation, explore" />
       </Head>
 
       {/* Hero Section with search */}

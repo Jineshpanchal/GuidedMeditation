@@ -139,7 +139,7 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
       description={`${categoryDescription} Guided meditations for ${ageGroupName} (${ageGroup.attributes.spectrum}).`}
     >
       <Head>
-        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, raja yoga, ${categoryName.toLowerCase()}, ${ageGroupName.toLowerCase()}, guided meditation`} />
+        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, rajyoga, ${categoryName.toLowerCase()}, ${ageGroupName.toLowerCase()}, guided meditation`} />
       </Head>
 
       {/* Hero Section - Modern Asymmetric Design */}

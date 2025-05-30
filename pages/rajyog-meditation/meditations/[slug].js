@@ -152,7 +152,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
       description={meditationBenefits}
     >
       <Head>
-        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, raja yoga, guided meditation, ${meditationTitle.toLowerCase()}`} />
+        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, rajyoga, guided meditation, ${meditationTitle.toLowerCase()}`} />
       </Head>
 
       {/* Hero Section with Featured Image */}
