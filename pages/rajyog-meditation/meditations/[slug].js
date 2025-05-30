@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Layout from '../../../components/layout/Layout';
 import WaveformPlayer from '../../../components/meditation/WaveformPlayer';
 import RelatedMeditationCard from '../../../components/meditation/RelatedMeditationCard';
+import MeditationCarousel from '../../../components/meditation/MeditationCarousel';
 import TeacherCard from '../../../components/ui/TeacherCard';
 import RichTextRenderer from '../../../components/ui/RichTextRenderer';
 import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
@@ -78,7 +79,7 @@ const getImageUrl = (imageData) => {
   return '/images/placeholder.jpg';
 };
 
-export default function MeditationPage({ meditation, relatedMeditations, teacher, teacherMeditations, teachers, meditationCounts }) {
+export default function MeditationPage({ meditation, relatedMeditations, teacherMeditations, teacher, teachers, meditationCounts }) {
   const { playMeditation, togglePlay, isPlaying, currentMeditation, hasEnded } = useAudioPlayer();
   
   if (!meditation) {
@@ -304,60 +305,28 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
 
       {/* More Meditations Like This Section */}
       {relatedMeditations && relatedMeditations.length > 0 && (
-        <section className="py-12 bg-gray-50">
-          <div className="container-custom">
-            <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 mb-6">
-              More Meditations Like This
-            </h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedMeditations.map((relMeditation) => (
-                <RelatedMeditationCard 
-                  key={relMeditation.id} 
-                  meditation={relMeditation} 
-                />
-              ))}
-            </div>
-            
-            <div className="mt-8 text-center">
-              <Link href="/rajyog-meditation/explore">
-                <span className="inline-block py-3 px-6 bg-spiritual-dark hover:bg-spiritual-accent text-white rounded-md transition-colors cursor-pointer">
-                  Explore All Meditations
-                </span>
-              </Link>
-            </div>
-          </div>
-        </section>
+        <MeditationCarousel
+          title="Meditations Like This"
+          meditations={relatedMeditations}
+          CardComponent={RelatedMeditationCard}
+          showHeaderButton={true}
+          viewAllLink="/rajyog-meditation/explore"
+          headerButtonText="More"
+          backgroundColor="bg-gray-50"
+        />
       )}
 
-
-
       {/* More Meditations by This Teacher */}
-      {teacherInfo && relatedMeditations && relatedMeditations.length > 0 && (
-        <section className="py-12 bg-gray-50">
-          <div className="container-custom">
-            <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 mb-6">
-              More Meditations by {teacherInfo.name}
-            </h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedMeditations.slice(0, 4).map((relMeditation) => (
-                <RelatedMeditationCard 
-                  key={relMeditation.id} 
-                  meditation={relMeditation} 
-                />
-              ))}
-            </div>
-            
-            <div className="mt-8 text-center">
-              <Link href={`/rajyog-meditation/teacher/${teacherInfo.slug}`}>
-                <span className="inline-block py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors cursor-pointer">
-                  View All Meditations by {teacherInfo.name}
-                </span>
-              </Link>
-            </div>
-          </div>
-        </section>
+      {teacherInfo && teacherMeditations && teacherMeditations.length > 0 && (
+        <MeditationCarousel
+          title={`Meditations by ${teacherInfo.name}`}
+          meditations={teacherMeditations.slice(0, 8)}
+          CardComponent={RelatedMeditationCard}
+          showHeaderButton={true}
+          viewAllLink={`/rajyog-meditation/teacher/${teacherInfo.slug}`}
+          headerButtonText="More"
+          backgroundColor="bg-gray-50"
+        />
       )}
     </Layout>
   );
@@ -402,7 +371,7 @@ export async function getStaticProps({ params }) {
       };
     }
     
-    const { meditation, relatedMeditations, teachers, meditationCounts } = pageData;
+    const { meditation, relatedMeditations, teacherMeditations, teachers, meditationCounts } = pageData;
     
     const endTime = Date.now();
     console.log(`Meditation page data fetched in ${endTime - startTime}ms`);
@@ -411,8 +380,8 @@ export async function getStaticProps({ params }) {
       props: {
         meditation,
         relatedMeditations,
+        teacherMeditations,
         teacher: teachers.length > 0 ? teachers[0] : null, // For backward compatibility
-        teacherMeditations: [], // Not needed anymore
         teachers,
         meditationCounts
       },

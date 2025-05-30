@@ -20,7 +20,7 @@ const Header = () => {
   const navItems = [
     { href: '/rajyog-meditation', label: 'Home' },
     { href: '/rajyog-meditation/explore', label: 'Explore' },
-    { href: '#', label: 'About Raja Yoga' },
+    { href: '#', label: 'About Rajyoga' },
     { href: '/rajyog-meditation/teacher', label: 'Teachers' },
   ];
 
@@ -50,27 +50,20 @@ const Header = () => {
               {/* Logo */}
               <Link href="/rajyog-meditation" className="group flex items-center space-x-3">
                 <div className="relative">
-                  {/* Logo placeholder - replace with actual logo */}
-                  <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm border border-white/20 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                    {/* Replace the src below with your actual logo path */}
-                    {/* For now, showing fallback - replace "/images/brahma-kumaris-logo.png" with your logo */}
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-spiritual-light to-spiritual-accent flex items-center justify-center">
-                      <span className="text-spiritual-dark font-bold text-sm">BK</span>
-                    </div>
-                    {/* Uncomment and update the path when you have the logo:
+                  {/* BK Logo with white background */}
+                  <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm border border-white/20 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 p-2">
                     <Image 
-                      src="/images/brahma-kumaris-logo.png"
+                      src="/BK Logo-384x384.png"
                       alt="Brahma Kumaris Logo"
-                      width={32}
-                      height={32}
-                      className="rounded-full"
+                      width={28}
+                      height={28}
+                      className="object-contain"
                     />
-                    */}
                   </div>
                 </div>
                 
-                <div className="hidden sm:block">
-                  <div className={`font-display font-bold text-lg transition-colors duration-300 ${
+                <div className="block">
+                  <div className={`font-display font-bold text-sm sm:text-lg transition-colors duration-300 ${
                     isScrolled 
                       ? 'text-gray-900' 
                       : 'text-white drop-shadow-lg'
@@ -82,7 +75,7 @@ const Header = () => {
                       ? 'text-gray-600' 
                       : 'text-white/90 drop-shadow-md'
                   }`}>
-                    Raja Yoga Meditation
+                    Rajyoga Meditation
                   </div>
                 </div>
               </Link>
@@ -178,7 +171,7 @@ const Header = () => {
                 </div>
                 <div>
                   <div className="font-display font-bold text-gray-900">Brahma Kumaris</div>
-                  <div className="text-xs text-gray-600">Raja Yoga Meditation</div>
+                  <div className="text-xs text-gray-600">Rajyoga Meditation</div>
                 </div>
               </div>
             </div>
