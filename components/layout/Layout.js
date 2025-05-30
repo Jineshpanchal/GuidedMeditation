@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import Header from './Header';
 import Footer from './Footer';
+import ScrollToTop from '../common/ScrollToTop';
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 import Script from 'next/script';
 
@@ -49,6 +50,9 @@ const Layout = ({
         </main>
         
         {!hideHeaderFooter && <Footer />}
+        
+        {/* Scroll to Top Button */}
+        {!hideHeaderFooter && <ScrollToTop />}
       </div>
       
       {/* PWA service worker registration */}

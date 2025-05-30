@@ -82,7 +82,7 @@ export default function TeachersIndexPage({ teachers, meditationCounts }) {
       </section>
 
       {/* Search & Filter Bar */}
-      <section className="sticky top-0 z-20 bg-white shadow-md py-3 backdrop-blur-sm bg-opacity-90">
+      <section className=" top-0 z-20 bg-white shadow-md py-3 backdrop-blur-sm bg-opacity-90">
         <div className="container-custom">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="relative w-full sm:w-64 md:w-80">
