@@ -141,7 +141,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
     if (currentMeditation && currentMeditation.id === meditation.id) {
       togglePlay();
     } else {
-      playMeditation(meditation);
+      playMeditation(meditation, true); // Start from beginning when clicking play on detail page
       setTimeout(togglePlay, 100); // Small delay to ensure meditation is loaded
     }
   };

@@ -1,16 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import Layout from '../../../components/layout/Layout';
 import MeditationCard from '../../../components/meditation/MeditationCard';
 import LoadingSpinner, { SkeletonGrid } from '../../../components/ui/LoadingSpinner';
 import { getExplorePageData } from '../../../lib/api/strapi-optimized';
 
-export default function ExplorePage({ meditations: initialMeditations = [] }) {
+// Helper functions for managing liked meditations in localStorage
+const getLikedMeditations = () => {
+  try {
+    const liked = localStorage.getItem('liked_meditations');
+    return liked ? JSON.parse(liked) : [];
+  } catch (e) {
+    console.warn('Error reading liked meditations from localStorage:', e);
+    return [];
+  }
+};
+
+export default function LikedMeditationsPage({ allMeditations = [] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('default');
   const [sortDirection, setSortDirection] = useState('desc'); // 'asc' or 'desc'
-  const [isLoading, setIsLoading] = useState(false);
-  const [displayedMeditations, setDisplayedMeditations] = useState(initialMeditations);
+  const [isLoading, setIsLoading] = useState(true);
+  const [likedMeditations, setLikedMeditations] = useState([]);
+  const [displayedMeditations, setDisplayedMeditations] = useState([]);
+
+  // Load liked meditations from localStorage
+  useEffect(() => {
+    const likedIds = getLikedMeditations();
+    const filtered = allMeditations.filter(meditation => 
+      likedIds.includes(meditation.id.toString()) || likedIds.includes(meditation.id)
+    );
+    setLikedMeditations(filtered);
+    setDisplayedMeditations(filtered);
+    setIsLoading(false);
+  }, [allMeditations]);
 
   // Toggle sort direction when clicking on the same option
   const handleSortChange = (option) => {
@@ -29,11 +53,11 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
     setIsLoading(true);
     
     // First, filter by search query
-    let filtered = initialMeditations;
+    let filtered = likedMeditations;
     
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = initialMeditations.filter(meditation => {
+      filtered = likedMeditations.filter(meditation => {
         const title = meditation.attributes.Title?.toLowerCase() || '';
         const description = meditation.attributes.DisplayTitle?.toLowerCase() || '';
         return title.includes(query) || description.includes(query);
@@ -82,7 +106,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
     
     setDisplayedMeditations(sorted);
     setIsLoading(false);
-  }, [searchQuery, sortOption, sortDirection, initialMeditations]);
+  }, [searchQuery, sortOption, sortDirection, likedMeditations]);
 
   // Helper to render sort direction icon - only for non-default sorts
   const renderSortIcon = (option) => {
@@ -99,22 +123,37 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
 
   return (
     <Layout
-      title="Explore Meditations | Brahma Kumaris"
-      description="Discover and explore a variety of guided Raja Yoga meditations by Brahma Kumaris."
+      title="Liked Meditations | Brahma Kumaris"
+      description="Your collection of liked guided Raja Yoga meditations by Brahma Kumaris."
     >
       <Head>
-        <meta name="keywords" content="meditation, spirituality, brahma kumaris, raja yoga, guided meditation, explore" />
+        <meta name="keywords" content="meditation, spirituality, brahma kumaris, raja yoga, guided meditation, liked, favorites" />
       </Head>
 
       {/* Hero Section with search */}
-      <section className="hero-section bg-gradient-to-r from-spiritual-light/50 to-spiritual-accent/20">
+      <section className="hero-section bg-gradient-to-r from-red-50 via-pink-50 to-rose-50">
         <div className="container-custom py-8 md:py-12 pt-20 md:pt-20">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl md:text-5xl font-display font-bold text-gray-900 mb-6">
-              Explore Guided Meditations
-            </h1>
+            {/* Back Navigation */}
+            <div className="mb-6">
+              <Link 
+                href="/rajyog-meditation/explore"
+                className="inline-flex items-center px-4 py-2 text-sm text-gray-700 hover:text-spiritual-dark bg-white/80 backdrop-blur-sm rounded-full transition-all hover:bg-white/90"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                </svg>
+                Back to Explore
+              </Link>
+            </div>
+
+            <div className="flex items-center justify-center mb-4">
+              <h1 className="text-3xl md:text-5xl font-display font-bold text-gray-900">
+                Liked Meditations
+              </h1>
+            </div>
             <p className="text-lg text-gray-800 mb-8">
-              Find the perfect meditation for your spiritual journey
+              Your personal collection of favorite meditations
             </p>
             
             {/* Search bar */}
@@ -126,8 +165,8 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
               </div>
               <input
                 type="text"
-                placeholder="Search meditations..."
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-full shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-spiritual-accent focus:border-spiritual-accent text-gray-900"
+                placeholder="Search your liked meditations..."
+                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-full shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -143,7 +182,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
           <div className="mb-8">
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold text-gray-900">
-                All Meditations
+                Your Liked Meditations
               </h2>
               
               {/* Horizontal scrollable area for sorting options */}
@@ -153,7 +192,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
                     onClick={() => handleSortChange('default')}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap ${
                       sortOption === 'default' 
-                        ? 'bg-spiritual-dark text-white' 
+                        ? 'bg-red-600 text-white' 
                         : 'bg-white text-gray-700 hover:bg-gray-100'
                     }`}
                   >
@@ -164,7 +203,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
                     onClick={() => handleSortChange('trending')}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap ${
                       sortOption === 'trending' 
-                        ? 'bg-spiritual-dark text-white' 
+                        ? 'bg-red-600 text-white' 
                         : 'bg-white text-gray-700 hover:bg-gray-100'
                     }`}
                   >
@@ -175,7 +214,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
                     onClick={() => handleSortChange('listened')}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap ${
                       sortOption === 'listened' 
-                        ? 'bg-spiritual-dark text-white' 
+                        ? 'bg-red-600 text-white' 
                         : 'bg-white text-gray-700 hover:bg-gray-100'
                     }`}
                   >
@@ -186,7 +225,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
                     onClick={() => handleSortChange('likes')}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap ${
                       sortOption === 'likes' 
-                        ? 'bg-spiritual-dark text-white' 
+                        ? 'bg-red-600 text-white' 
                         : 'bg-white text-gray-700 hover:bg-gray-100'
                     }`}
                   >
@@ -197,7 +236,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
                     onClick={() => handleSortChange('duration')}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap ${
                       sortOption === 'duration' 
-                        ? 'bg-spiritual-dark text-white' 
+                        ? 'bg-red-600 text-white' 
                         : 'bg-white text-gray-700 hover:bg-gray-100'
                     }`}
                   >
@@ -210,7 +249,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
             
             {/* Meditations count */}
             <p className="text-sm text-gray-600">
-              {displayedMeditations.length} meditation{displayedMeditations.length !== 1 ? 's' : ''} found
+              {displayedMeditations.length} meditation{displayedMeditations.length !== 1 ? 's' : ''} in your collection
             </p>
           </div>
           
@@ -230,7 +269,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
           ) : (
             <div className="bg-white rounded-lg shadow-sm p-8 text-center">
               <svg
-                className="mx-auto h-12 w-12 text-gray-400"
+                className="mx-auto h-16 w-16 text-gray-400 mb-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -239,22 +278,39 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  strokeWidth={1.5}
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                 />
               </svg>
-              <h3 className="mt-4 text-lg font-medium text-gray-900">No meditations found</h3>
+              <h3 className="mt-4 text-lg font-medium text-gray-900">
+                {searchQuery ? 'No matching meditations found' : 'No liked meditations yet'}
+              </h3>
               <p className="mt-2 text-sm text-gray-500">
-                Try adjusting your search query to find what you're looking for.
+                {searchQuery 
+                  ? "Try adjusting your search query to find what you're looking for."
+                  : "Start exploring meditations and click the heart icon to add them to your collection."
+                }
               </p>
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-spiritual-accent hover:bg-spiritual-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiritual-accent"
-                >
-                  Clear search
-                </button>
-              )}
+              <div className="mt-6 space-y-3">
+                {searchQuery ? (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  >
+                    Clear search
+                  </button>
+                ) : (
+                  <Link
+                    href="/rajyog-meditation/explore"
+                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                    </svg>
+                    Explore Meditations
+                  </Link>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -265,26 +321,26 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
 
 export async function getStaticProps() {
   try {
-    console.log('Fetching optimized explore page data...');
+    console.log('Fetching meditations data for liked page...');
     const startTime = Date.now();
     
-    // Fetch all data using the optimized single call
+    // Fetch all meditations so we can filter them client-side for liked ones
     const { meditations } = await getExplorePageData();
     
     const endTime = Date.now();
-    console.log(`Explore page data fetched in ${endTime - startTime}ms`);
+    console.log(`Liked page data fetched in ${endTime - startTime}ms`);
 
     return {
       props: {
-        meditations,
+        allMeditations: meditations,
       },
-      revalidate: 60, // Reduced from 10 minutes to 60 seconds for fresher data
+      revalidate: 60, // Revalidate every minute
     };
   } catch (error) {
-    console.error('Error fetching explore page data:', error);
+    console.error('Error fetching liked page data:', error);
     return {
       props: {
-        meditations: [],
+        allMeditations: [],
       },
       revalidate: 60, // Try again sooner if there was an error
     };

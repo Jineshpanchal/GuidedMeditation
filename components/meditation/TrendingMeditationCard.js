@@ -95,22 +95,19 @@ const TrendingMeditationCard = ({ meditation }) => {
     e.preventDefault();
     e.stopPropagation();
     
-    // Update listen count when playing a new meditation
-    if (!currentMeditation || currentMeditation.id !== meditation.id) {
-      updateListenedCount();
-    }
+    updateListenedCount();
     
-    // If this is already the current meditation, just toggle play/pause
-    if (currentMeditation && currentMeditation.id === meditation.id) {
-      togglePlay();
-    } else {
-      // Otherwise, set this as the current meditation and play it
-      playMeditation(meditation);
+    if (!currentMeditation || currentMeditation.id !== meditation.id) {
+      // Start new meditation from beginning
+      playMeditation(meditation, true);
       
-      // Use tryPlayWhenReady for immediate playback
+      // Use tryPlayWhenReady for better handling of not-ready audio
       setTimeout(() => {
-          tryPlayWhenReady();
+        tryPlayWhenReady();
       }, 50);
+    } else {
+      // Already current meditation, just toggle
+      togglePlay();
     }
   };
 

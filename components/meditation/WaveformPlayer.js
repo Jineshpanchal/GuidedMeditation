@@ -2,6 +2,41 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 import axios from 'axios';
 
+// Helper functions for managing liked meditations in localStorage
+const getLikedMeditations = () => {
+  try {
+    const liked = localStorage.getItem('liked_meditations');
+    return liked ? JSON.parse(liked) : [];
+  } catch (e) {
+    console.warn('Error reading liked meditations from localStorage:', e);
+    return [];
+  }
+};
+
+const addLikedMeditation = (meditationId) => {
+  try {
+    const liked = getLikedMeditations();
+    const id = meditationId.toString();
+    if (!liked.includes(id)) {
+      liked.push(id);
+      localStorage.setItem('liked_meditations', JSON.stringify(liked));
+    }
+  } catch (e) {
+    console.warn('Error storing liked meditation:', e);
+  }
+};
+
+const removeLikedMeditation = (meditationId) => {
+  try {
+    const liked = getLikedMeditations();
+    const id = meditationId.toString();
+    const filtered = liked.filter(item => item !== id);
+    localStorage.setItem('liked_meditations', JSON.stringify(filtered));
+  } catch (e) {
+    console.warn('Error removing liked meditation:', e);
+  }
+};
+
 const WaveformPlayer = ({ meditation }) => {
   const { 
     currentMeditation, 
@@ -26,6 +61,7 @@ const WaveformPlayer = ({ meditation }) => {
   const [likeCount, setLikeCount] = useState(parseInt(meditation?.attributes?.like || '0', 10));
   const [isLiked, setIsLiked] = useState(false);
   const [playClicked, setPlayClicked] = useState(false);
+  const [showResumeNotification, setShowResumeNotification] = useState(false);
   const intervalRef = useRef(null);
   
   const isCurrentMeditation = currentMeditation && currentMeditation.id === meditation.id;
@@ -45,6 +81,10 @@ const WaveformPlayer = ({ meditation }) => {
     // Initialize listened and like counts from meditation data
     setListenedCount(parseInt(meditation?.attributes?.Listened || '0', 10));
     setLikeCount(parseInt(meditation?.attributes?.like || '0', 10));
+    
+    // Check if this meditation is liked from localStorage
+    const likedMeditations = getLikedMeditations();
+    setIsLiked(likedMeditations.includes(meditation.id.toString()) || likedMeditations.includes(meditation.id));
     
     // Reset local state when meditation changes
     setLocalTime(0);
@@ -68,6 +108,21 @@ const WaveformPlayer = ({ meditation }) => {
       setProgress(calculatedProgress);
     }
   }, [currentTime, duration, isCurrentMeditation, isDragging]);
+
+  // Initialize position when this becomes the current meditation
+  useEffect(() => {
+    if (isCurrentMeditation && currentTime > 0) {
+      setLocalTime(currentTime);
+      const calculatedProgress = duration > 0 ? (currentTime / duration) * 100 : 0;
+      setProgress(calculatedProgress);
+      
+      // Show resume notification if position is significant (more than 30 seconds)
+      if (currentTime > 30) {
+        setShowResumeNotification(true);
+        setTimeout(() => setShowResumeNotification(false), 5000);
+      }
+    }
+  }, [isCurrentMeditation]);
 
   // Set up continuous update interval when playing
   useEffect(() => {
@@ -125,6 +180,16 @@ const WaveformPlayer = ({ meditation }) => {
       if (meditation?.id) {
         const newLikedState = !isLiked;
         
+        // Update localStorage immediately for instant UI feedback
+        if (newLikedState) {
+          addLikedMeditation(meditation.id);
+        } else {
+          removeLikedMeditation(meditation.id);
+        }
+        
+        // Update local state
+        setIsLiked(newLikedState);
+        
         const response = await axios.post('/api/meditation/interaction', {
           meditationId: meditation.id,
           action: 'like',
@@ -134,17 +199,26 @@ const WaveformPlayer = ({ meditation }) => {
         if (response.data.success) {
           const newCount = response.data.data.like;
           console.log('New like count:', newCount);
-          setIsLiked(newLikedState);
           setLikeCount(newCount);
         } else {
           // Revert UI state if the API call fails
           setIsLiked(!newLikedState);
+          if (!newLikedState) {
+            addLikedMeditation(meditation.id);
+          } else {
+            removeLikedMeditation(meditation.id);
+          }
         }
       }
     } catch (error) {
       console.error('Failed to update like count:', error);
       // Revert UI state if the API call fails
       setIsLiked(!isLiked);
+      if (!isLiked) {
+        removeLikedMeditation(meditation.id);
+      } else {
+        addLikedMeditation(meditation.id);
+      }
     }
   };
 
@@ -153,8 +227,8 @@ const WaveformPlayer = ({ meditation }) => {
     updateListenedCount();
     
     if (!isCurrentMeditation) {
-      // Set up the meditation first
-      playMeditation(meditation);
+      // Set up the meditation first - start from beginning when user clicks play on a card
+      playMeditation(meditation, true); // true = start from beginning
       
       // Use tryPlayWhenReady for better handling of not-ready audio
       setTimeout(() => {
@@ -181,7 +255,7 @@ const WaveformPlayer = ({ meditation }) => {
     const value = parseFloat(e.target.value);
     
     if (!isCurrentMeditation) {
-      playMeditation(meditation);
+      playMeditation(meditation, true); // Start from beginning when user interacts with slider on non-current meditation
       // Delay seeking to ensure meditation loads
       setTimeout(() => {
         seekTo(value);
@@ -198,7 +272,7 @@ const WaveformPlayer = ({ meditation }) => {
     const newTime = Math.max(0, localTime - 10);
     
     if (!isCurrentMeditation) {
-      playMeditation(meditation);
+      playMeditation(meditation, true); // Start from beginning
       setTimeout(() => seekTo(newTime), 300);
     } else {
       seekTo(newTime);
@@ -213,7 +287,7 @@ const WaveformPlayer = ({ meditation }) => {
     const newTime = Math.min(displayDuration, localTime + 10);
     
     if (!isCurrentMeditation) {
-      playMeditation(meditation);
+      playMeditation(meditation, true); // Start from beginning
       setTimeout(() => seekTo(newTime), 300);
     } else {
       seekTo(newTime);
@@ -221,6 +295,19 @@ const WaveformPlayer = ({ meditation }) => {
     
     setLocalTime(newTime);
     setProgress((newTime / displayDuration) * 100);
+  };
+
+  // Start from beginning function
+  const startFromBeginning = () => {
+    if (!isCurrentMeditation) {
+      playMeditation(meditation, true); // Start from beginning
+      setTimeout(() => seekTo(0), 300);
+    } else {
+      seekTo(0);
+    }
+    setLocalTime(0);
+    setProgress(0);
+    setShowResumeNotification(false);
   };
 
   return (
@@ -240,6 +327,24 @@ const WaveformPlayer = ({ meditation }) => {
       
       {/* Content */}
       <div className="p-6">
+        {/* Resume notification */}
+        {showResumeNotification && (
+          <div className="mb-4 bg-spiritual-light/10 border border-spiritual-accent/20 text-spiritual-dark p-3 rounded-xl text-sm flex items-center justify-between">
+            <div className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-spiritual-accent" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              Resuming from {formatTime(currentTime)}
+            </div>
+            <button
+              onClick={startFromBeginning}
+              className="text-xs bg-white hover:bg-gray-50 border border-gray-200 px-2 py-1 rounded-md transition-colors"
+            >
+              Start from beginning
+            </button>
+          </div>
+        )}
+        
         {/* Show error message if playback failed */}
         {playError && isCurrentMeditation && (
           <div className="mb-6 bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl text-sm">

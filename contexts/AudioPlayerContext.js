@@ -19,6 +19,46 @@ const getProxiedAudioUrl = (url) => {
   return url;
 };
 
+// Helper to get stored position
+const getStoredPosition = (meditationId) => {
+  try {
+    const stored = localStorage.getItem(`meditation_position_${meditationId}`);
+    return stored ? parseFloat(stored) : 0;
+  } catch (e) {
+    console.warn('Error reading from localStorage:', e);
+    return 0;
+  }
+};
+
+// Helper to store position
+const storePosition = (meditationId, position) => {
+  try {
+    localStorage.setItem(`meditation_position_${meditationId}`, position.toString());
+  } catch (e) {
+    console.warn('Error writing to localStorage:', e);
+  }
+};
+
+// Helper to get stored current meditation
+const getStoredCurrentMeditation = () => {
+  try {
+    const stored = localStorage.getItem('current_meditation');
+    return stored ? JSON.parse(stored) : null;
+  } catch (e) {
+    console.warn('Error reading current meditation from localStorage:', e);
+    return null;
+  }
+};
+
+// Helper to store current meditation
+const storeCurrentMeditation = (meditation) => {
+  try {
+    localStorage.setItem('current_meditation', JSON.stringify(meditation));
+  } catch (e) {
+    console.warn('Error storing current meditation to localStorage:', e);
+  }
+};
+
 // Context provider component
 export const AudioPlayerProvider = ({ children }) => {
   const [audio] = useState(() => typeof Audio !== 'undefined' ? new Audio() : null);
@@ -31,6 +71,22 @@ export const AudioPlayerProvider = ({ children }) => {
   const [playError, setPlayError] = useState(null);
   const [isVideo, setIsVideo] = useState(false);
   const timeUpdateIntervalRef = useRef(null);
+  const positionSaveIntervalRef = useRef(null);
+
+  // Restore current meditation on page load
+  useEffect(() => {
+    const storedMeditation = getStoredCurrentMeditation();
+    if (storedMeditation) {
+      const storedPosition = getStoredPosition(storedMeditation.id);
+      // Only restore if there's a meaningful position (more than 10 seconds)
+      // This will restore the meditation that was "current" when user left
+      if (storedPosition > 10) {
+        console.log('Restoring current meditation from localStorage:', storedMeditation.attributes?.Title, 'at position:', storedPosition);
+        setCurrentMeditation(storedMeditation);
+        // Don't call playMeditation here, just set as current so it appears in the sticky player
+      }
+    }
+  }, []);
 
   // Load audio when meditation changes
   useEffect(() => {
@@ -74,6 +130,15 @@ export const AudioPlayerProvider = ({ children }) => {
         
         // Preload audio data
         audio.preload = "auto";
+
+        // Restore previous position if available
+        if (currentMeditation?.id) {
+          const storedPosition = getStoredPosition(currentMeditation.id);
+          if (storedPosition > 0) {
+            audio.currentTime = storedPosition;
+            setCurrentTime(storedPosition);
+          }
+        }
       } else {
         console.warn('No audio URL found for meditation:', currentMeditation?.attributes?.Title);
         setIsReady(false);
@@ -88,10 +153,33 @@ export const AudioPlayerProvider = ({ children }) => {
     // Cleanup function
     return () => {
       if (audio) {
+        // Store position before cleanup
+        if (currentMeditation?.id && audio.currentTime > 0) {
+          storePosition(currentMeditation.id, audio.currentTime);
+        }
         audio.pause();
       }
     };
   }, [currentMeditation, audio]);
+
+  // Set up position saving interval
+  useEffect(() => {
+    if (isPlaying && currentMeditation?.id) {
+      // Save position every 5 seconds during playback
+      positionSaveIntervalRef.current = setInterval(() => {
+        if (audio && audio.currentTime > 0) {
+          storePosition(currentMeditation.id, audio.currentTime);
+        }
+      }, 5000);
+    }
+
+    return () => {
+      if (positionSaveIntervalRef.current) {
+        clearInterval(positionSaveIntervalRef.current);
+        positionSaveIntervalRef.current = null;
+      }
+    };
+  }, [isPlaying, currentMeditation, audio]);
 
   // Set up audio event listeners
   useEffect(() => {
@@ -101,6 +189,16 @@ export const AudioPlayerProvider = ({ children }) => {
       console.log('Audio metadata loaded, duration:', audio.duration);
       setDuration(audio.duration);
       setIsReady(true);
+      
+      // Apply stored position after metadata is loaded only if not explicitly starting from beginning
+      if (currentMeditation?.id) {
+        const storedPosition = getStoredPosition(currentMeditation.id);
+        if (storedPosition > 0 && storedPosition < audio.duration) {
+          console.log('Applying stored position:', storedPosition);
+          audio.currentTime = storedPosition;
+          setCurrentTime(storedPosition);
+        }
+      }
     };
 
     const handleEnded = () => {
@@ -109,6 +207,11 @@ export const AudioPlayerProvider = ({ children }) => {
       setCurrentTime(0);
       setHasEnded(true);
       audio.currentTime = 0;
+      
+      // Clear stored position when meditation ends
+      if (currentMeditation?.id) {
+        storePosition(currentMeditation.id, 0);
+      }
     };
 
     const handleError = (e) => {
@@ -154,12 +257,22 @@ export const AudioPlayerProvider = ({ children }) => {
   }, [isPlaying, audio]);
 
   // Play a specific meditation
-  const playMeditation = (meditation) => {
-    console.log('Playing meditation:', meditation?.attributes?.Title);
+  const playMeditation = (meditation, startFromBeginning = false) => {
+    console.log('Playing meditation:', meditation?.attributes?.Title, 'startFromBeginning:', startFromBeginning);
     setCurrentMeditation(meditation);
     setIsReady(false);
     setHasEnded(false);
     setPlayError(null);
+    
+    // Store current meditation for persistence
+    if (meditation) {
+      storeCurrentMeditation(meditation);
+      
+      // If explicitly starting from beginning, clear the stored position
+      if (startFromBeginning) {
+        storePosition(meditation.id, 0);
+      }
+    }
     
     // If we have an audio element, start preloading right away
     if (audio) {
@@ -318,13 +431,18 @@ export const AudioPlayerProvider = ({ children }) => {
     }
   };
 
-  // Handle seeking
+  // Handle seeking with position storage
   const seekTo = (seconds) => {
     if (!audio || !isReady) return;
 
     const validTime = Math.min(Math.max(0, seconds), duration);
     audio.currentTime = validTime;
     setCurrentTime(validTime);
+
+    // Store position after seeking
+    if (currentMeditation?.id) {
+      storePosition(currentMeditation.id, validTime);
+    }
 
     // If paused, update time display immediately
     if (!isPlaying) {
@@ -341,6 +459,18 @@ export const AudioPlayerProvider = ({ children }) => {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  // Clear stored meditation (useful for starting fresh)
+  const clearStoredMeditation = () => {
+    try {
+      localStorage.removeItem('current_meditation');
+      if (currentMeditation?.id) {
+        localStorage.removeItem(`meditation_position_${currentMeditation.id}`);
+      }
+    } catch (e) {
+      console.warn('Error clearing stored meditation:', e);
+    }
+  };
+
   const value = {
     currentMeditation,
     isPlaying,
@@ -354,7 +484,8 @@ export const AudioPlayerProvider = ({ children }) => {
     togglePlay,
     seekTo,
     playMeditation,
-    tryPlayWhenReady
+    tryPlayWhenReady,
+    clearStoredMeditation
   };
 
   return (

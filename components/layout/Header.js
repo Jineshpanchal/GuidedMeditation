@@ -20,6 +20,7 @@ const Header = () => {
   const navItems = [
     { href: '/rajyog-meditation', label: 'Home' },
     { href: '/rajyog-meditation/explore', label: 'Explore' },
+    { href: '/rajyog-meditation/liked', label: 'Liked' },
     { href: '#', label: 'About Rajyoga' },
     { href: '/rajyog-meditation/teacher', label: 'Teachers' },
   ];
@@ -197,6 +198,9 @@ const Header = () => {
                     )}
                     {item.href === '/rajyog-meditation/explore' && (
                       <div className="text-xs opacity-70 mt-1">Discover meditations</div>
+                    )}
+                    {item.href === '/rajyog-meditation/liked' && (
+                      <div className="text-xs opacity-70 mt-1">Liked meditations</div>
                     )}
                     {item.href === '#' && (
                       <div className="text-xs opacity-70 mt-1">Learn about the practice</div>

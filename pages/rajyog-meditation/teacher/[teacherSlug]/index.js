@@ -201,8 +201,8 @@ export default function TeacherPage({ teacher, meditations: initialMeditations }
     if (currentMeditation && currentMeditation.id === meditation.id) {
       togglePlay();
     } else {
-      // Otherwise, set this as the current meditation and play it
-      playMeditation(meditation);
+      // Otherwise, set this as the current meditation and play it from beginning
+      playMeditation(meditation, true);
       
       // Use tryPlayWhenReady for immediate playback
       setTimeout(() => {

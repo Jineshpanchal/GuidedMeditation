@@ -4,6 +4,41 @@ import Image from 'next/image';
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 import axios from 'axios';
 
+// Helper functions for managing liked meditations in localStorage
+const getLikedMeditations = () => {
+  try {
+    const liked = localStorage.getItem('liked_meditations');
+    return liked ? JSON.parse(liked) : [];
+  } catch (e) {
+    console.warn('Error reading liked meditations from localStorage:', e);
+    return [];
+  }
+};
+
+const addLikedMeditation = (meditationId) => {
+  try {
+    const liked = getLikedMeditations();
+    const id = meditationId.toString();
+    if (!liked.includes(id)) {
+      liked.push(id);
+      localStorage.setItem('liked_meditations', JSON.stringify(liked));
+    }
+  } catch (e) {
+    console.warn('Error storing liked meditation:', e);
+  }
+};
+
+const removeLikedMeditation = (meditationId) => {
+  try {
+    const liked = getLikedMeditations();
+    const id = meditationId.toString();
+    const filtered = liked.filter(item => item !== id);
+    localStorage.setItem('liked_meditations', JSON.stringify(filtered));
+  } catch (e) {
+    console.warn('Error removing liked meditation:', e);
+  }
+};
+
 // Helper function to handle different FeaturedImage data structures and get the best URL
 const getImageUrl = (imageData) => {
   if (!imageData) return '/images/placeholder.jpg';
@@ -43,6 +78,8 @@ const MeditationCard = ({
 }) => {
   const [isThisPlaying, setIsThisPlaying] = useState(false);
   const [listenedCount, setListenedCount] = useState(parseInt(meditation?.attributes?.Listened || '0', 10));
+  const [likeCount, setLikeCount] = useState(parseInt(meditation?.attributes?.like || '0', 10));
+  const [isLiked, setIsLiked] = useState(false);
   
   // Get image URL using the helper function
   const featuredImageUrl = meditation.attributes.FeaturedImage?.data
@@ -65,6 +102,13 @@ const MeditationCard = ({
       currentMeditation.id === meditation.id
     );
   }, [isPlaying, currentMeditation, meditation.id]);
+
+  // Initialize like state from localStorage
+  useEffect(() => {
+    const likedMeditations = getLikedMeditations();
+    setIsLiked(likedMeditations.includes(meditation.id.toString()) || likedMeditations.includes(meditation.id));
+    setLikeCount(parseInt(meditation?.attributes?.like || '0', 10));
+  }, [meditation]);
   
   // Function to update Listened count when play is clicked
   const updateListenedCount = async () => {
@@ -82,33 +126,78 @@ const MeditationCard = ({
       console.error('Failed to update listened count:', error);
     }
   };
+
+  // Function to toggle like status
+  const toggleLike = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    try {
+      const newLikedState = !isLiked;
+      
+      // Update localStorage immediately for instant UI feedback
+      if (newLikedState) {
+        addLikedMeditation(meditation.id);
+      } else {
+        removeLikedMeditation(meditation.id);
+      }
+      
+      // Update local state
+      setIsLiked(newLikedState);
+      
+      const response = await axios.post('/api/meditation/interaction', {
+        meditationId: meditation.id,
+        action: 'like',
+        value: newLikedState
+      });
+      
+      if (response.data.success) {
+        const newCount = response.data.data.like;
+        setLikeCount(newCount);
+      } else {
+        // Revert UI state if the API call fails
+        setIsLiked(!newLikedState);
+        if (!newLikedState) {
+          addLikedMeditation(meditation.id);
+        } else {
+          removeLikedMeditation(meditation.id);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to update like count:', error);
+      // Revert UI state if the API call fails
+      setIsLiked(!isLiked);
+      if (!isLiked) {
+        removeLikedMeditation(meditation.id);
+      } else {
+        addLikedMeditation(meditation.id);
+      }
+    }
+  };
   
   const handlePlayClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     
-    // Update listen count when playing a new meditation
-    if (!currentMeditation || currentMeditation.id !== meditation.id) {
-      updateListenedCount();
-    }
+    updateListenedCount();
     
-    // If this is already the current meditation, just toggle play/pause
-    if (currentMeditation && currentMeditation.id === meditation.id) {
-      togglePlay();
-    } else {
-      // Otherwise, set this as the current meditation and play it
-      playMeditation(meditation);
+    if (!currentMeditation || currentMeditation.id !== meditation.id) {
+      // Start new meditation from beginning
+      playMeditation(meditation, true);
       
-      // Use tryPlayWhenReady for immediate playback
+      // Use tryPlayWhenReady for better handling of not-ready audio
       setTimeout(() => {
-          tryPlayWhenReady();
+        tryPlayWhenReady();
       }, 50);
+    } else {
+      // Already current meditation, just toggle
+      togglePlay();
     }
   };
 
   // Add handleNavigation function
   const handleNavigation = (e) => {
-    // Only navigate if not clicking on the play button
+    // Only navigate if not clicking on the play button or like button
     if (e.target.closest('button')) {
       e.preventDefault();
     }
@@ -149,12 +238,17 @@ const MeditationCard = ({
                 </svg>
                 {listenedCount}
               </span>
-              <span className="flex items-center">
+              <button
+                onClick={toggleLike}
+                className={`flex items-center transition-colors ${
+                  isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-400'
+                }`}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                 </svg>
-                {meditation.attributes.like || '0'}
-              </span>
+                {likeCount}
+              </button>
               {meditation.attributes.Trending && (
                 <span className="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
