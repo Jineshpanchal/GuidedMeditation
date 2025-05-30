@@ -131,14 +131,25 @@ export default function LikedMeditationsPage({ allMeditations = [] }) {
       </Head>
 
       {/* Hero Section with search */}
-      <section className="hero-section bg-gradient-to-r from-red-50 via-pink-50 to-rose-50">
-        <div className="container-custom py-8 md:py-12 pt-20 md:pt-20">
+      <section className="hero-section relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-red-900/90 via-spiritual-dark/80 to-rose-900/90"></div>
+        <div className="absolute inset-0 bg-[url('/patterns/sacred-yantra.svg')] opacity-10 bg-repeat bg-[length:400px_400px] rotate-45"></div>
+        <div className="absolute inset-0 bg-black/20"></div>
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-1/3 right-[15%] w-72 h-72 rounded-full bg-gradient-to-br from-red-500/20 to-pink-500/10 blur-3xl"></div>
+        <div className="absolute -bottom-16 left-[10%] w-56 h-56 rounded-full bg-gradient-to-tr from-spiritual-purple/20 to-red-400/20 blur-2xl"></div>
+        <div className="absolute top-1/4 left-[25%] w-40 h-40 rounded-full bg-gradient-radial from-rose-400/20 to-transparent blur-xl animate-pulse"></div>
+        
+        {/* Content Container */}
+        <div className="container-custom py-8 md:py-12 pt-20 md:pt-20 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             {/* Back Navigation */}
             <div className="mb-6">
               <Link 
                 href="/rajyog-meditation/explore"
-                className="inline-flex items-center px-4 py-2 text-sm text-gray-700 hover:text-spiritual-dark bg-white/80 backdrop-blur-sm rounded-full transition-all hover:bg-white/90"
+                className="inline-flex items-center px-4 py-2 text-sm text-white hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full transition-all shadow-sm hover:shadow-md border border-white/20"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
@@ -148,11 +159,11 @@ export default function LikedMeditationsPage({ allMeditations = [] }) {
             </div>
 
             <div className="flex items-center justify-center mb-4">
-              <h1 className="text-3xl md:text-5xl font-display font-bold text-gray-900">
+              <h1 className="text-3xl md:text-5xl font-display font-bold text-white">
                 Liked Meditations
               </h1>
             </div>
-            <p className="text-lg text-gray-800 mb-8">
+            <p className="text-lg text-gray-100 mb-8">
               Your personal collection of favorite meditations
             </p>
             
@@ -166,7 +177,7 @@ export default function LikedMeditationsPage({ allMeditations = [] }) {
               <input
                 type="text"
                 placeholder="Search your liked meditations..."
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-full shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900"
+                className="block w-full pl-10 pr-3 py-3 border border-white/20 rounded-full shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white/90 backdrop-blur-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />

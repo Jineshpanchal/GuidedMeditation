@@ -64,14 +64,14 @@ export default function TeachersIndexPage({ teachers, meditationCounts }) {
           <div className="absolute bottom-20 right-[10%] w-24 h-24 bg-spiritual-blue/10 rounded-full blur-xl animate-float-delayed"></div>
           <div className="absolute top-1/3 right-[20%] w-12 h-12 bg-spiritual-dark/10 rounded-full blur-lg animate-pulse"></div>
         </div>
-
-        <div className="container-custom relative z-10 text-center py-8 md:py-12">
+      
+        <div className="container-custom relative z-10 text-center py-12 md:py-12 pt-20 md:pt-20">
           <h1 className="text-3xl md:text-5xl xl:text-6xl font-display font-bold mb-6 animate-fade-in relative">
             <span className="absolute inset-0 bg-gradient-to-r from-spiritual-dark via-spiritual-purple to-spiritual-blue bg-[length:200%_auto] bg-clip-text text-transparent blur-xl opacity-50 animate-gradient">
-              Raja Yoga Teachers
+              Rajyoga Teachers
             </span>
             <span className="bg-gradient-to-r from-spiritual-dark via-spiritual-purple to-spiritual-blue bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient">
-              Raja Yoga Teachers
+              Rajyoga Teachers
             </span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto animate-fade-in-delayed leading-relaxed">

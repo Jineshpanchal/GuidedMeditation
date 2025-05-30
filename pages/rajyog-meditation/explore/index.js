@@ -107,13 +107,24 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
       </Head>
 
       {/* Hero Section with search */}
-      <section className="hero-section bg-gradient-to-r from-spiritual-light/50 to-spiritual-accent/20">
-        <div className="container-custom py-8 md:py-12 pt-20 md:pt-20">
+      <section className="hero-section relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-spiritual-dark/90 via-spiritual-purple/80 to-spiritual-accent/70"></div>
+        <div className="absolute inset-0 bg-[url('/patterns/sacred-yantra.svg')] opacity-10 bg-repeat bg-[length:400px_400px]"></div>
+        <div className="absolute inset-0 bg-black/20"></div>
+        
+        {/* Decorative Orbs */}
+        <div className="absolute top-1/4 right-[10%] w-64 h-64 rounded-full bg-gradient-to-br from-spiritual-light/30 to-spiritual-accent/20 blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-[5%] w-48 h-48 rounded-full bg-gradient-to-tr from-spiritual-purple/20 to-spiritual-dark/10 blur-2xl"></div>
+        <div className="absolute top-1/3 left-[20%] w-32 h-32 rounded-full bg-gradient-radial from-spiritual-accent/20 to-transparent blur-xl animate-pulse"></div>
+        
+        {/* Content Container */}
+        <div className="container-custom py-8 md:py-12 pt-20 md:pt-20 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl md:text-5xl font-display font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-6">
               Explore Guided Meditations
             </h1>
-            <p className="text-lg text-gray-800 mb-8">
+            <p className="text-lg text-gray-100 mb-8">
               Find the perfect meditation for your spiritual journey
             </p>
             
@@ -127,7 +138,7 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
               <input
                 type="text"
                 placeholder="Search meditations..."
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-full shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-spiritual-accent focus:border-spiritual-accent text-gray-900"
+                className="block w-full pl-10 pr-3 py-3 border border-white/20 rounded-full shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-spiritual-accent focus:border-spiritual-accent text-gray-900 bg-white/90 backdrop-blur-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />

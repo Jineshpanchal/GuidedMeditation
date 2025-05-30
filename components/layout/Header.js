@@ -64,11 +64,11 @@ const Header = () => {
                 </div>
                 
                 <div className="block">
-                  <div className={`font-display font-bold text-sm sm:text-lg transition-colors duration-300 ${
+                  <div className={`font-medium text-sm sm:text-lg transition-colors duration-300 whitespace-nowrap ${
                     isScrolled 
                       ? 'text-gray-900' 
                       : 'text-white drop-shadow-lg'
-                  }`}>
+                  }`} style={{ fontFamily: 'Cinzel, serif', fontWeight: '400' }}>
                     Brahma Kumaris
                   </div>
                   <div className={`text-xs font-medium tracking-wide transition-colors duration-300 ${
@@ -156,22 +156,16 @@ const Header = () => {
             <div className="bg-gradient-to-r from-spiritual-light/20 via-white/10 to-spiritual-accent/20 p-6 border-b border-gray-100/50">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-md">
-                  {/* Replace with your actual logo */}
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-spiritual-light to-spiritual-accent flex items-center justify-center">
-                    <span className="text-spiritual-dark font-bold text-xs">BK</span>
-                  </div>
-                  {/* Uncomment when you have the logo:
                   <Image 
-                    src="/images/brahma-kumaris-logo.png"
+                    src="/BK Logo-384x384.png"
                     alt="Brahma Kumaris Logo"
                     width={24}
                     height={24}
-                    className="rounded-full"
+                    className="object-contain"
                   />
-                  */}
                 </div>
                 <div>
-                  <div className="font-display font-bold text-gray-900">Brahma Kumaris</div>
+                  <div className="font-medium text-gray-900" style={{ fontFamily: 'Cinzel, serif', fontWeight: '400' }}>Brahma Kumaris</div>
                   <div className="text-xs text-gray-600">Rajyoga Meditation</div>
                 </div>
               </div>
