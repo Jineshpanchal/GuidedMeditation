@@ -272,20 +272,23 @@ input[type="range"]::-moz-range-thumb:hover {
 /* Hero sections that start from top */
 .hero-full-height {
   min-height: 100vh;
-  padding-top: 7rem; /* Space for header on mobile */
+  padding-top: 5rem; /* Reduced space for header on mobile */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-section {
-  padding-top: 7rem; /* Space for header on mobile */
+  padding-top: 4rem; /* Reduced space for header on mobile */
 }
 
 /* Desktop adjustments */
 @media (min-width: 768px) {
   .hero-full-height {
-    padding-top: 8rem; /* More space for header on desktop */
+    padding-top: 5rem; /* Reduced space for header on desktop */
   }
   
   .hero-section {
-    padding-top: 8rem; /* More space for header on desktop */
+    padding-top: 5rem; /* Reduced space for header on desktop */
   }
 }

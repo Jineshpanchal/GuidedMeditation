@@ -45,7 +45,20 @@ const WaveformPlayer = ({ meditation }) => {
     // Initialize listened and like counts from meditation data
     setListenedCount(parseInt(meditation?.attributes?.Listened || '0', 10));
     setLikeCount(parseInt(meditation?.attributes?.like || '0', 10));
+    
+    // Reset local state when meditation changes
+    setLocalTime(0);
+    setProgress(0);
+    setPlayClicked(false);
   }, [meditation]);
+
+  // Reset state when this meditation is no longer the current one
+  useEffect(() => {
+    if (!isCurrentMeditation) {
+      setLocalTime(0);
+      setProgress(0);
+    }
+  }, [isCurrentMeditation]);
 
   // Update progress based on current time
   useEffect(() => {
@@ -143,15 +156,10 @@ const WaveformPlayer = ({ meditation }) => {
       // Set up the meditation first
       playMeditation(meditation);
       
-      // Then try to play it when ready
+      // Use tryPlayWhenReady for better handling of not-ready audio
       setTimeout(() => {
-        if (isReady) {
-          togglePlay();
-        } else {
-          // Try playing with retry logic if not ready yet
-          tryPlayWhenReady();
-        }
-      }, 100);
+        tryPlayWhenReady();
+      }, 50);
     } else {
       // Already the current meditation, just toggle play state
       togglePlay();

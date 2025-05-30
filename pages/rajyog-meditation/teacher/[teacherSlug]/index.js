@@ -204,15 +204,10 @@ export default function TeacherPage({ teacher, meditations: initialMeditations }
       // Otherwise, set this as the current meditation and play it
       playMeditation(meditation);
       
-      // Try playing with retry logic
+      // Use tryPlayWhenReady for immediate playback
       setTimeout(() => {
-        if (isReady) {
-          togglePlay();
-        } else {
-          // Not ready yet, use retry logic
-          tryPlayWhenReady();
-        }
-      }, 100);
+        tryPlayWhenReady();
+      }, 50);
     }
   };
 
