@@ -346,7 +346,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
               
               {/* Commentary lyrics */}
               {meditation.attributes.CommentaryLyrics && Array.isArray(meditation.attributes.CommentaryLyrics) && meditation.attributes.CommentaryLyrics.length > 0 && (
-                <CollapsibleSection title="Commentary" defaultOpen={true}>
+                <CollapsibleSection title="Commentary" defaultOpen={false}>
                   <div className="prose prose-lg max-w-none">
                     <RichTextRenderer content={meditation.attributes.CommentaryLyrics} />
                   </div>
@@ -354,7 +354,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
               )}
               
               {/* Benefits */}
-              <CollapsibleSection title="Benefits" defaultOpen={false}>
+              <CollapsibleSection title="Benefits" defaultOpen={true}>
                 <div className="prose prose-lg max-w-none">
                   {meditation.attributes.BenefitsBig && Array.isArray(meditation.attributes.BenefitsBig) && meditation.attributes.BenefitsBig.length > 0 ? (
                     <RichTextRenderer content={meditation.attributes.BenefitsBig} />

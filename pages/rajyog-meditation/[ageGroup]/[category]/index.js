@@ -428,15 +428,19 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
             
             <div className="prose prose-lg max-w-none">
               <p>
-                Find a quiet place where you won't be disturbed. Sit comfortably with your back straight, either on a chair or on the floor. Close your eyes and disconnect from external distractions.
+                <strong>Find a quiet space</strong> where you can sit comfortably and undisturbed. Sit with your back upright, either on a chair or on the floor. Keep your eyes gently open or slightly lowered, as <strong>Rajyoga</strong> is practised with open eyes to remain alert and aware.
               </p>
               
               <p>
-                Allow the guided commentary to lead you into a state of soul-consciousness. Breathe naturally and let thoughts come and go without judgment. If your mind wanders, gently bring it back to the meditation.
+                Gently withdraw your attention from the outside world. Using the guided meditation commentary on this website, begin to create <em>elevated thoughts</em>. Let each thought guide the mind inward—towards the awareness of the self and connection with the <strong>Supreme</strong>.
               </p>
               
               <p>
-                After completing the meditation, take a moment to sit in silence before opening your eyes. Notice how you feel and try to carry this awareness into your day.
+                If the mind wanders, gently bring it back by creating the next <em>powerful thought</em>. Stay patient and loving with yourself.
+              </p>
+              
+              <p>
+                When the commentary ends, remain seated in silence for a few moments. Absorb the stillness, and carry this <em>inner awareness</em> into every action of your day.
               </p>
             </div>
           </div>

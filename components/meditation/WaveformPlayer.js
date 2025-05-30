@@ -62,6 +62,7 @@ const WaveformPlayer = ({ meditation }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [playClicked, setPlayClicked] = useState(false);
   const [showResumeNotification, setShowResumeNotification] = useState(false);
+  const [showGuidelineModal, setShowGuidelineModal] = useState(false);
   const intervalRef = useRef(null);
   
   const isCurrentMeditation = currentMeditation && currentMeditation.id === meditation.id;
@@ -310,6 +311,25 @@ const WaveformPlayer = ({ meditation }) => {
     setShowResumeNotification(false);
   };
 
+  // Effect to handle background scrolling when modal is open
+  useEffect(() => {
+    if (showGuidelineModal) {
+      // Prevent background scrolling
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '15px'; // Prevent layout shift from scrollbar
+    } else {
+      // Restore background scrolling
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    }
+
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    };
+  }, [showGuidelineModal]);
+
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden mb-8">
       {/* Header */}
@@ -319,8 +339,22 @@ const WaveformPlayer = ({ meditation }) => {
             Listen Now
           </h3>
           
-          <div className="text-sm font-medium text-gray-600 bg-white/60 backdrop-blur-sm px-3 py-1.5 rounded-full">
-            {formatTime(localTime)} / {formatTime(displayDuration)}
+          <div className="flex items-center space-x-3">
+            {/* Guidelines button */}
+            <button
+              onClick={() => setShowGuidelineModal(true)}
+              className="flex items-center space-x-2 px-3 py-1.5 text-xs font-medium text-spiritual-dark bg-white/60 hover:bg-white/80 backdrop-blur-sm border border-spiritual-light/20 rounded-full transition-all duration-200 hover:shadow-sm"
+              aria-label="How to Practice Guidelines"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+              </svg>
+              <span className="hidden sm:inline">How to Practice</span>
+            </button>
+            
+            <div className="text-sm font-medium text-gray-600 bg-white/60 backdrop-blur-sm px-3 py-1.5 rounded-full">
+              {formatTime(localTime)} / {formatTime(displayDuration)}
+            </div>
           </div>
         </div>
       </div>
@@ -446,39 +480,109 @@ const WaveformPlayer = ({ meditation }) => {
             </button>
           </div>
           
-          {/* Stats and info row */}
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
-            {/* Stats display - Enhanced */}
-            <div className="flex items-center space-x-3 text-sm">
-              <div className="flex items-center px-3 py-2 bg-gradient-to-br from-spiritual-light/10 to-spiritual-accent/10 rounded-lg border border-spiritual-light/20">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-spiritual-dark" viewBox="0 0 20 20" fill="currentColor">
+          {/* Stats and info row - Redesigned layout */}
+          <div className="flex items-center justify-between">
+            {/* Left side - Like and Listen stats */}
+            <div className="flex items-center space-x-2">
+              {/* Listen count */}
+              <div className="flex items-center px-2 py-1.5 bg-gradient-to-br from-spiritual-light/10 to-spiritual-accent/10 rounded-lg border border-spiritual-light/20">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1.5 text-spiritual-dark" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                   <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
                 </svg>
-                <span className="font-medium text-gray-700">{listenedCount}</span>
+                <span className="font-medium text-gray-700 text-xs">{listenedCount}</span>
               </div>
               
-              <div className={`flex items-center px-3 py-2 rounded-lg border ${
+              {/* Like count */}
+              <div className={`flex items-center px-2 py-1.5 rounded-lg border ${
                 isLiked 
                   ? 'bg-gradient-to-br from-red-50 to-pink-50 border-red-200' 
                   : 'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200'
               }`}>
-                <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mr-2 ${isLiked ? 'text-red-500' : 'text-gray-500'}`} viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className={`h-3 w-3 mr-1.5 ${isLiked ? 'text-red-500' : 'text-gray-500'}`} viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                 </svg>
-                <span className={`font-medium ${isLiked ? 'text-red-600' : 'text-gray-700'}`}>{likeCount}</span>
+                <span className={`font-medium text-xs ${isLiked ? 'text-red-600' : 'text-gray-700'}`}>{likeCount}</span>
               </div>
             </div>
             
-            {/* Language and duration info */}
-            <div className="text-sm font-medium text-gray-600 bg-gradient-to-br from-spiritual-purple/10 to-spiritual-blue/10 px-4 py-2 rounded-lg border border-spiritual-purple/20">
-              <span className="text-spiritual-purple">{meditation.attributes.gm_language?.data?.attributes?.Name || 'English'}</span>
-              <span className="text-gray-400 mx-2">|</span>
-              <span className="text-spiritual-blue">{meditation.attributes.Duration || '5'} min</span>
+            {/* Right side - Language and Duration */}
+            <div className="flex items-center space-x-2">
+              {/* Language */}
+              <div className="flex items-center px-2 py-1.5 bg-gradient-to-br from-spiritual-purple/10 to-spiritual-blue/10 rounded-lg border border-spiritual-purple/20">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1.5 text-spiritual-purple" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M7 2a1 1 0 011 1v1h3a1 1 0 110 2H9.578a18.87 18.87 0 01-1.724 4.78c.29.354.596.696.914 1.026a1 1 0 11-1.44 1.389c-.188-.196-.373-.396-.554-.6a19.098 19.098 0 01-3.107 3.567 1 1 0 01-1.334-1.49 17.087 17.087 0 003.13-3.733 18.992 18.992 0 01-1.487-2.494 1 1 0 111.79-.89c.234.47.489.928.764 1.372.417-.934.752-1.913.997-2.927H3a1 1 0 110-2h3V3a1 1 0 011-1zm6 6a1 1 0 01.894.553l2.991 5.982a.869.869 0 01.02.037l.99 1.98a1 1 0 11-1.79.895L15.383 16h-4.764l-.724 1.447a1 1 0 11-1.788-.894l.99-1.98.019-.038 2.99-5.982A1 1 0 0113 8zm-1.382 6h2.764L13 11.236 11.618 14z" clipRule="evenodd" />
+                </svg>
+                <span className="font-medium text-spiritual-purple text-xs">{meditation.attributes.gm_language?.data?.attributes?.Name || 'English'}</span>
+              </div>
+              
+              {/* Duration */}
+              <div className="flex items-center px-2 py-1.5 bg-gradient-to-br from-spiritual-blue/10 to-spiritual-purple/10 rounded-lg border border-spiritual-blue/20">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1.5 text-spiritual-blue" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                </svg>
+                <span className="font-medium text-spiritual-blue text-xs">{meditation.attributes.Duration || '5'} min</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Practice Guidelines Modal */}
+      {showGuidelineModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
+          <div className="bg-white rounded-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            {/* Modal Header */}
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg sm:text-xl font-display font-semibold text-gray-900">
+                  How to Practice Rajyoga Meditation
+                </h3>
+                <button
+                  onClick={() => setShowGuidelineModal(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  aria-label="Close modal"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            {/* Modal Content */}
+            <div className="px-4 sm:px-6 py-4 sm:py-6">
+              <div className="text-gray-700 leading-relaxed text-sm sm:text-base space-y-3">
+                <p>
+                  <strong>Find a quiet space</strong> where you can sit comfortably and undisturbed. Sit with your back upright, either on a chair or on the floor. Keep your eyes gently open or slightly lowered, as <strong>Rajyoga</strong> is practised with open eyes to remain alert and aware.
+                </p>
+                
+                <p>
+                  Gently withdraw your attention from the outside world. Using the guided meditation commentary on this website, begin to create <em>elevated thoughts</em>. Let each thought guide the mind inward—towards the awareness of the self and connection with the <strong>Supreme</strong>.
+                </p>
+                
+                <p>
+                  If the mind wanders, gently bring it back by creating the next <em>powerful thought</em>. Stay patient and loving with yourself.
+                </p>
+                
+                <p className="mb-0">
+                  When the commentary ends, remain seated in silence for a few moments. Absorb the stillness, and carry this <em>inner awareness</em> into every action of your day.
+                </p>
+              </div>
+              
+              {/* Close button */}
+              <div className="mt-4 sm:mt-6 text-center">
+                <button
+                  onClick={() => setShowGuidelineModal(false)}
+                  className="px-6 py-2 bg-spiritual-dark text-white rounded-full hover:bg-spiritual-purple transition-colors font-medium text-sm sm:text-base"
+                >
+                  Got it
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
