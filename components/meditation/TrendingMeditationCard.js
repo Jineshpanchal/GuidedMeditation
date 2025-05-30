@@ -107,7 +107,7 @@ const TrendingMeditationCard = ({ meditation }) => {
       }, 50);
     } else {
       // Already current meditation, just toggle
-      togglePlay();
+          togglePlay();
     }
   };
 

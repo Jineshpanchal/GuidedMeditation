@@ -9,6 +9,12 @@ import MeditationCarousel from '../../../components/meditation/MeditationCarouse
 import TeacherCard from '../../../components/ui/TeacherCard';
 import RichTextRenderer from '../../../components/ui/RichTextRenderer';
 import { useAudioPlayer } from '../../../contexts/AudioPlayerContext';
+import { 
+  getMeditationSchema, 
+  getTeacherSchema, 
+  getBreadcrumbSchema,
+  getOrganizationSchema 
+} from '../../../lib/seo/structuredData';
 import axios from 'axios';
 import { 
   getMeditationPageData
@@ -101,17 +107,68 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
   // Extract metadata
   const meditationTitle = meditation.attributes.Title || 'Guided Meditation';
   const displayTitle = meditation.attributes.DisplayTitle || '';
+  
+  // Enhanced BenefitsShort extraction for SEO metadata
   const meditationBenefits = (() => {
-    if (!meditation.attributes.BenefitsShort || !Array.isArray(meditation.attributes.BenefitsShort)) {
-      return '';
+    const benefitsShort = meditation.attributes.BenefitsShort;
+    
+    // Handle null/undefined
+    if (!benefitsShort) return '';
+    
+    // Handle string format
+    if (typeof benefitsShort === 'string') {
+      return benefitsShort.trim();
     }
-    const firstBlock = meditation.attributes.BenefitsShort[0];
-    if (!firstBlock || !Array.isArray(firstBlock.children)) {
-      return '';
+    
+    // Handle array format (rich text blocks)
+    if (Array.isArray(benefitsShort)) {
+      let extractedText = '';
+      
+      for (const block of benefitsShort) {
+        if (block && typeof block === 'object') {
+          // Handle block with children array
+          if (Array.isArray(block.children)) {
+            for (const child of block.children) {
+              if (child && typeof child.text === 'string') {
+                extractedText += child.text;
+              }
+            }
+          }
+          // Handle direct text property
+          else if (typeof block.text === 'string') {
+            extractedText += block.text;
+          }
+        }
+        // Handle direct string in array
+        else if (typeof block === 'string') {
+          extractedText += block;
+        }
+      }
+      
+      return extractedText.trim();
     }
-    const firstChild = firstBlock.children[0];
-    return (firstChild && typeof firstChild.text === 'string') ? firstChild.text : '';
+    
+    // Handle object format
+    if (typeof benefitsShort === 'object') {
+      // Try to extract text from object
+      if (typeof benefitsShort.text === 'string') {
+        return benefitsShort.text.trim();
+      }
+      // Try to extract from children
+      if (Array.isArray(benefitsShort.children)) {
+        let extractedText = '';
+        for (const child of benefitsShort.children) {
+          if (child && typeof child.text === 'string') {
+            extractedText += child.text;
+          }
+        }
+        return extractedText.trim();
+      }
+    }
+    
+    return '';
   })();
+  
   const duration = meditation.attributes.Duration || '5';
   const trending = meditation.attributes.Trending || false;
   
@@ -131,10 +188,71 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
       ? teacher.attributes.ShortIntro 
       : (typeof teacher.attributes.Bio === 'string' 
           ? teacher.attributes.Bio.substring(0, 150) 
-          : 'Brahma Kumaris Meditation Teacher'),
+          : 'Brahma Kumaris Rajyoga Meditation Teacher'),
     designation: teacher.attributes.Designation || 'Brahma Kumaris Teacher',
     slug: teacher.attributes.Slug || '',
   } : null;
+
+  // Debug: Log the meditation data structure for BenefitsShort
+  console.log('Meditation BenefitsShort data:', {
+    title: meditation.attributes.Title,
+    benefitsShort: meditation.attributes.BenefitsShort,
+    extractedBenefits: meditationBenefits,
+    benefitsShortType: typeof meditation.attributes.BenefitsShort
+  });
+
+  // SEO Data
+  const canonical = `https://www.brahmakumaris.com/rajyog-meditation/meditations/${meditation.attributes.Slug}`;
+  const keywords = `meditation, spirituality, brahma kumaris, rajyoga, guided meditation, ${meditationTitle.toLowerCase()}, ${teacherInfo?.name?.toLowerCase() || 'teacher'}`;
+  
+  // Create enhanced descriptions for SEO that prioritize BenefitsShort
+  const seoDescription = meditationBenefits 
+    ? (meditationBenefits.length > 155 ? `${meditationBenefits.substring(0, 152)}...` : meditationBenefits)
+    : `Experience a ${duration}-minute guided Rajyoga meditation by ${teacherInfo?.name || 'Brahma Kumaris'} for spiritual growth and inner peace.`;
+
+  const shortSeoDescription = meditationBenefits 
+    ? (meditationBenefits.length > 120 ? `${meditationBenefits.substring(0, 117)}...` : meditationBenefits)
+    : `${duration}-minute guided meditation by ${teacherInfo?.name || 'Brahma Kumaris'}`;
+  
+  // Open Graph data
+  const openGraph = {
+    title: `${meditationTitle} | Rajyoga Meditation | Brahma Kumaris`,
+    description: shortSeoDescription,
+    url: canonical,
+    type: 'article',
+    image: featuredImageUrl || coverImageUrl || '/rajyoga-meditation/images/og-meditation-default.jpg',
+    imageAlt: `${meditationTitle} - Guided Meditation`,
+    article: {
+      author: teacherInfo?.name || 'Brahma Kumaris',
+      section: 'Meditation',
+      tag: categories.map(cat => cat.attributes?.Category || '').filter(Boolean).join(', ')
+    }
+  };
+
+  // Twitter data
+  const twitter = {
+    title: meditationTitle.length > 60 ? `${meditationTitle.substring(0, 57)}...` : meditationTitle,
+    description: meditationBenefits ? 
+      (meditationBenefits.length > 120 ? `${meditationBenefits.substring(0, 117)}...` : meditationBenefits) :
+      `${duration}-minute guided meditation`
+  };
+
+  // Structured Data
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.brahmakumaris.com/rajyog-meditation' },
+    { name: 'Meditations', url: 'https://www.brahmakumaris.com/rajyog-meditation/explore' },
+    { name: meditationTitle, url: canonical }
+  ];
+
+  const structuredData = [
+    getOrganizationSchema(),
+    getMeditationSchema(meditation, teacherInfo?.name),
+    getBreadcrumbSchema(breadcrumbs)
+  ];
+
+  if (teacherInfo && teacher) {
+    structuredData.push(getTeacherSchema(teacher));
+  }
 
   // Handle play click
   const handlePlayClick = () => {
@@ -148,13 +266,14 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
 
   return (
     <Layout
-      title={`${meditationTitle} | Brahma Kumaris Meditation`}
-      description={meditationBenefits}
+      title={`${meditationTitle} | Rajyoga Meditation | Brahma Kumaris`}
+      description={seoDescription}
+      canonical={canonical}
+      keywords={keywords}
+      openGraph={openGraph}
+      twitter={twitter}
+      structuredData={structuredData}
     >
-      <Head>
-        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, rajyoga, guided meditation, ${meditationTitle.toLowerCase()}`} />
-      </Head>
-
       {/* Hero Section with Featured Image */}
       <section className="relative">
         {/* Featured Image or Cover Image - starts from very top */}
@@ -291,7 +410,7 @@ export default function MeditationPage({ meditation, relatedMeditations, teacher
                         <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
                           {typeof teacherInfo.shortIntro === 'string' 
                             ? teacherInfo.shortIntro 
-                            : 'Brahma Kumaris Meditation Teacher'}
+                            : 'Brahma Kumaris Rajyoga Meditation Teacher'}
                         </p>
                       </div>
                     </div>

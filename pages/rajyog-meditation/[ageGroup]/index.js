@@ -8,6 +8,12 @@ import MeditationCarousel from '../../../components/meditation/MeditationCarouse
 import { 
   getAgeGroupPageData
 } from '../../../lib/api/strapi-optimized';
+import { 
+  getOrganizationSchema, 
+  getWebsiteSchema, 
+  getBreadcrumbSchema, 
+  getItemListSchema 
+} from '../../../lib/seo/structuredData';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
 const getImageUrl = (imageData) => {
@@ -75,15 +81,61 @@ export default function AgeGroupPage({
     ageGroupDescription = String(shortBio);
   }
 
+  // SEO Data
+  const canonical = `https://www.brahmakumaris.com/rajyog-meditation/${ageGroup.attributes.slug}`;
+  const keywords = `${ageGroupName.toLowerCase()}, rajyoga meditation, age-specific meditation, brahma kumaris, spiritual guidance, ${ageGroup.attributes.slug}`;
+  
+  // Get age group image for Open Graph
+  const ageGroupImageUrl = ageGroup.attributes.featuredimage?.data ? 
+    getImageUrl(ageGroup.attributes.featuredimage.data) : 
+    '/rajyoga-meditation/images/og-meditation-default.jpg';
+  
+  const openGraph = {
+    title: `${ageGroupName} | Rajyoga Meditation | Brahma Kumaris`,
+    description: `Discover guided Rajyoga meditations specially curated for ${ageGroupName.toLowerCase()}. Explore spiritual practices tailored to your life stage.`,
+    url: canonical,
+    type: 'website',
+    image: ageGroupImageUrl,
+    imageAlt: `${ageGroupName} Meditation - Brahma Kumaris`
+  };
+
+  const twitter = {
+    title: `${ageGroupName} Meditation | Brahma Kumaris`,
+    description: `Spiritual practices for ${ageGroupName.toLowerCase()}`
+  };
+
+  // Structured Data
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.brahmakumaris.com/rajyog-meditation' },
+    { name: ageGroupName, url: canonical }
+  ];
+
+  const structuredData = [
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+    getBreadcrumbSchema(breadcrumbs)
+  ];
+
+  // Add category list schema if there are categories
+  if (categories && categories.length > 0) {
+    structuredData.push(getItemListSchema(categories, 'categories'));
+  }
+
+  // Add meditation list schema if there are meditations
+  if (trendingMeditations && trendingMeditations.length > 0) {
+    structuredData.push(getItemListSchema(trendingMeditations, 'meditations'));
+  }
+
   return (
     <Layout
-      title={`${ageGroupName} Meditations | Brahma Kumaris`}
-      description={`Guided meditations for ${ageGroupName} (${ageGroup.attributes.spectrum}). ${ageGroupDescription}`}
+      title={`${ageGroupName} | Brahma Kumaris Rajyoga Meditation`}
+      description={`Discover guided Rajyoga meditations and spiritual practices specially designed for ${ageGroupName.toLowerCase()}. Find inner peace and spiritual growth tailored to your life stage.`}
+      canonical={canonical}
+      keywords={keywords}
+      openGraph={openGraph}
+      twitter={twitter}
+      structuredData={structuredData}
     >
-      <Head>
-        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, rajyoga, ${ageGroupName.toLowerCase()}, guided meditation`} />
-      </Head>
-
       {/* Hero Section */}
       <section className="relative min-h-screen bg-gradient-to-br from-indigo-900 to-purple-900 overflow-hidden pt-24 md:pt-32">
         {/* Animated Background Layers */}

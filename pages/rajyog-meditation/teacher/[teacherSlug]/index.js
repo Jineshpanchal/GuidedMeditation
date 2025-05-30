@@ -5,6 +5,12 @@ import Layout from '../../../../components/layout/Layout';
 import { getTeacherPageData } from '../../../../lib/api/strapi-optimized';
 import { useAudioPlayer } from '../../../../contexts/AudioPlayerContext';
 import LoadingSpinner, { SkeletonGrid } from '../../../../components/ui/LoadingSpinner';
+import { 
+  getTeacherSchema, 
+  getOrganizationSchema, 
+  getBreadcrumbSchema,
+  getItemListSchema 
+} from '../../../../lib/seo/structuredData';
 import axios from 'axios';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
@@ -52,6 +58,52 @@ export default function TeacherPage({ teacher, meditations: initialMeditations }
   const teacherName = teacher.attributes.Name || 'Brahma Kumaris Teacher';
   const teacherDesignation = teacher.attributes.Designation || '';
   
+  // SEO Data
+  const canonical = `https://www.brahmakumaris.com/rajyog-meditation/teacher/${teacher.attributes.Slug}`;
+  const keywords = `${teacherName.toLowerCase()}, rajyoga teacher, brahma kumaris, meditation guide, spiritual teacher, ${teacherDesignation.toLowerCase()}`;
+  
+  // Get teacher image for Open Graph
+  const teacherImageUrl = teacher.attributes.FeaturedImage?.data ? 
+    getImageUrl(teacher.attributes.FeaturedImage.data) : 
+    '/rajyoga-meditation/images/og-teacher-default.jpg';
+  
+  const openGraph = {
+    title: `${teacherName} | Meditation Teacher | Brahma Kumaris`,
+    description: `Learn from ${teacherName}, ${teacherDesignation}. Explore guided meditations and spiritual teachings for inner transformation and peace.`,
+    url: canonical,
+    type: 'profile',
+    image: teacherImageUrl,
+    imageAlt: `${teacherName} - Meditation Teacher - Brahma Kumaris`,
+    profile: {
+      firstName: teacherName.split(' ')[0] || teacherName,
+      lastName: teacherName.split(' ').slice(1).join(' ') || '',
+      username: teacher.attributes.Slug
+    }
+  };
+
+  const twitter = {
+    title: `${teacherName} | Meditation Teacher`,
+    description: `Guided meditations by ${teacherName}, ${teacherDesignation}`
+  };
+
+  // Structured Data
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.brahmakumaris.com/rajyog-meditation' },
+    { name: 'Teachers', url: 'https://www.brahmakumaris.com/rajyog-meditation/teacher' },
+    { name: teacherName, url: canonical }
+  ];
+
+  const structuredData = [
+    getOrganizationSchema(),
+    getTeacherSchema(teacher),
+    getBreadcrumbSchema(breadcrumbs)
+  ];
+
+  // Add meditation list schema if there are meditations
+  if (initialMeditations && initialMeditations.length > 0) {
+    structuredData.push(getItemListSchema(initialMeditations, 'meditations'));
+  }
+
   // Toggle sort direction when clicking on the same option
   const handleSortChange = (option) => {
     if (option === sortOption) {
@@ -213,13 +265,14 @@ export default function TeacherPage({ teacher, meditations: initialMeditations }
 
   return (
     <Layout
-      title={`${teacherName} | Brahma Kumaris Meditation`}
-      description={`Guided meditations and teachings by ${teacherName}, ${teacherDesignation}.`}
+      title={`${teacherName} | Rajyoga Meditation | Brahma Kumaris`}
+      description={`Guided meditations and teachings by ${teacherName}, ${teacherDesignation}. Experience spiritual transformation through expert guidance and wisdom.`}
+      canonical={canonical}
+      keywords={keywords}
+      openGraph={openGraph}
+      twitter={twitter}
+      structuredData={structuredData}
     >
-      <Head>
-        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, rajyoga, ${teacherName.toLowerCase()}, teacher, guide`} />
-      </Head>
-
       {/* Immersive Hero Section */}
       <section className="hero-section relative min-h-[80vh] bg-gradient-to-br from-purple-100 via-pink-50 to-spiritual-light overflow-hidden">
         {/* Decorative Elements */}

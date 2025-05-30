@@ -4,6 +4,7 @@ import Layout from '../../../components/layout/Layout';
 import MeditationCard from '../../../components/meditation/MeditationCard';
 import LoadingSpinner, { SkeletonGrid } from '../../../components/ui/LoadingSpinner';
 import { getExplorePageData } from '../../../lib/api/strapi-optimized';
+import { getWebsiteSchema, getOrganizationSchema, getBreadcrumbSchema } from '../../../lib/seo/structuredData';
 
 export default function ExplorePage({ meditations: initialMeditations = [] }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -11,6 +12,36 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
   const [sortDirection, setSortDirection] = useState('desc'); // 'asc' or 'desc'
   const [isLoading, setIsLoading] = useState(false);
   const [displayedMeditations, setDisplayedMeditations] = useState(initialMeditations);
+
+  // SEO Data
+  const canonical = 'https://www.brahmakumaris.com/rajyog-meditation/explore';
+  const keywords = 'explore meditations, guided meditation library, brahma kumaris meditations, spiritual practices, rajyoga collection';
+  
+  const openGraph = {
+    title: 'Explore All Meditations | Brahma Kumaris',
+    description: 'Discover our complete collection of guided Rajyoga meditations. Search, filter, and find the perfect meditation for your spiritual journey.',
+    url: canonical,
+    type: 'website',
+    image: '/rajyoga-meditation/images/og-meditation-default.jpg',
+    imageAlt: 'Explore Brahma Kumaris Rajyoga Meditation Collection'
+  };
+
+  const twitter = {
+    title: 'Explore All Meditations | Brahma Kumaris',
+    description: 'Discover guided meditations for every spiritual need'
+  };
+
+  // Structured Data
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.brahmakumaris.com/rajyog-meditation' },
+    { name: 'Explore Meditations', url: canonical }
+  ];
+
+  const structuredData = [
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+    getBreadcrumbSchema(breadcrumbs)
+  ];
 
   // Toggle sort direction when clicking on the same option
   const handleSortChange = (option) => {
@@ -100,12 +131,13 @@ export default function ExplorePage({ meditations: initialMeditations = [] }) {
   return (
     <Layout
       title="Explore Meditations | Brahma Kumaris Rajyoga Meditation"
-      description="Discover and explore a variety of guided Rajyoga meditations by Brahma Kumaris."
+      description="Discover and explore a variety of guided Rajyoga meditations by Brahma Kumaris. Search, filter, and find the perfect meditation for your spiritual journey."
+      canonical={canonical}
+      keywords={keywords}
+      openGraph={openGraph}
+      twitter={twitter}
+      structuredData={structuredData}
     >
-      <Head>
-        <meta name="keywords" content="meditation, spirituality, brahma kumaris, rajyoga, guided meditation, explore" />
-      </Head>
-
       {/* Hero Section with search */}
       <section className="hero-section relative overflow-hidden">
         {/* Background Elements */}

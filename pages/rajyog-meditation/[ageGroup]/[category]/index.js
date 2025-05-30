@@ -6,6 +6,13 @@ import MeditationCard from '../../../../components/meditation/MeditationCard';
 import { SkeletonGrid } from '../../../../components/ui/LoadingSpinner';
 import Image from 'next/image';
 import { getAgeGroups, getCategories, getMeditations } from '../../../../lib/api/strapi-optimized';
+import { 
+  getOrganizationSchema, 
+  getWebsiteSchema, 
+  getBreadcrumbSchema, 
+  getItemListSchema,
+  getCategorySchema 
+} from '../../../../lib/seo/structuredData';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
 const getImageUrl = (imageData) => {
@@ -48,6 +55,48 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
   const categoryDescription = category.attributes.ShortIntro?.[0]?.children?.[0]?.text || '';
   const ageGroupName = ageGroup.attributes.name;
   
+  // SEO Data
+  const canonical = `https://www.brahmakumaris.com/rajyog-meditation/${ageGroup.attributes.slug}/${category.attributes.slug}`;
+  const keywords = `${categoryName.toLowerCase()}, ${ageGroupName.toLowerCase()}, rajyoga meditation, brahma kumaris, guided meditation, spiritual practice`;
+  
+  // Get category image for Open Graph
+  const categoryImageUrl = category.attributes.FeaturedImage?.data ? 
+    getImageUrl(category.attributes.FeaturedImage.data) : 
+    '/rajyoga-meditation/images/og-meditation-default.jpg';
+  
+  const openGraph = {
+    title: `${categoryName} for ${ageGroupName} | Brahma Kumaris`,
+    description: `Explore ${categoryName.toLowerCase()} meditations designed for ${ageGroupName.toLowerCase()}. Guided Rajyoga practices for spiritual growth and inner transformation.`,
+    url: canonical,
+    type: 'website',
+    image: categoryImageUrl,
+    imageAlt: `${categoryName} Meditation for ${ageGroupName} - Brahma Kumaris`
+  };
+
+  const twitter = {
+    title: `${categoryName} for ${ageGroupName} | Brahma Kumaris`,
+    description: `Guided ${categoryName.toLowerCase()} meditations for spiritual growth`
+  };
+
+  // Structured Data
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.brahmakumaris.com/rajyog-meditation' },
+    { name: ageGroupName, url: `https://www.brahmakumaris.com/rajyog-meditation/${ageGroup.attributes.slug}` },
+    { name: categoryName, url: canonical }
+  ];
+
+  const structuredData = [
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+    getBreadcrumbSchema(breadcrumbs),
+    getCategorySchema(category, ageGroup)
+  ];
+
+  // Add meditation list schema if there are meditations
+  if (initialMeditations && initialMeditations.length > 0) {
+    structuredData.push(getItemListSchema(initialMeditations, 'meditations'));
+  }
+
   // Toggle sort direction when clicking on the same option
   const handleSortChange = (option) => {
     if (option === sortOption) {
@@ -135,13 +184,14 @@ export default function CategoryPage({ ageGroup, category, meditations: initialM
 
   return (
     <Layout
-      title={`${categoryName} Meditations for ${ageGroupName} | Brahma Kumaris`}
+      title={`${categoryName} for ${ageGroupName} | Brahma Kumaris`}
       description={`${categoryDescription} Guided meditations for ${ageGroupName} (${ageGroup.attributes.spectrum}).`}
+      canonical={canonical}
+      keywords={keywords}
+      openGraph={openGraph}
+      twitter={twitter}
+      structuredData={structuredData}
     >
-      <Head>
-        <meta name="keywords" content={`meditation, spirituality, brahma kumaris, rajyoga, ${categoryName.toLowerCase()}, ${ageGroupName.toLowerCase()}, guided meditation`} />
-      </Head>
-
       {/* Hero Section - Modern Asymmetric Design */}
       <section className="hero-section relative bg-gradient-to-br from-indigo-50 to-purple-50 overflow-hidden min-h-[60vh] md:min-h-[70vh]">
         {/* Decorative Elements */}
@@ -466,7 +516,7 @@ export async function getStaticProps({ params }) {
     }
     
     // Get the category data using optimized function
-    const categories = await getCategories('withImage');
+    const categories = await getCategories('card');
     const category = categories.find(
       (cat) => cat.attributes.slug === categorySlug
     );

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Header from './Header';
 import Footer from './Footer';
 import ScrollToTop from '../common/ScrollToTop';
+import MetaTags from '../SEO/MetaTags';
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 import Script from 'next/script';
 
@@ -10,6 +11,12 @@ const Layout = ({
   children, 
   title = 'Guided Meditation | Brahma Kumaris', 
   description = 'Explore Rajyoga meditation with Brahma Kumaris. Guided audio meditations for all age groups and spiritual topics.',
+  canonical = '',
+  keywords = '',
+  openGraph = {},
+  twitter = {},
+  structuredData = null,
+  noindex = false,
   hideHeaderFooter = false 
 }) => {
   const { currentMeditation } = useAudioPlayer();
@@ -17,21 +24,24 @@ const Layout = ({
 
   return (
     <>
+      <MetaTags
+        title={title}
+        description={description}
+        canonical={canonical}
+        keywords={keywords}
+        openGraph={openGraph}
+        twitter={twitter}
+        structuredData={structuredData}
+        noindex={noindex}
+      />
+      
       <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        {/* Fonts */}
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet" />
         
         {/* PWA meta tags */}
         <meta name="application-name" content="BK Meditation" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="BK Meditation" />
-        <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#5a67d8" />
         
         {/* PWA icons */}
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />

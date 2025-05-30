@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Layout from '../../components/layout/Layout';
+import SEOTester from '../../components/SEO/SEOTester';
 import TrendingMeditationCard from '../../components/meditation/TrendingMeditationCard';
 import { getHomePageData } from '../../lib/api/strapi-optimized';
+import { getWebsiteSchema, getOrganizationSchema } from '../../lib/seo/structuredData';
 import ParticlesBackground from '../../components/ParticlesBackground';
 
 // Helper function to handle different FeaturedImage data structures and get the best URL
@@ -45,17 +47,43 @@ export default function RajyogMeditationHome({ ageGroups, featuredMeditations, t
       document.body.style.overflow = 'auto';
     };
   }, []);
+
+  // SEO Data for home page
+  const homePageSEO = {
+    title: 'Brahma Kumaris Rajyog Meditation App',
+    description: 'Guided audio meditations for spiritual growth, peace, and self-awareness. Choose your age group and explore personalized meditation sessions.',
+    canonical: 'https://www.brahmakumaris.com/rajyog-meditation',
+    keywords: 'brahma kumaris, rajyoga meditation, guided meditation, spirituality, inner peace, meditation app, age-specific meditation',
+    openGraph: {
+      title: 'Brahma Kumaris Rajyog Meditation - Personalized Spiritual Journey',
+      description: 'Discover guided meditations crafted for your life stage. From young explorers to wisdom seekers, find your perfect meditation companion.',
+      url: 'https://www.brahmakumaris.com/rajyog-meditation',
+      type: 'website',
+      image: '/rajyoga-meditation/images/og-home-meditation.jpg',
+      imageAlt: 'Brahma Kumaris Rajyoga Meditation - Personalized for Your Journey'
+    },
+    structuredData: [
+      getOrganizationSchema(),
+      getWebsiteSchema()
+    ]
+  };
   
   return (
     <Layout
-      title="Brahma Kumaris Rajyog Meditation App"
-      description="Guided audio meditations for spiritual growth, peace, and self-awareness"
+      title={homePageSEO.title}
+      description={homePageSEO.description}
+      canonical={homePageSEO.canonical}
+      keywords={homePageSEO.keywords}
+      openGraph={homePageSEO.openGraph}
+      structuredData={homePageSEO.structuredData}
       hideHeaderFooter={true}
     >
       <Head>
-        <meta name="keywords" content="meditation, spirituality, brahma kumaris, rajyoga, guided meditation, peace, calm, self-awareness" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
+
+      {/* SEO Tester - Only visible in development */}
+      <SEOTester enabled={process.env.NODE_ENV === 'development'} />
 
       {/* Hero Section with Gradient Background and Particles */}
       <section className="relative bg-gradient-meditation min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">

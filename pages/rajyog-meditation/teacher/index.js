@@ -4,6 +4,12 @@ import Link from 'next/link';
 import Layout from '../../../components/layout/Layout';
 import { getTeachersPageData } from '../../../lib/api/strapi-optimized';
 import TeacherCard from '../../../components/ui/TeacherCard';
+import { 
+  getOrganizationSchema, 
+  getWebsiteSchema, 
+  getBreadcrumbSchema, 
+  getItemListSchema 
+} from '../../../lib/seo/structuredData';
 
 export default function TeachersIndexPage({ teachers, meditationCounts }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -17,6 +23,37 @@ export default function TeachersIndexPage({ teachers, meditationCounts }) {
     // Add staggered loading animation effect
     setIsLoaded(true);
   }, [teachers, meditationCounts]);
+
+  // SEO Data
+  const canonical = 'https://www.brahmakumaris.com/rajyog-meditation/teacher';
+  const keywords = 'rajyoga teachers, meditation guides, brahma kumaris teachers, spiritual mentors, meditation instructors';
+  
+  const openGraph = {
+    title: 'Rajyoga Teachers | Rajyoga Meditation | Brahma Kumaris',
+    description: 'Meet our experienced Rajyoga meditation teachers from around the world. Learn from spiritual guides who have dedicated their lives to inner transformation.',
+    url: canonical,
+    type: 'website',
+    image: '/rajyoga-meditation/images/og-teacher-default.jpg',
+    imageAlt: 'Brahma Kumaris Rajyoga Teachers'
+  };
+
+  const twitter = {
+    title: 'Rajyoga Teachers | Brahma Kumaris',
+    description: 'Meet experienced meditation teachers and spiritual guides'
+  };
+
+  // Structured Data
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.brahmakumaris.com/rajyog-meditation' },
+    { name: 'Teachers', url: canonical }
+  ];
+
+  const structuredData = [
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+    getBreadcrumbSchema(breadcrumbs),
+    getItemListSchema(teachers || [], 'teachers')
+  ];
   
   // Sort and filter teachers
   const processedTeachers = React.useMemo(() => {
@@ -46,13 +83,14 @@ export default function TeachersIndexPage({ teachers, meditationCounts }) {
   
   return (
     <Layout
-      title="Rajyoga Teachers | Brahma Kumaris Meditation"
-      description="Meet our experienced Rajyoga meditation teachers from around the world."
+      title="Rajyoga Teachers | Rajyoga Meditation | Brahma Kumaris"
+      description="Meet our experienced Rajyoga meditation teachers from around the world. Learn from spiritual guides who have dedicated their lives to inner transformation and peace."
+      canonical={canonical}
+      keywords={keywords}
+      openGraph={openGraph}
+      twitter={twitter}
+      structuredData={structuredData}
     >
-      <Head>
-        <meta name="keywords" content="meditation, spirituality, brahma kumaris, rajyoga, teachers, guides" />
-      </Head>
-
       {/* Hero Section - Enhanced with parallax effect */}
       <section className="hero-section relative bg-gradient-to-br from-purple-100 via-pink-50 to-spiritual-light overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
